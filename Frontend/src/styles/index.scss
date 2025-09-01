@@ -1,0 +1,6 @@
+// 통합 SCSS - 모든 스타일 통합
+
+// 1. Base 스타일들 먼저 로드 (변수, 폰트, 리셋)
+@use "base/variables";
+@use "base/font";
+@use "base/reset";
