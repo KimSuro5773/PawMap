@@ -1,0 +1,8 @@
+@use "@/styles/base/variables" as *;
+
+.header {
+  background-color: $white;
+  border-bottom: 1px solid $gray-200;
+  box-shadow: $shadow-sm;
+  width: 100%;
+}
