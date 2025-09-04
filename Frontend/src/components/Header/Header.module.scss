@@ -1,1 +1,380 @@
 @use "@/styles/base/variables" as *;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: $spacing-sm $spacing-lg;
+  background-color: $white;
+  border-bottom: 1px solid $gray-200;
+  box-shadow: $shadow-sm;
+
+  // 태블릿 및 모바일
+  @media (max-width: $tablet) {
+    justify-content: space-between;
+    padding: $spacing-xs $spacing-md;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xs $spacing-sm;
+  }
+}
+
+// 로고 스타일
+.logo {
+  flex-shrink: 0;
+  
+  a {
+    text-decoration: none;
+    
+    h1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1;
+      margin: 0;
+      font-size: $font-2xl;
+      font-weight: $font-black;
+      font-family: $font-primary;
+      
+      span {
+        background: linear-gradient(45deg, #ffaa77, #ba3e00);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+      }
+    }
+  }
+
+  // 반응형 크기 조정
+  @media (max-width: $tablet) {
+    a h1 {
+      font-size: $font-xl;
+    }
+  }
+
+  @media (max-width: $mobile) {
+    a h1 {
+      font-size: $font-lg;
+    }
+  }
+}
+
+// 네비게이션
+.navigation {
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2xl;
+
+    li {
+      transition: 0.1s all ease-in;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  @media (max-width: $tablet) {
+    display: none;
+  }
+}
+
+// 검색바
+.searchContainer {
+  form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: $gray-100;
+    border-radius: $radius-md;
+    padding: $spacing-xs;
+    width: 280px;
+    border: 1px solid $gray-500;
+
+    &:focus-within {
+      border: 1px solid $gray-600;
+    }
+
+    @media (max-width: $tablet) {
+      width: 200px;
+    }
+
+    @media (max-width: $mobile) {
+      width: 160px;
+    }
+  }
+
+  @media (max-width: $tablet) {
+    margin: 0 $spacing-md 0 auto;
+  }
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: $spacing-sm $spacing-md;
+  color: $gray-700;
+  outline: none;
+  font-size: $font-sm;
+
+  &::placeholder {
+    color: $gray-500;
+  }
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+    padding: $spacing-xs $spacing-sm;
+
+    &::placeholder {
+      font-size: $font-xs;
+    }
+  }
+}
+
+.searchButton {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  font-size: $font-xl;
+  color: $gray-700;
+  right: 5px;
+  cursor: pointer;
+  transition: $transition-base;
+  padding: $spacing-sm;
+  border-radius: $radius-full;
+
+  &:hover {
+    background-color: $gray-300;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xs;
+    font-size: $font-base;
+  }
+}
+
+// 모바일 메뉴 버튼
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  padding: $spacing-sm;
+  color: $gray-700;
+  cursor: pointer;
+  border-radius: $radius-md;
+  transition: $transition-base;
+
+  &:hover {
+    background-color: $gray-200;
+  }
+
+  svg {
+    font-size: $font-2xl;
+  }
+
+  @media (max-width: $tablet) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: $mobile) {
+    svg {
+      font-size: $font-lg;
+    }
+  }
+}
+
+// 모바일 네비게이션 (사이드바)
+.mobileNavigation {
+  // 기본 스타일 (데스크톱에서 숨김)
+  position: fixed;
+  top: 0;
+  left: -320px;
+  width: 320px;
+  height: 100vh;
+  background-color: $white;
+  box-shadow: $shadow-xl;
+  transition: left $transition-base;
+  z-index: $z-modal;
+  overflow-y: auto;
+  display: none;
+
+  &.open {
+    left: 0;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      border-bottom: 1px solid $gray-200;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      a {
+        display: block;
+        text-decoration: none;
+        color: $gray-700;
+        font-size: $font-lg;
+        font-weight: $font-medium;
+        padding: $spacing-lg;
+        text-align: center;
+        transition: $transition-base;
+
+        &:hover {
+          color: $primary-color;
+        }
+
+        &.routedActive {
+          color: $primary-color;
+          font-weight: $font-semibold;
+        }
+      }
+    }
+  }
+
+  // 태블릿 이하에서 표시
+  @media (max-width: $tablet) {
+    display: block;
+    width: 300px;
+    left: -300px;
+
+    &.open {
+      left: 0;
+    }
+
+    ul li a {
+      font-size: $font-lg;
+      padding: $spacing-md;
+    }
+  }
+
+  // 모바일에서 더 작게
+  @media (max-width: $mobile) {
+    width: 260px;
+    left: -260px;
+
+    &.open {
+      left: 0;
+    }
+
+    ul li a {
+      font-size: $font-base;
+      padding: $spacing-md;
+    }
+  }
+}
+
+// 사이드바 헤더
+.sidebarHeader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $gray-200;
+  margin-bottom: $spacing-lg;
+  min-height: 120px;
+}
+
+.sidebarLogo {
+  a {
+    text-decoration: none;
+
+    h1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      margin: 0;
+      font-size: $font-2xl;
+      font-weight: $font-black;
+      font-family: $font-primary;
+      line-height: 1;
+
+      span {
+        background: linear-gradient(45deg, #ffaa77, #ba3e00);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+      }
+    }
+  }
+
+  @media (max-width: $mobile) {
+    a h1 {
+      font-size: $font-xl;
+    }
+  }
+}
+
+.sidebarCloseButton {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: $spacing-sm;
+  color: $gray-600;
+  cursor: pointer;
+  border-radius: $radius-md;
+  transition: $transition-base;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    font-size: $font-xl;
+  }
+
+  @media (max-width: $mobile) {
+    right: $spacing-md;
+
+    svg {
+      font-size: $font-lg;
+    }
+  }
+}
+
+// 오버레이 배경
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: $z-modal-backdrop;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $transition-base, visibility $transition-base;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  // 데스크톱에서는 숨김
+  @media (min-width: calc($tablet + 1px)) {
+    display: none;
+  }
+}
+
+.routedActive {
+  color: $primary-color;
+}
