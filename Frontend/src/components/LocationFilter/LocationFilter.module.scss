@@ -1,0 +1,139 @@
+@use '../../styles/base/variables' as *;
+
+.locationFilter {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.locationTypes {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.regionSelector {
+  padding: $spacing-lg;
+  background: $gray-50;
+  border: 1px solid $gray-200;
+  border-radius: $radius-lg;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: rgba($error-color, 0.1);
+  border: 1px solid rgba($error-color, 0.3);
+  border-radius: $radius-md;
+  color: $error-color;
+}
+
+.errorMessage {
+  margin: 0;
+  font-size: $font-sm;
+  line-height: 1.4;
+}
+
+.dismissButton {
+  align-self: flex-start;
+  padding: $spacing-xs $spacing-sm;
+  border: none;
+  background: transparent;
+  color: $error-color;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  transition: $transition-base;
+
+  &:hover {
+    background: rgba($error-color, 0.1);
+  }
+
+  &:active {
+    background: rgba($error-color, 0.2);
+  }
+}
+
+.locationInfo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  background: rgba($success-color, 0.1);
+  border: 1px solid rgba($success-color, 0.3);
+  border-radius: $radius-md;
+  color: $success-color;
+  font-size: $font-sm;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+// 모바일 반응형
+@media (max-width: $mobile) {
+  .locationFilter {
+    gap: $spacing-md;
+  }
+
+  .locationTypes {
+    gap: $spacing-xs;
+    
+    button {
+      flex: 1;
+      min-width: 0; // flex item이 너무 작아지지 않도록
+      justify-content: center;
+      
+      &:first-child {
+        flex: 1.2; // '전체 지역' 버튼을 조금 더 크게
+      }
+    }
+  }
+
+  .regionSelector {
+    padding: $spacing-md;
+  }
+
+  .error {
+    padding: $spacing-sm;
+  }
+
+  .errorMessage {
+    font-size: $font-xs;
+  }
+
+  .locationInfo {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-xs;
+  }
+}
+
+// 태블릿 반응형
+@media (max-width: $tablet) {
+  .locationTypes {
+    button {
+      min-width: 120px; // 최소 너비 보장
+    }
+  }
+}

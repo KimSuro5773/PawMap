@@ -1,0 +1,182 @@
+@use '../../styles/base/variables' as *;
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  width: 100%;
+
+  &.small {
+    .inputWrapper {
+      height: 36px;
+      
+      .input {
+        font-size: $font-sm;
+      }
+    }
+    
+    .searchButton {
+      height: 36px;
+      padding: 0 $spacing-md;
+      font-size: $font-sm;
+    }
+  }
+
+  &.medium {
+    .inputWrapper {
+      height: 44px;
+      
+      .input {
+        font-size: $font-base;
+      }
+    }
+    
+    .searchButton {
+      height: 44px;
+      padding: 0 $spacing-lg;
+      font-size: $font-base;
+    }
+  }
+
+  &.large {
+    .inputWrapper {
+      height: 52px;
+      
+      .input {
+        font-size: $font-lg;
+      }
+    }
+    
+    .searchButton {
+      height: 52px;
+      padding: 0 $spacing-xl;
+      font-size: $font-lg;
+    }
+  }
+
+  &.focused {
+    .inputWrapper {
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.inputWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: $white;
+  border: 2px solid $gray-300;
+  border-radius: $radius-lg;
+  padding: 0 $spacing-md;
+  transition: $transition-base;
+
+  &:hover:not(.disabled) {
+    border-color: $gray-400;
+  }
+}
+
+.searchIcon {
+  color: $gray-500;
+  font-size: 1.25rem;
+  margin-right: $spacing-sm;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: $font-primary;
+  color: $gray-900;
+
+  &::placeholder {
+    color: $gray-500;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.clearButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: $gray-500;
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: $transition-fast;
+  flex-shrink: 0;
+  margin-left: $spacing-xs;
+
+  &:hover {
+    background: $gray-200;
+    color: $gray-700;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: $primary-color;
+  color: $white;
+  border-radius: $radius-lg;
+  font-family: $font-primary;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: $transition-base;
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) {
+    background: darken($primary-color, 5%);
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: $gray-400;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+// 모바일 반응형
+@media (max-width: $mobile) {
+  .searchBar {
+    flex-direction: column;
+    gap: $spacing-md;
+
+    .inputWrapper {
+      width: 100%;
+    }
+
+    .searchButton {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

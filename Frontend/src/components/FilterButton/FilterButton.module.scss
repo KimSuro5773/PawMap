@@ -1,0 +1,186 @@
+@use "../../styles/base/variables" as *;
+
+.filterButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  border: 1px solid $gray-300;
+  background: $white;
+  color: $gray-700;
+  border-radius: $radius-lg;
+  font-family: $font-primary;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: $transition-base;
+  white-space: nowrap;
+  user-select: none;
+
+  &:hover:not(.disabled) {
+    border-color: $gray-400;
+    background: $gray-50;
+    transform: translateY(-1px);
+    box-shadow: $shadow-sm;
+  }
+
+  &:active:not(.disabled) {
+    transform: translateY(0);
+  }
+
+  // 크기 variants
+  &.small {
+    height: 32px;
+    padding: 0 $spacing-md;
+    font-size: $font-sm;
+    gap: $spacing-xs / 2;
+
+    .badge {
+      font-size: 0.75rem;
+      min-width: 16px;
+      height: 16px;
+    }
+  }
+
+  &.medium {
+    height: 40px;
+    padding: 0 $spacing-lg;
+    font-size: $font-base;
+
+    .badge {
+      font-size: $font-xs;
+      min-width: 18px;
+      height: 18px;
+    }
+  }
+
+  &.large {
+    height: 48px;
+    padding: 0 $spacing-xl;
+    font-size: $font-lg;
+
+    .badge {
+      font-size: $font-sm;
+      min-width: 20px;
+      height: 20px;
+    }
+  }
+
+  // 스타일 variants
+  &.default {
+    &.active {
+      background: $primary-color;
+      border-color: $primary-color;
+      color: $white;
+
+      .badge {
+        background: rgba($white, 0.3);
+        color: $white;
+      }
+
+      &:hover {
+        background: darken($primary-color, 5%);
+        border-color: darken($primary-color, 5%);
+      }
+    }
+  }
+
+  &.outline {
+    background: transparent;
+    border: 2px solid $gray-300;
+
+    &:hover:not(.disabled) {
+      border-color: $primary-color;
+      color: $primary-color;
+    }
+
+    &.active {
+      background: $primary-color;
+      border-color: $primary-color;
+      color: $white;
+    }
+  }
+
+  &.ghost {
+    border: none;
+    background: transparent;
+
+    &:hover:not(.disabled) {
+      background: $gray-100;
+      color: $primary-color;
+    }
+
+    &.active {
+      background: rgba($primary-color, 0.1);
+      color: $primary-color;
+    }
+  }
+
+  &.open {
+    background: $gray-50;
+    border-color: $primary-color;
+
+    .chevron {
+      color: $primary-color;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 $spacing-xs / 2;
+  background: $primary-color;
+  color: $white;
+  border-radius: $radius-full;
+  font-size: $font-xs;
+  font-weight: $font-bold;
+  line-height: 1;
+}
+
+.chevron {
+  font-size: 1rem;
+  color: $gray-500;
+  transition: $transition-fast;
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+// 모바일 반응형
+@media (max-width: $mobile) {
+  .filterButton {
+    min-height: 44px; // 터치 친화적인 최소 높이
+
+    &.small {
+      height: 36px;
+      font-size: $font-sm;
+    }
+
+    &.medium {
+      height: 44px;
+      font-size: $font-base;
+    }
+
+    &.large {
+      height: 52px;
+      font-size: $font-lg;
+    }
+  }
+}
