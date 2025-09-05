@@ -1,4 +1,4 @@
-@use "../../styles/base/variables" as *;
+@use "@/styles/base/variables" as *;
 
 .filterButton {
   display: inline-flex;
@@ -32,7 +32,7 @@
     height: 32px;
     padding: 0 $spacing-md;
     font-size: $font-sm;
-    gap: $spacing-xs / 2;
+    gap: calc($spacing-xs / 2);
 
     .badge {
       font-size: 0.75rem;
@@ -78,8 +78,8 @@
       }
 
       &:hover {
-        background: darken($primary-color, 5%);
-        border-color: darken($primary-color, 5%);
+        background: color-mix(in srgb, $primary-color 95%, black);
+        border-color: color-mix(in srgb, $primary-color 95%, black);
       }
     }
   }
@@ -97,6 +97,12 @@
       background: $primary-color;
       border-color: $primary-color;
       color: $white;
+
+      &:hover {
+        background: color-mix(in srgb, $primary-color 95%, black);
+        border-color: color-mix(in srgb, $primary-color 95%, black);
+        color: $white;
+      }
     }
   }
 
@@ -144,7 +150,7 @@
   justify-content: center;
   min-width: 18px;
   height: 18px;
-  padding: 0 $spacing-xs / 2;
+  padding: 0 calc($spacing-xs / 2);
   background: $primary-color;
   color: $white;
   border-radius: $radius-full;

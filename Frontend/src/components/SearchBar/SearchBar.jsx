@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { FiSearch, FiX } from 'react-icons/fi';
-import styles from './SearchBar.module.scss';
+import { useState } from "react";
+import { FiSearch, FiX } from "react-icons/fi";
+import styles from "./SearchBar.module.scss";
 
-const SearchBar = ({ 
-  placeholder = "검색어를 입력하세요", 
-  value = "", 
-  onChange, 
-  onSearch, 
+const SearchBar = ({
+  placeholder = "검색어를 입력하세요",
+  value = "",
+  onChange,
+  onSearch,
   onClear,
   disabled = false,
-  size = "medium" // small, medium, large
+  size = "medium", // small, medium, large
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -26,28 +26,33 @@ const SearchBar = ({
     onClear?.();
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
   return (
-    <div 
-      className={`${styles.searchBar} ${styles[size]} ${isFocused ? styles.focused : ''} ${disabled ? styles.disabled : ''}`}
+    <div
+      className={`${styles.searchBar} ${styles[size]} ${
+        isFocused ? styles.focused : ""
+      } ${disabled ? styles.disabled : ""}`}
     >
       <div className={styles.inputWrapper}>
         <FiSearch className={styles.searchIcon} />
         <input
           type="text"
+          id="search-input"
+          name="search"
           value={value}
           onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyDown}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
           disabled={disabled}
           className={styles.input}
+          autoComplete="off"
         />
         {value && (
           <button

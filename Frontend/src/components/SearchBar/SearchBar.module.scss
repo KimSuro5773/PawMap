@@ -1,4 +1,4 @@
-@use '../../styles/base/variables' as *;
+@use "@/styles/base/variables" as *;
 
 .searchBar {
   display: flex;
@@ -9,12 +9,12 @@
   &.small {
     .inputWrapper {
       height: 36px;
-      
+
       .input {
         font-size: $font-sm;
       }
     }
-    
+
     .searchButton {
       height: 36px;
       padding: 0 $spacing-md;
@@ -25,12 +25,12 @@
   &.medium {
     .inputWrapper {
       height: 44px;
-      
+
       .input {
         font-size: $font-base;
       }
     }
-    
+
     .searchButton {
       height: 44px;
       padding: 0 $spacing-lg;
@@ -41,12 +41,12 @@
   &.large {
     .inputWrapper {
       height: 52px;
-      
+
       .input {
         font-size: $font-lg;
       }
     }
-    
+
     .searchButton {
       height: 52px;
       padding: 0 $spacing-xl;
@@ -147,7 +147,7 @@
   flex-shrink: 0;
 
   &:hover:not(:disabled) {
-    background: darken($primary-color, 5%);
+    background: color-mix(in srgb, $primary-color 95%, black);
     transform: translateY(-1px);
     box-shadow: $shadow-md;
   }

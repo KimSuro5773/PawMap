@@ -9,8 +9,6 @@ const FACILITY_OPTIONS = [
   { value: "parking", label: "주차장" },
   { value: "reservation", label: "예약가능" },
   { value: "group", label: "단체석" },
-  { value: "outdoor", label: "야외공간" },
-  { value: "indoor", label: "실내공간" },
 ];
 
 const FilterDemo = () => {

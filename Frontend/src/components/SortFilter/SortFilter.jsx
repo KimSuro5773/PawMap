@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  FiChevronDown,
-  FiMapPin,
-  FiStar,
-  FiClock,
-  FiTrendingUp,
-} from "react-icons/fi";
+import { FiMapPin, FiClock, FiTrendingUp } from "react-icons/fi";
 import FilterButton from "../FilterButton/FilterButton";
 import styles from "./SortFilter.module.scss";
 
@@ -15,12 +9,6 @@ const SORT_OPTIONS = [
     label: "가까운 순",
     icon: FiMapPin,
     description: "GPS 기반 거리순 정렬",
-  },
-  {
-    value: "rating",
-    label: "평점 순",
-    icon: FiStar,
-    description: "높은 평점순으로 정렬",
   },
   {
     value: "popular",
