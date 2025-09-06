@@ -2,20 +2,13 @@ import apiClient from "../axios/interceptors";
 
 // 카카오 키워드 검색 API
 export const searchKeyword = async (query, options = {}) => {
-  const {
-    size = 15,
-    page = 1,
-    x,
-    y,
-    radius,
-    category_group_code,
-  } = options;
+  const { size = 15, page = 1, x, y, radius, category_group_code } = options;
 
   try {
     const params = {
       query,
       size: Math.min(size, 15), // 최대 15개
-      page: Math.min(page, 3),   // 최대 3페이지
+      page: Math.min(page, 3), // 최대 3페이지
     };
 
     // 좌표가 제공된 경우 추가
@@ -84,10 +77,13 @@ export const searchNearby = async (searchType, position, options = {}) => {
   try {
     // 검색 타입별 함수 매핑
     const searchFunctions = {
-      hospital: (opts) => searchKeyword("동물병원", { ...opts, category_group_code: "HP8" }),
-      cafe: (opts) => searchKeyword("애견카페", { ...opts, category_group_code: "CE7" }),
+      hospital: (opts) =>
+        searchKeyword("동물병원", { ...opts, category_group_code: "HP8" }),
+      cafe: (opts) =>
+        searchKeyword("애견카페", { ...opts, category_group_code: "CE7" }),
       grooming: (opts) => searchKeyword("애견미용", opts),
-      accommodation: (opts) => searchKeyword("애견 펜션", { ...opts, category_group_code: "AD5" }),
+      accommodation: (opts) =>
+        searchKeyword("애견 펜션", { ...opts, category_group_code: "AD5" }),
     };
 
     const searchFunction = searchFunctions[searchType];

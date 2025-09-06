@@ -1,4 +1,4 @@
-import FilterDemo from "../../components/FilterDemo/FilterDemo";
+import FilterDemo from "@/components/FilterDemo/FilterDemo";
 import styles from "./Home.module.scss";
 
 const Home = () => {
