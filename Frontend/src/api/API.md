@@ -13,7 +13,6 @@ src/api/
 │   └── interceptors.js    # 요청/응답 인터셉터
 ├── services/
 │   ├── kakaoApi.js        # 카카오 로컬 API 함수들
-│   ├── naverApi.js        # 네이버 지오코딩 API 함수들
 │   ├── tourApi.js         # 한국관광공사 API 함수들
 │   └── mapApi.js          # 지도 관련 API 함수들
 ├── hooks/

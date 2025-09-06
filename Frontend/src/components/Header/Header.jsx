@@ -26,7 +26,7 @@ export default function Header() {
     { path: "/activities", text: "놀거리" },
     { path: "/grooming", text: "미용샵" },
     { path: "/accommodation", text: "숙소" },
-    { path: "/explore", text: "내주변" },
+    { path: "/map", text: "내주변" },
   ];
 
   return (
