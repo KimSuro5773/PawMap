@@ -22,7 +22,6 @@ app.get("/", (req, res) => {
   res.json({ message: "PawMap API Server is running!" });
 });
 
-
 // 네이버 지오코딩 API 프록시
 app.get("/api/naver/geocoding", async (req, res) => {
   try {
@@ -210,14 +209,11 @@ app.get("/api/tour/pet-info/:contentId", async (req, res) => {
 // Geoapify IP Geolocation API 프록시
 app.get("/api/geoapify/ip-location", async (req, res) => {
   try {
-    const response = await axios.get(
-      "https://api.geoapify.com/v1/ipinfo",
-      {
-        params: {
-          apiKey: process.env.GEOAPIFY_API_KEY,
-        },
-      }
-    );
+    const response = await axios.get("https://api.geoapify.com/v1/ipinfo", {
+      params: {
+        apiKey: process.env.GEOAPIFY_API_KEY,
+      },
+    });
 
     // 필요한 데이터만 반환 (위도, 경도)
     const locationData = {
@@ -225,7 +221,7 @@ app.get("/api/geoapify/ip-location", async (req, res) => {
       longitude: response.data.location?.longitude || null,
       city: response.data.city?.name || null,
       country: response.data.country?.name || null,
-      accuracy: 'city-level', // IP 기반이므로 도시 수준의 정확도
+      accuracy: "city-level", // IP 기반이므로 도시 수준의 정확도
     };
 
     res.json(locationData);
