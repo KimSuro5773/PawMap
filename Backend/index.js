@@ -22,67 +22,6 @@ app.get("/", (req, res) => {
   res.json({ message: "PawMap API Server is running!" });
 });
 
-// 카카오 키워드 검색 API 프록시
-app.get("/api/kakao/keyword", async (req, res) => {
-  try {
-    const { 
-      query, 
-      size = 15, 
-      page = 1, 
-      x, 
-      y, 
-      radius, 
-      category_group_code 
-    } = req.query;
-
-    if (!query) {
-      return res.status(400).json({ error: "Query parameter is required" });
-    }
-
-    const params = {
-      query,
-      size: Math.min(size, 15), // 최대 15개
-      page: Math.min(page, 3),   // 최대 3페이지
-    };
-
-    // 좌표가 제공된 경우 추가
-    if (x && y) {
-      params.x = x;
-      params.y = y;
-    }
-
-    // 반경이 제공된 경우 추가 (최대 20km)
-    if (radius) {
-      params.radius = Math.min(radius, 20000);
-    }
-
-    // 카테고리 그룹 코드가 제공된 경우 추가
-    if (category_group_code) {
-      params.category_group_code = category_group_code;
-    }
-
-    const response = await axios.get(
-      "https://dapi.kakao.com/v2/local/search/keyword.json",
-      {
-        params,
-        headers: {
-          Authorization: `KakaoAK ${process.env.KAKAO_API_KEY}`,
-        },
-      }
-    );
-
-    res.json(response.data);
-  } catch (error) {
-    console.error(
-      "Kakao Keyword Search API Error:",
-      error.response?.data || error.message
-    );
-    res.status(error.response?.status || 500).json({
-      error: "Failed to fetch data from Kakao API",
-      details: error.response?.data || error.message,
-    });
-  }
-});
 
 // 네이버 지오코딩 API 프록시
 app.get("/api/naver/geocoding", async (req, res) => {

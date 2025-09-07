@@ -6,17 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 📋 프로젝트 개요
 
-애견과 함께 즐길 수 있는 다양한 시설들을 검색하고 조회할 수 있는 웹 애플리케이션
+애견과 함께 즐길 수 있는 여가 및 관광 시설들을 검색하고 조회할 수 있는 웹 애플리케이션
 
 ### 핵심 기능
 
-- 동물병원 검색 및 GPS 기반 가까운 동물병원 조회
 - 애견 동반 카페 조회
-- 애견 동반 놀거리 조회 (운동장, 수영장 등)
-- 애견 미용샵 검색 및 GPS 기반 조회
-- 애견 동반 가능한 숙소 조회
+- 애견 동반 숙소 조회 (펜션, 호텔, 캠핑장 등)
+- 애견 동반 놀거리 조회 (운동장, 수영장, 관광지 등)
+- 애견 동반 체험 활동 조회
 
-**중요**: 모든 조회 기능에는 필터 기능이 포함되어 있으며, 모든 장소는 **애견 동반 가능**한 곳만 필터링되어야 함
+**중요**: 모든 조회 기능은 **반려동물 동반 가능**한 곳만 표시하며, 정부 공인 정보를 기반으로 제공
 
 ## 🛠 기술 스택
 
@@ -47,43 +46,43 @@ src/styles/
 
 ## 🗺 사용 API 및 특징
 
-### 1. 카카오 로컬 API (Keyword Search)
-
-```
-용도: 일반 업체 검색 (동물병원, 미용샵 등)
-제한: 한 번에 15개, 총 45개 (3페이지)
-장점: 실시간 정보, 정확한 연락처
-단점: 반려동물 동반 조건 정보 없음
-```
-
-### 2. 네이버 지도 API (Maps)
+### 1. 네이버 지도 API (Maps)
 
 ```
 용도: 지도 표시, 마커 표시, 경로 안내
 장점: 정확한 한국 지도 데이터
-연동: 카카오/관광공사 좌표 데이터와 연동
+연동: 관광공사 좌표 데이터와 연동
 ```
 
-### 3. 한국관광공사 반려동물 동반여행 API
+### 2. 한국관광공사 반려동물 동반여행 API (주력)
 
 ```
 용도: 공식 인증된 반려동물 동반 가능 업체
 제한: 일 1,000건 (무료)
 장점: 상세한 반려동물 동반 조건 정보
 포함: 카페, 숙소, 관광지, 레포츠 시설
+데이터 품질: 정부 공인 신뢰성 높은 정보
 ```
 
 ## 🎯 API 사용 전략
 
-### 업종별 API 선택
+### 업종별 데이터 소스
 
-| 업종          | 주 사용 API  | 보조 API   | 이유                   |
-| ------------- | ------------ | ---------- | ---------------------- |
-| 동물병원      | 카카오 API   | -          | 관광공사에 데이터 없음 |
-| 애견 미용샵   | 카카오 API   | -          | 관광공사에 데이터 없음 |
-| 애견 카페     | 관광공사 API | 카카오 API | 공식 인증 정보 우선    |
-| 애견 숙소     | 관광공사 API | 카카오 API | 상세 숙박 정보         |
-| 놀거리/관광지 | 관광공사 API | -          | 전문 관광 정보         |
+| 업종          | 사용 API     | 컨텐츠 타입 ID | 특징                    |
+| ------------- | ------------ | -------------- | ----------------------- |
+| 애견 카페     | 관광공사 API | 39 (음식점)    | 상세한 동반 조건 정보   |
+| 애견 숙소     | 관광공사 API | 32 (숙박)      | 객실별 반려동물 정책    |
+| 놀거리/관광지 | 관광공사 API | 12 (관광지)    | 공식 인증 관광 정보     |
+| 체험 활동     | 관광공사 API | 28 (레포츠)    | 반려동물 전용 시설 정보 |
+| 문화 시설     | 관광공사 API | 14 (문화시설)  | 반려동물 동반 가능 여부 |
+
+### 서비스 포지셔닝
+
+**"반려동물 여가/관광 전문 플랫폼"**
+
+- 병원, 미용샵 등 필수 서비스 제외
+- 여가, 관광, 체험 중심의 전문화된 서비스
+- 모든 정보가 공식 인증된 고품질 데이터
 
 ## 🧭 라우팅 구조
 
@@ -91,16 +90,14 @@ src/styles/
 
 ```
 / → Home.jsx                                    # 홈페이지
-/hospitals → Hospitals.jsx                      # 동물병원 목록
-/hospitals/:id → HospitalsDetail.jsx           # 병원 상세정보
 /cafes → Cafes.jsx                             # 애견카페 목록
 /cafes/:id → CafesDetail.jsx                   # 카페 상세정보
-/activities → Activities.jsx                    # 놀거리 목록
-/activities/:id → ActivitiesDetail.jsx         # 놀거리 상세정보
-/grooming → Grooming.jsx                       # 미용샵 목록
-/grooming/:id → GroomingDetail.jsx             # 미용샵 상세정보
 /accommodation → AccommodationList.jsx          # 숙소 목록
 /accommodation/:id → AccommodationDetail.jsx   # 숙소 상세정보
+/activities → Activities.jsx                    # 놀거리/관광지 목록
+/activities/:id → ActivitiesDetail.jsx         # 놀거리 상세정보
+/experiences → Experiences.jsx                 # 체험활동 목록
+/experiences/:id → ExperiencesDetail.jsx       # 체험활동 상세정보
 /map → MapView.jsx                             # 통합 지도뷰
 ```
 
@@ -110,10 +107,9 @@ src/styles/
 
 ```javascript
 const apiFilters = {
-  category: "업종별 (동물병원, 카페, 숙소, 미용샵, 놀거리)",
+  category: "업종별 (카페, 숙소, 관광지, 체험활동)",
   region: "지역별 (시/도 → 시/군/구 2단계)",
-  distance: "거리 반경 (1km, 3km, 5km, 10km)",
-  dataSource: "데이터 소스 (공식인증만 / 모든업체)",
+  contentType: "관광공사 컨텐츠 타입별 필터링",
   sorting: "정렬 (거리순, 수정일순, 이름순)",
 };
 ```
@@ -125,11 +121,16 @@ const clientFilters = {
   // 운영 상태
   operatingStatus: "영업중만 / 24시간 / 주말영업",
 
-  // 반려동물 관련 (관광공사 데이터만)
+  // 반려동물 관련
   petSize: "대형견 가능 / 소형견만",
   indoorAccess: "실내 동반 가능",
   facilities: "주차장, 물그릇, 배변봉투 제공",
   restrictions: "목줄 착용, 입마개 필요",
+
+  // 시설별 특화 필터
+  accommodation: "객실 타입, 부대시설",
+  activities: "체험 프로그램, 이용 연령",
+  cafes: "테라스 유무, 전용 놀이공간",
 };
 ```
 
@@ -167,12 +168,15 @@ const getAllCafes = async () => {
 const getDetailedInfo = async (cafes) => {
   const detailedCafes = await Promise.all(
     cafes.map(async (cafe) => {
-      const [intro, petInfo] = await Promise.all([
+      const [intro, petInfo, images] = await Promise.all([
         tourAPI.detailIntro({
           contentId: cafe.contentid,
           contentTypeId: 39,
         }),
         tourAPI.detailPetTour({
+          contentId: cafe.contentid,
+        }),
+        tourAPI.detailImage({
           contentId: cafe.contentid,
         }),
       ]);
@@ -181,6 +185,7 @@ const getDetailedInfo = async (cafes) => {
         ...cafe,
         intro, // 영업시간, 주차장 정보
         petInfo, // 반려동물 동반 조건
+        images, // 업체 사진들
       };
     })
   );
@@ -209,6 +214,13 @@ const applyFilters = (cafes, selectedFilters) => {
       }
     }
 
+    // 실내 동반 가능 필터
+    if (selectedFilters.indoor) {
+      if (!cafe.petInfo?.acmpyTypeCd?.includes("실내")) {
+        return false;
+      }
+    }
+
     return true;
   });
 };
@@ -218,14 +230,13 @@ const applyFilters = (cafes, selectedFilters) => {
 
 ### 코드 작성 시 주의사항
 
-1. **애견 동반 가능 여부**: 카카오 검색 API 결과에서 추가 필터링 로직 구현 필요
-2. **좌표 체계**: 카카오 API 좌표 → 네이버 지도 API 좌표 변환 처리
+1. **반려동물 동반 전용**: 모든 데이터가 반려동물 동반 가능한 곳만 표시
+2. **좌표 체계**: 관광공사 API 좌표 → 네이버 지도 API 좌표 호환성 확인
 3. **GPS 권한**: 위치 기반 기능 사용 시 사용자 권한 요청 처리
 4. **반응형 디자인**: 모든 컴포넌트는 데스크톱/태블릿/모바일 대응
 5. **API 에러 처리**: 네트워크 오류, API 한도 초과 등 예외 상황 고려
 6. **로딩 상태**: 데이터 페칭 중 적절한 로딩 UI 제공
-7. **CORS 처리**: 카카오 검색 API는 서버사이드 프록시 또는 백엔드 연동 필요
-8. **TourAPI 데이터 활용**: 한국관광공사 API로 상세 정보 보강 및 반려동물 동반 조건 명시
+7. **TourAPI 활용**: 관광공사 API의 풍부한 반려동물 정보 최대한 활용
 
 ### 상태 관리 (Zustand)
 
@@ -236,23 +247,20 @@ const applyFilters = (cafes, selectedFilters) => {
 
 ### 데이터 페칭 (TanStack Query)
 
-- 카카오 검색 API 응답 캐싱
 - 관광공사 API 응답 캐싱
 - 백그라운드 업데이트
 - 오프라인 상태 처리
 - 재시도 로직
-- API 호출 제한 관리
+- API 호출 제한 관리 (일 1,000건)
 
 ## 🎯 개발 우선순위
 
 ### 1차 구현 목표
 
-- 카카오 개발자 계정 설정
 - 네이버 지도 API 계정 설정 (NCP)
 - 한국관광공사 TourAPI 계정 설정 (공공데이터포털)
 - 기본 라우팅 및 페이지 구조
 - 네이버 지도 API 연동 (Web Dynamic Map)
-- 카카오 로컬 API 연동 (지역 검색)
 - TourAPI 연동 (반려동물 동반여행 정보)
 - GPS 기반 위치 검색
 - 기본 필터 기능
@@ -270,21 +278,19 @@ const applyFilters = (cafes, selectedFilters) => {
 ### API 관련
 
 1. **API 제한사항**:
-   - 카카오 로컬 API: 45개/검색 (15개 × 3페이지)
-   - 관광공사 API: 1,000건/일
+   - 관광공사 API: 1,000건/일 (무료)
    - 네이버 지도 API: 월 사용량 제한
-2. **CORS 이슈**: 카카오 검색 API는 브라우저에서 직접 호출 불가, 백엔드 프록시 필요
-3. **좌표 변환**: 각 API 간 좌표계 차이 처리 필요
-4. **TourAPI 데이터 구조**: XML/JSON 응답 형태에 따른 파싱 로직 구현
+2. **좌표 변환**: WGS84 좌표계 사용 (호환성 양호)
+3. **TourAPI 데이터 구조**: XML/JSON 응답 형태에 따른 파싱 로직 구현
 
-### 데이터 품질 이슈
+### 데이터 품질 장점
 
 ```javascript
-const dataQualityStrategy = {
-  missing: "정보 없음을 명확히 표시",
-  outdated: "최종 업데이트 시간 표시",
-  incomplete: "사용자 제보 기능으로 보완",
-  verification: "공식 인증 여부 명확 구분",
+const dataQualityAdvantages = {
+  official: "정부 공인 관광공사 API로 신뢰성 높은 정보",
+  detailed: "상세한 반려동물 동반 조건 및 편의시설 정보",
+  verified: "모든 업체가 실제 반려동물 동반 가능 업체",
+  comprehensive: "사진, 요금, 시설 정보 등 완전한 데이터",
 };
 ```
 
@@ -305,7 +311,7 @@ PawMap/
 └── CLAUDE.md         # 개발 가이드 문서
 ```
 
-**Backend 주요 역할**: 카카오 로컬 API CORS 문제 해결을 위한 프록시 서버
+**Backend 주요 역할**: 관광공사 API와 네이버 지도 API 프록시 서버
 
 ## 🔧 개발 명령어
 
@@ -340,89 +346,6 @@ npm start           # 프로덕션 서버 실행
 - **환경**: Express 4.x, CORS 설정 완료
 - **인증**: API 키를 환경변수로 관리
 
-### 카카오 로컬 API 엔드포인트
-
-#### 1. 키워드 검색 API
-
-```http
-GET /api/kakao/keyword?query={검색어}&size={개수}&page={페이지}&x={경도}&y={위도}&radius={반경}
-```
-
-**Parameters:**
-
-- `query` (required): 검색 키워드 (예: "동물병원", "애견카페")
-- `size` (optional): 검색 결과 개수 (기본값: 15, 최대: 15)
-- `page` (optional): 페이지 번호 (기본값: 1, 최대: 3)
-- `x` (optional): 중심 좌표 경도 (WGS84)
-- `y` (optional): 중심 좌표 위도 (WGS84)
-- `radius` (optional): 검색 반경 (단위: 미터, 최대: 20000)
-- `category_group_code` (optional) : (group_code 내용 참조)
-
-**group_code**
-| 코드 | 카테고리 |
-|------|-----------|
-| MT1 | 대형마트 |
-| CS2 | 편의점 |
-| PS3 | 어린이집, 유치원 |
-| SC4 | 학교 |
-| AC5 | 학원 |
-| PK6 | 주차장 |
-| OL7 | 주유소, 충전소 |
-| SW8 | 지하철역 |
-| BK9 | 은행 |
-| CT1 | 문화시설 |
-| AG2 | 중개업소 |
-| PO3 | 공공기관 |
-| AT4 | 관광명소 |
-| AD5 | 숙박 |
-| FD6 | 음식점 |
-| CE7 | 카페 |
-| HP8 | 병원 |
-| PM9 | 약국 |
-
-**사용 예시:**
-
-```javascript
-// 제주도 애견카페 검색
-const response = await axios.get("http://localhost:3001/api/kakao/keyword", {
-  params: {
-    query: "제주도 애견카페",
-    size: 15,
-    x: 126.5219,
-    y: 33.4996,
-    radius: 10000,
-  },
-});
-```
-
-**Response 구조:**
-
-```json
-{
-  "meta": {
-    "total_count": 45,
-    "pageable_count": 45,
-    "is_end": false
-  },
-  "documents": [
-    {
-      "id": "123456789",
-      "place_name": "해피독 카페",
-      "category_name": "음식점 > 카페",
-      "category_group_code": "FD6",
-      "category_group_name": "음식점",
-      "phone": "064-123-4567",
-      "address_name": "제주특별자치도 제주시 ...",
-      "road_address_name": "제주특별자치도 제주시 ...",
-      "place_url": "http://place.map.kakao.com/123456789",
-      "distance": "1234",
-      "x": "126.5219",
-      "y": "33.4996"
-    }
-  ]
-}
-```
-
 ### 네이버 지도 API 엔드포인트
 
 #### 1. 지오코딩 API (주소 → 좌표)
@@ -447,14 +370,14 @@ GET /api/tour/area-based?contentTypeId={타입}&areaCode={지역}&sigunguCode={�
 
 **Parameters:**
 
-- `contentTypeId` (optional): 컨텐츠 타입 (기본값: 39-음식점)
+- `contentTypeId` (optional): 컨텐츠 타입
   - `12`: 관광지, `14`: 문화시설, `15`: 축제/공연/행사
-  - `28`: 레포츠, `32`: 숙박, `38`: 쇼핑, `39`: 음식점
+  - `28`: 레포츠, `32`: 숙박, `39`: 음식점
 - `areaCode` (optional): 지역코드 (1:서울, 39:제주 등)
 - `sigunguCode` (optional): 시군구코드
 - `numOfRows` (optional): 한 페이지 결과 수 (기본값: 10, 최대: 100)
 - `pageNo` (optional): 페이지번호 (기본값: 1)
-- `arrange` (optional): 정렬 (A:제목순, C:수정일순, D:생성일순, E:거리순)
+- `arrange` (optional): 정렬 (A:제목순, C:수정일순, D:생성일순)
 
 #### 2. 키워드 검색 조회 API
 
@@ -524,38 +447,41 @@ const petInfo = await axios.get(
 
 1. **Base URL 설정**: axios 설정 시 baseURL을 `http://localhost:3001`로 설정
 2. **에러 핸들링**: TanStack Query의 에러 처리 활용
-3. **좌표계 확인**: 카카오 API는 WGS84, 네이버 지도도 WGS84 사용
-4. **애견 동반 필터링**: 카카오 검색 결과에서 추가 필터링 로직 구현 필요
-5. **2단계 필터링**: 관광공사 API 상세 정보 조회 후 클라이언트에서 필터링
+3. **좌표계 확인**: 관광공사 API와 네이버 지도 API 모두 WGS84 사용
+4. **2단계 필터링**: 관광공사 API 상세 정보 조회 후 클라이언트에서 필터링
+5. **API 할당량 관리**: 일 1,000건 제한 고려한 효율적 호출
 
 ## 💡 사용자 경험 설계
 
-### 정보 투명성
+### 정보 신뢰성
 
 ```javascript
-const transparentInfo = {
-  // 관광공사 데이터
+const informationReliability = {
+  // 관광공사 데이터만 사용
   official: {
-    badge: "✅ 공식 인증",
+    badge: "✅ 정부 공인 인증",
     petInfo: "🐕 상세한 반려동물 동반 조건 제공",
-    reliability: "정부 공인 정보",
+    reliability: "한국관광공사 공식 정보",
+    completeness: "사진, 요금, 시설 정보 완전 제공",
   },
+};
+```
 
-  // 카카오 데이터
-  general: {
-    badge: "📱 실시간 정보",
-    petInfo: "📞 반려동물 동반 조건은 전화 문의",
-    reliability: "실시간 업체 정보",
-  },
+### 서비스 차별화
+
+```javascript
+const serviceFeatures = {
+  specialization: "반려동물 여가/관광 전문 플랫폼",
+  dataQuality: "모든 정보가 공식 인증된 고품질 데이터",
+  completeness: "상세한 반려동물 동반 조건 및 편의시설 정보",
+  reliability: "정부 공인 정보로 100% 신뢰 가능",
 };
 ```
 
 ## 🎯 차별화 포인트
 
-1. **공식 인증 정보**: 관광공사 API로 신뢰할 수 있는 반려동물 동반 정보
-2. **통합 검색**: 여러 API를 조합한 포괄적 검색 결과
-3. **투명한 정보**: 데이터 소스와 신뢰도를 명확히 표시
-4. **전문성**: 반려동물 동반에 특화된 필터와 정보
-5. **실용성**: 전화 연결, 길찾기 등 즉시 사용 가능한 기능
-
-이 구조를 통해 기존 일반 지도 서비스와 차별화된 **전문적인 반려동물 동반 서비스**를 제공할 수 있습니다.
+1. **전문성**: 반려동물 여가/관광에 특화된 서비스
+2. **신뢰성**: 정부 공인 관광공사 API만 사용한 고품질 정보
+3. **완성도**: 모든 업체에 상세한 반려동물 동반 조건 제공
+4. **일관성**: 데이터 품질과 정보 완성도의 일관성 보장
+5. **실용성**: 예약 연결, 길찾기 등 즉시 사용 가능한 기능

@@ -12,172 +12,21 @@ src/api/
 │   ├── index.js           # Axios 기본 설정
 │   └── interceptors.js    # 요청/응답 인터셉터
 ├── services/
-│   ├── kakaoApi.js        # 카카오 로컬 API 함수들
 │   ├── tourApi.js         # 한국관광공사 API 함수들
-│   └── mapApi.js          # 지도 관련 API 함수들
+│   ├── naverApi.js        # 네이버 지도 API 함수들
+│   └── geoapifyApi.js     # Geoapify 위치 API 함수들
 ├── hooks/
-│   ├── useKakao.js        # 카카오 API React Query 훅
 │   ├── useNaver.js        # 네이버 API React Query 훅
 │   ├── useTour.js         # 관광공사 API React Query 훅
+│   ├── useLocation.js     # 위치 관련 React Query 훅
 │   └── useMap.js          # 지도 API React Query 훅
 ├── types/
-│   ├── kakao.js           # 카카오 API 타입 정의
 │   ├── naver.js           # 네이버 API 타입 정의
 │   └── tour.js            # 관광공사 API 타입 정의
 └── README.md             # 이 문서
 ```
 
-## 🔍 1. 카카오 로컬 API (키워드 검색)
-
-### 사용 목적
-
-- 동물병원, 미용샵 등 일반 업체 검색
-- 실시간 정보 및 정확한 연락처 제공
-- 제한: 검색당 45개 (15개 × 3페이지)
-
-### API 함수 사용법
-
-#### 기본 키워드 검색
-
-```javascript
-import { searchKeyword } from "../api/services/kakaoApi";
-
-// 기본 검색
-const searchResult = await searchKeyword("제주도 동물병원");
-
-// 옵션을 포함한 검색
-const searchResult = await searchKeyword("애견카페", {
-  size: 10, // 결과 개수 (최대 15)
-  page: 1, // 페이지 번호 (최대 3)
-  x: 126.5219, // 경도 (중심 좌표)
-  y: 33.4996, // 위도 (중심 좌표)
-  radius: 5000, // 반경 (미터, 최대 20km)
-  category_group_code: "CE7", // 카테고리 코드 (카페)
-});
-```
-
-#### 업종별 검색 함수
-
-```javascript
-import {
-  searchHospitals,
-  searchCafes,
-  searchGrooming,
-  searchAccommodation,
-} from "../api/services/kakaoApi";
-
-// 동물병원 검색 (HP8 카테고리 자동 적용)
-const hospitals = await searchHospitals("제주시", { size: 15 });
-
-// 애견카페 검색 (CE7 카테고리 자동 적용)
-const cafes = await searchCafes("강남구", { size: 10 });
-
-// 애견 미용샵 검색
-const grooming = await searchGrooming("부산", { size: 8 });
-
-// 애견 숙박시설 검색 (AD5 카테고리 자동 적용)
-const accommodation = await searchAccommodation("제주도", { size: 12 });
-```
-
-#### 현재 위치 기반 검색
-
-```javascript
-import { searchNearby } from "../api/services/kakaoApi";
-
-// 사용자 위치 정보
-const position = {
-  latitude: 37.5665,
-  longitude: 126.978,
-};
-
-// 주변 동물병원 검색
-const nearbyHospitals = await searchNearby("hospital", position, {
-  radius: 3000, // 3km 반경
-});
-
-// 주변 애견카페 검색
-const nearbyCafes = await searchNearby("cafe", position, {
-  radius: 5000, // 5km 반경
-});
-```
-
-### React Query 훅 사용법
-
-```javascript
-import {
-  useSearchKeyword,
-  useSearchHospitals,
-  useSearchCafes,
-  useSearchNearby,
-} from "../api/hooks/useKakao";
-
-function SearchComponent() {
-  // 기본 검색 훅
-  const { data, isLoading, error } = useSearchKeyword("제주도 동물병원", {
-    size: 15,
-    page: 1,
-  });
-
-  // 동물병원 검색 훅
-  const hospitalsQuery = useSearchHospitals("강남구", { size: 10 });
-
-  // 현재 위치 기반 검색 훅
-  const nearbyQuery = useSearchNearby(
-    "cafe",
-    userPosition,
-    {
-      radius: 5000,
-    },
-    {
-      enabled: !!userPosition, // 위치 정보가 있을 때만 실행
-    }
-  );
-
-  if (isLoading) return <div>검색 중...</div>;
-  if (error) return <div>오류 발생: {error.message}</div>;
-
-  return (
-    <div>
-      {data?.documents?.map((place) => (
-        <div key={place.id}>
-          <h3>{place.place_name}</h3>
-          <p>{place.address_name}</p>
-          <p>{place.phone}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-```
-
-### 응답 데이터 구조
-
-```javascript
-{
-  "meta": {
-    "total_count": 45,        // 검색된 총 결과 수
-    "pageable_count": 45,     // 노출 가능한 문서 수
-    "is_end": false           // 마지막 페이지 여부
-  },
-  "documents": [
-    {
-      "id": "123456789",
-      "place_name": "해피독 동물병원",
-      "category_name": "의료,건강 > 동물병원",
-      "category_group_code": "HP8",
-      "phone": "02-123-4567",
-      "address_name": "서울 강남구 ...",
-      "road_address_name": "서울 강남구 ...",
-      "place_url": "http://place.map.kakao.com/123456789",
-      "distance": "1234",      // 중심좌표까지의 거리(미터)
-      "x": "126.9780",         // 경도
-      "y": "37.5665"           // 위도
-    }
-  ]
-}
-```
-
-## 🗺 2. 네이버 지도/지오코딩 API
+## 🗺 1. 네이버 지도/지오코딩 API
 
 ### 사용 목적
 
@@ -226,7 +75,7 @@ function LocationComponent() {
 }
 ```
 
-## 🏛 3. 한국관광공사 TourAPI
+## 🏛 2. 한국관광공사 TourAPI
 
 ### 사용 목적
 
@@ -316,44 +165,73 @@ function TourComponent() {
 }
 ```
 
-## 🔄 4. 통합 검색 전략
+## 🔄 3. 위치 기반 검색 전략
 
-### 2단계 필터링 구현
+### Geoapify + GPS 하이브리드 위치 획득
 
 ```javascript
-// 1단계: 카카오 API로 기본 검색
-const kakaoResults = await searchCafes("제주시", { size: 15 });
+import { useLocation } from "../api/hooks/useLocation";
 
-// 2단계: 관광공사 API로 반려동물 동반 정보 보강
-const enrichedResults = await Promise.all(
-  kakaoResults.documents.map(async (place) => {
+function LocationSearch() {
+  const { location, isLoading, getCurrentLocation } = useLocation();
+
+  const handleGetLocation = async () => {
     try {
-      // 관광공사 API에서 동일한 장소 찾기 (이름 매칭)
-      const tourResults = await searchTourPlaces({
-        contentTypeId: "39",
-        keyword: place.place_name,
-      });
+      const locationData = await getCurrentLocation();
+      console.log("Current location:", locationData);
+      // GPS 정확하면 GPS 사용, 아니면 IP 기반 위치 사용
+    } catch (error) {
+      console.error("Location error:", error);
+    }
+  };
 
-      if (tourResults.response.body.items.item?.length > 0) {
-        const tourPlace = tourResults.response.body.items.item[0];
-        const petInfo = await getPetTourInfo(tourPlace.contentid);
+  return (
+    <div>
+      <button onClick={handleGetLocation} disabled={isLoading}>
+        {isLoading ? "위치 확인 중..." : "내 위치 찾기"}
+      </button>
 
-        return {
-          ...place,
-          tourInfo: tourPlace,
-          petInfo: petInfo.response.body.items.item?.[0],
-          dataSource: "official", // 공식 인증
-        };
-      }
+      {location.latitude && (
+        <p>
+          현재 위치: {location.latitude}, {location.longitude}
+        </p>
+      )}
+    </div>
+  );
+}
+```
+
+### 관광공사 API 기반 2단계 필터링
+
+```javascript
+// 1단계: 관광공사 API로 지역별 검색
+const tourResults = await searchTourPlaces({
+  contentTypeId: "39", // 카페
+  areaCode: "39", // 제주도
+  numOfRows: 50,
+});
+
+// 2단계: 상세 정보 및 반려동물 정보 조회
+const enrichedResults = await Promise.all(
+  tourResults.response.body.items.item.map(async (place) => {
+    try {
+      const [detail, petInfo, images] = await Promise.all([
+        getTourDetail(place.contentid, { contentTypeId: "39" }),
+        getPetTourInfo(place.contentid),
+        getTourImages(place.contentid),
+      ]);
 
       return {
         ...place,
-        dataSource: "general", // 일반 정보
+        detail: detail.response.body.items.item?.[0],
+        petInfo: petInfo.response.body.items.item?.[0],
+        images: images.response.body.items.item || [],
+        dataSource: "official", // 공식 인증
       };
     } catch (error) {
       return {
         ...place,
-        dataSource: "general",
+        dataSource: "official",
       };
     }
   })
@@ -398,27 +276,34 @@ const applyPetFilters = (places, filters) => {
 
 ```javascript
 import React, { useState } from "react";
-import { useSearchCafes } from "../api/hooks/useKakao";
-import { useTourDetail, usePetTourInfo } from "../api/hooks/useTour";
+import {
+  useSearchTourPlaces,
+  useTourDetail,
+  usePetTourInfo,
+} from "../api/hooks/useTour";
+import { useLocation } from "../api/hooks/useLocation";
 
-function CafeSearchComponent() {
-  const [location, setLocation] = useState("");
+function PetFriendlySearchComponent() {
+  const [areaCode, setAreaCode] = useState("39"); // 제주도
+  const [contentTypeId, setContentTypeId] = useState("39"); // 카페
   const [filters, setFilters] = useState({
     largeDog: false,
     parking: false,
     indoor: false,
   });
 
-  // 카카오 API로 기본 검색
+  const { location, getCurrentLocation } = useLocation();
+
+  // 관광공사 API로 검색
   const {
-    data: cafes,
+    data: places,
     isLoading: isSearching,
     error: searchError,
-  } = useSearchCafes(location, { size: 15 });
-
-  const handleSearch = (searchLocation) => {
-    setLocation(searchLocation);
-  };
+  } = useSearchTourPlaces({
+    contentTypeId,
+    areaCode,
+    numOfRows: 20,
+  });
 
   const toggleFilter = (filterKey) => {
     setFilters((prev) => ({
@@ -432,15 +317,26 @@ function CafeSearchComponent() {
 
   return (
     <div>
-      {/* 검색 입력 */}
-      <input
-        placeholder="지역을 입력하세요"
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-            handleSearch(e.target.value);
-          }
-        }}
-      />
+      {/* 지역 선택 */}
+      <select value={areaCode} onChange={(e) => setAreaCode(e.target.value)}>
+        <option value="39">제주도</option>
+        <option value="1">서울</option>
+        <option value="6">부산</option>
+      </select>
+
+      {/* 카테고리 선택 */}
+      <select
+        value={contentTypeId}
+        onChange={(e) => setContentTypeId(e.target.value)}
+      >
+        <option value="39">카페</option>
+        <option value="32">숙소</option>
+        <option value="12">관광지</option>
+        <option value="28">레포츠</option>
+      </select>
+
+      {/* 위치 버튼 */}
+      <button onClick={getCurrentLocation}>내 위치 찾기</button>
 
       {/* 필터 버튼들 */}
       <div>
@@ -466,25 +362,29 @@ function CafeSearchComponent() {
 
       {/* 검색 결과 */}
       <div>
-        {cafes?.documents?.map((cafe) => (
-          <CafeCard key={cafe.id} cafe={cafe} />
+        {places?.response?.body?.items?.item?.map((place) => (
+          <PlaceCard key={place.contentid} place={place} />
         ))}
       </div>
     </div>
   );
 }
 
-function CafeCard({ cafe }) {
+function PlaceCard({ place }) {
+  const { data: petInfo } = usePetTourInfo(place.contentid);
+
   return (
-    <div className="cafe-card">
-      <h3>{cafe.place_name}</h3>
-      <p>{cafe.address_name}</p>
-      <p>{cafe.phone}</p>
-      <span className="badge">📱 실시간 정보</span>
-      {cafe.petInfo && (
+    <div className="place-card">
+      <img src={place.firstimage || "/default-image.jpg"} alt={place.title} />
+      <h3>{place.title}</h3>
+      <p>{place.addr1}</p>
+      <p>{place.tel}</p>
+      <span className="badge official">✅ 정부 공인 인증</span>
+      {petInfo?.response?.body?.items?.item?.[0] && (
         <div>
-          <span className="badge official">✅ 공식 인증</span>
-          <p>🐕 {cafe.petInfo.acmpyPsblCpam}</p>
+          <p>🐕 {petInfo.response.body.items.item[0].acmpyPsblCpam}</p>
+          <p>🏠 {petInfo.response.body.items.item[0].restroomCpam}</p>
+          <p>🅿️ {petInfo.response.body.items.item[0].parkingCpam}</p>
         </div>
       )}
     </div>
@@ -496,23 +396,26 @@ function CafeCard({ cafe }) {
 
 ### API 제한사항
 
-- **카카오 API**: 검색당 45개 제한 (15개 × 3페이지)
 - **관광공사 API**: 일 1,000건 제한
 - **네이버 지도 API**: 월 사용량 제한
+- **Geoapify API**: 월 $200 크레딧 (무료 할당량)
 
 ### 에러 처리
 
 ```javascript
 // API 에러 처리 예시
-const { data, error, isError } = useSearchCafes(location);
+const { data, error, isError } = useSearchTourPlaces({
+  contentTypeId: "39",
+  areaCode: "39",
+});
 
 if (isError) {
   if (error.response?.status === 429) {
     // API 한도 초과
-    return <div>잠시 후 다시 시도해주세요.</div>;
+    return <div>일일 사용량을 초과했습니다. 내일 다시 시도해주세요.</div>;
   } else if (error.response?.status === 400) {
     // 잘못된 요청
-    return <div>검색어를 확인해주세요.</div>;
+    return <div>검색 조건을 확인해주세요.</div>;
   } else {
     // 기타 오류
     return <div>서비스에 일시적인 문제가 발생했습니다.</div>;
@@ -537,9 +440,10 @@ const queryOptions = {
 ### 자주 발생하는 문제들
 
 1. **CORS 오류**: 모든 외부 API는 백엔드 프록시를 통해 호출
-2. **좌표계 불일치**: 카카오, 네이버 모두 WGS84 좌표계 사용
-3. **빈 결과**: 검색어나 지역명 확인 필요
+2. **좌표계 일관성**: 관광공사, 네이버 모두 WGS84 좌표계 사용
+3. **빈 결과**: 지역코드나 컨텐츠타입 확인 필요
 4. **API 키 오류**: 백엔드 환경변수 설정 확인
+5. **일일 할당량 초과**: 관광공사 API 1,000건 제한 관리
 
 ### 디버깅 팁
 

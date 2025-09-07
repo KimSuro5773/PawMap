@@ -1,7 +1,11 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { getHybridLocation, getGPSLocation, getIPLocation } from '../services/geoapifyApi';
-import useLocationStore from '../../stores/locationStore';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import {
+  getHybridLocation,
+  getGPSLocation,
+  getIPLocation,
+} from "../services/geoapifyApi";
+import useLocationStore from "@/stores/locationStore";
 
 /**
  * 위치 정보 관련 TanStack Query 훅
@@ -9,7 +13,7 @@ import useLocationStore from '../../stores/locationStore';
 export const useLocation = () => {
   const [isLocationLoading, setIsLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState(null);
-  
+
   const {
     userLocation,
     setUserLocation,
@@ -38,7 +42,7 @@ export const useLocation = () => {
     },
     onError: (error) => {
       // 에러 시 에러 상태 설정
-      const errorMessage = error.message || '위치 정보를 가져올 수 없습니다.';
+      const errorMessage = error.message || "위치 정보를 가져올 수 없습니다.";
       setLocationError(errorMessage);
       setStoreLocationError(errorMessage);
     },
@@ -69,7 +73,8 @@ export const useLocation = () => {
       });
     },
     onError: (error) => {
-      const errorMessage = error.message || 'GPS 위치 정보를 가져올 수 없습니다.';
+      const errorMessage =
+        error.message || "GPS 위치 정보를 가져올 수 없습니다.";
       setLocationError(errorMessage);
       setStoreLocationError(errorMessage);
     },
@@ -98,7 +103,8 @@ export const useLocation = () => {
       });
     },
     onError: (error) => {
-      const errorMessage = error.message || 'IP 위치 정보를 가져올 수 없습니다.';
+      const errorMessage =
+        error.message || "IP 위치 정보를 가져올 수 없습니다.";
       setLocationError(errorMessage);
       setStoreLocationError(errorMessage);
     },
@@ -112,7 +118,7 @@ export const useLocation = () => {
 
   // 현재 위치 조회 쿼리 (캐시된 위치 정보가 있으면 사용)
   const currentLocationQuery = useQuery({
-    queryKey: ['userLocation'],
+    queryKey: ["userLocation"],
     queryFn: getHybridLocation,
     enabled: false, // 수동으로 실행
     staleTime: 5 * 60 * 1000, // 5분간 fresh
@@ -143,29 +149,29 @@ export const useLocation = () => {
     location: userLocation,
     isLoading: isLocationLoading || userLocation.isLoading,
     error: locationError || userLocation.error,
-    
+
     // TanStack Query 상태
     isHybridLoading: hybridLocationMutation.isPending,
     isGPSLoading: gpsLocationMutation.isPending,
     isIPLoading: ipLocationMutation.isPending,
-    
+
     // 에러 상태
     hybridError: hybridLocationMutation.error,
     gpsError: gpsLocationMutation.error,
     ipError: ipLocationMutation.error,
-    
+
     // 위치 획득 함수들
     getCurrentLocation,
     getGPSLocationOnly,
     getIPLocationOnly,
     refetchLocation,
-    
+
     // 에러 초기화
     clearError: () => {
       setLocationError(null);
       setStoreLocationError(null);
     },
-    
+
     // 뮤테이션 초기화
     reset: () => {
       hybridLocationMutation.reset();
