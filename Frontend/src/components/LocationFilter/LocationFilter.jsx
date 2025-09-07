@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FiMapPin, FiLoader } from "react-icons/fi";
 import FilterGroup from "../FilterGroup/FilterGroup";
 import FilterButton from "../FilterButton/FilterButton";
+import useLocationStore from "../../stores/locationStore";
+import useLocation from "../../api/hooks/useLocation";
 import styles from "./LocationFilter.module.scss";
 
 const REGIONS = [
@@ -31,12 +33,44 @@ const LocationFilter = ({
   disabled = false,
   showNearby = true,
 }) => {
-  const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [locationError, setLocationError] = useState(null);
 
-  const handleLocationTypeChange = (type) => {
+  // TanStack Query 훅 사용
+  const { location, isLoading, error, getCurrentLocation, clearError } =
+    useLocation();
+
+  // Zustand store 사용 (필터 상태만)
+  const { userLocation } = useLocationStore();
+
+  const handleLocationTypeChange = async (type) => {
     if (type === "nearby") {
-      getCurrentLocation();
+      // UI 상태를 먼저 변경
+      onChange?.({
+        ...value,
+        type: "nearby",
+        region: "all",
+      });
+      // 에러 초기화
+      setLocationError(null);
+      clearError();
+
+      // 위치 획득 시작
+      try {
+        const locationData = await getCurrentLocation();
+        // 성공 시 좌표 정보 업데이트
+        onChange?.({
+          ...value,
+          type: "nearby",
+          coordinates: {
+            lat: locationData.latitude,
+            lng: locationData.longitude,
+          },
+        });
+      } catch (error) {
+        // 에러 발생 시 전체 지역으로 되돌림
+        setLocationError(error.message);
+        onChange?.({ ...value, type: "all", region: "all" });
+      }
     } else {
       onChange?.({
         ...value,
@@ -50,59 +84,10 @@ const LocationFilter = ({
     onChange?.({ ...value, region, type: region === "all" ? "all" : "region" });
   };
 
-  const getCurrentLocation = () => {
-    if (!navigator.geolocation) {
-      setLocationError("위치 서비스가 지원되지 않는 브라우저입니다.");
-      return;
-    }
-
-    setIsGettingLocation(true);
-    setLocationError(null);
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        onChange?.({
-          ...value,
-          type: "nearby",
-          coordinates: { lat: latitude, lng: longitude },
-        });
-        setIsGettingLocation(false);
-      },
-      (error) => {
-        let errorMessage = "";
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            errorMessage =
-              "위치 정보 접근이 거부되었습니다. 브라우저 설정에서 위치 접근을 허용해주세요.";
-            break;
-          case error.POSITION_UNAVAILABLE:
-            errorMessage = "위치 정보를 사용할 수 없습니다.";
-            break;
-          case error.TIMEOUT:
-            errorMessage = "위치 정보 요청 시간이 초과되었습니다.";
-            break;
-          default:
-            errorMessage = "위치 정보를 가져올 수 없습니다.";
-        }
-        setLocationError(errorMessage);
-        setIsGettingLocation(false);
-
-        // 오류 발생 시 전체 지역으로 되돌림
-        onChange?.({ ...value, type: "all", region: "all" });
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 300000, // 5분
-      }
-    );
-  };
-
   const getLocationTypeLabel = () => {
     switch (value.type) {
       case "nearby":
-        return isGettingLocation ? "위치 확인 중..." : "내 주변";
+        return isLoading ? "위치 확인 중..." : "내 주변";
       case "region":
         const selectedRegion = REGIONS.find((r) => r.value === value.region);
         return selectedRegion ? selectedRegion.label : "지역 선택";
@@ -130,10 +115,12 @@ const LocationFilter = ({
           <FilterButton
             isActive={value.type === "nearby"}
             onClick={() => handleLocationTypeChange("nearby")}
-            disabled={disabled || isGettingLocation}
+            disabled={disabled}
             variant="outline"
           >
-            {isGettingLocation && <FiLoader className={styles.spinner} />}
+            {value.type === "nearby" && isLoading && (
+              <FiLoader className={styles.spinner} />
+            )}
             <FiMapPin />내 주변
           </FilterButton>
         )}
@@ -163,12 +150,17 @@ const LocationFilter = ({
         </div>
       )}
 
-      {locationError && (
+      {(locationError || error) && (
         <div className={styles.error}>
-          <p className={styles.errorMessage}>{locationError}</p>
+          <p className={styles.errorMessage}>
+            {locationError || error?.message}
+          </p>
           <button
             type="button"
-            onClick={() => setLocationError(null)}
+            onClick={() => {
+              setLocationError(null);
+              clearError();
+            }}
             className={styles.dismissButton}
           >
             닫기
@@ -180,8 +172,13 @@ const LocationFilter = ({
         <div className={styles.locationInfo}>
           <FiMapPin />
           <span>
-            현재 위치: {value.coordinates.lat.toFixed(4)},{" "}
-            {value.coordinates.lng.toFixed(4)}
+            {location.city && location.country
+              ? `현재 위치: ${location.city}, ${location.country} (${
+                  location.source === "gps" ? "GPS" : "IP 기반"
+                })`
+              : `현재 위치: 위도 ${value.coordinates.lat.toFixed(
+                  4
+                )}, 경도 ${value.coordinates.lng.toFixed(4)}`}
           </span>
         </div>
       )}

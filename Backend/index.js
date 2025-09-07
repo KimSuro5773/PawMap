@@ -268,6 +268,40 @@ app.get("/api/tour/pet-info/:contentId", async (req, res) => {
   }
 });
 
+// Geoapify IP Geolocation API 프록시
+app.get("/api/geoapify/ip-location", async (req, res) => {
+  try {
+    const response = await axios.get(
+      "https://api.geoapify.com/v1/ipinfo",
+      {
+        params: {
+          apiKey: process.env.GEOAPIFY_API_KEY,
+        },
+      }
+    );
+
+    // 필요한 데이터만 반환 (위도, 경도)
+    const locationData = {
+      latitude: response.data.location?.latitude || null,
+      longitude: response.data.location?.longitude || null,
+      city: response.data.city?.name || null,
+      country: response.data.country?.name || null,
+      accuracy: 'city-level', // IP 기반이므로 도시 수준의 정확도
+    };
+
+    res.json(locationData);
+  } catch (error) {
+    console.error(
+      "Geoapify IP Location API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch location from Geoapify IP Location API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
 // 에러 핸들링 미들웨어
 app.use((err, req, res, next) => {
   console.error(err.stack);
