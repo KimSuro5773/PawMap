@@ -3,7 +3,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: $spacing-sm $spacing-lg;
   background-color: $white;
   border-bottom: 1px solid $gray-200;
@@ -11,7 +11,6 @@
 
   // 태블릿 및 모바일
   @media (max-width: $tablet) {
-    justify-content: space-between;
     padding: $spacing-xs $spacing-md;
   }
 
@@ -63,6 +62,10 @@
 
 // 네비게이션
 .navigation {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+
   ul {
     display: flex;
     align-items: center;
@@ -83,87 +86,12 @@
   }
 }
 
-// 검색바
-.searchContainer {
-  form {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: $white;
-    border-radius: $radius-md;
-    padding: $spacing-xs;
-    width: 280px;
-    border: 1px solid $gray-500;
-
-    &:focus-within {
-      border: 1px solid $gray-600;
-    }
-
-    @media (max-width: $tablet) {
-      width: 200px;
-    }
-
-    @media (max-width: $mobile) {
-      width: 160px;
-    }
-  }
-
-  @media (max-width: $tablet) {
-    margin: 0 $spacing-md 0 auto;
-  }
-}
-
-.searchInput {
-  flex: 1;
-  border: none;
-  background: transparent;
-  padding: $spacing-sm $spacing-md;
-  color: $gray-700;
-  outline: none;
-  font-size: $font-sm;
-
-  &::placeholder {
-    color: $gray-500;
-  }
-
-  @media (max-width: $mobile) {
-    font-size: $font-xs;
-    padding: $spacing-xs $spacing-sm;
-
-    &::placeholder {
-      font-size: $font-xs;
-    }
-  }
-}
-
-.searchButton {
-  position: absolute;
+// 모바일 메뉴 버튼
+.mobileMenuButton {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
-  border: none;
-  font-size: $font-xl;
-  color: $gray-700;
-  right: 5px;
-  cursor: pointer;
-  transition: $transition-base;
-  padding: $spacing-sm;
-  border-radius: $radius-full;
-
-  &:hover {
-    background-color: $gray-300;
-  }
-
-  @media (max-width: $mobile) {
-    padding: $spacing-xs;
-    font-size: $font-base;
-  }
-}
-
-// 모바일 메뉴 버튼
-.mobileMenuButton {
-  display: none;
   background: none;
   border: none;
   padding: $spacing-sm;
@@ -180,12 +108,6 @@
     font-size: $font-2xl;
   }
 
-  @media (max-width: $tablet) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   @media (max-width: $mobile) {
     svg {
       font-size: $font-lg;
@@ -195,7 +117,7 @@
 
 // 모바일 네비게이션 (사이드바)
 .mobileNavigation {
-  // 기본 스타일 (데스크톱에서 숨김)
+  // 기본 스타일
   position: fixed;
   top: 0;
   left: -320px;
@@ -206,7 +128,7 @@
   transition: left $transition-base;
   z-index: $z-modal;
   overflow-y: auto;
-  display: none;
+  display: block;
 
   &.open {
     left: 0;
@@ -367,11 +289,6 @@
   &.open {
     opacity: 1;
     visibility: visible;
-  }
-
-  // 데스크톱에서는 숨김
-  @media (min-width: calc($tablet + 1px)) {
-    display: none;
   }
 }
 

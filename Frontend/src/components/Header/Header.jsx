@@ -1,31 +1,24 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { MdMenu, MdClose, MdSearch } from "react-icons/md";
+import { MdMenu, MdClose } from "react-icons/md";
 import styles from "./Header.module.scss";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      // TODO: 검색 기능 구현
-      console.log("검색어:", searchQuery);
-    }
-  };
-
   const routeList = [
     { path: "/", text: "홈" },
-    { path: "/hospitals", text: "동물병원" },
-    { path: "/cafes", text: "카페" },
-    { path: "/activities", text: "놀거리" },
-    { path: "/grooming", text: "미용샵" },
+    { path: "/restaurants", text: "음식점/카페" },
     { path: "/accommodation", text: "숙소" },
+    { path: "/attractions", text: "관광지" },
+    { path: "/activities", text: "레포츠/체험" },
+    { path: "/culture", text: "문화시설" },
+    { path: "/events", text: "행사/축제" },
+    { path: "/shopping", text: "쇼핑" },
     { path: "/map", text: "내주변" },
   ];
 
@@ -58,22 +51,6 @@ export default function Header() {
           ))}
         </ul>
       </nav>
-
-      {/* SearchBar */}
-      <div className={styles.searchContainer}>
-        <form onSubmit={handleSearch}>
-          <input
-            type="text"
-            placeholder="검색어를 입력하세요"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className={styles.searchInput}
-          />
-          <button type="submit" className={styles.searchButton}>
-            <MdSearch />
-          </button>
-        </form>
-      </div>
 
       {/* Mobile Menu Button */}
       <button
