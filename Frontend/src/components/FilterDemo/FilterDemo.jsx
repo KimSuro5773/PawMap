@@ -41,7 +41,6 @@ const FilterDemo = () => {
       <div className={styles.section}>
         <h3>검색바</h3>
         <SearchBar
-          placeholder="동물병원, 애견카페 등을 검색해보세요"
           value={searchQuery}
           onChange={setSearchQuery}
           onSearch={handleSearch}
