@@ -40,15 +40,14 @@ npm run dev
 
 ### API 키 설정
 
-1. **네이버 개발자 센터**: https://developers.naver.com
-2. **네이버 클라우드 플랫폼**: https://console.ncloud.com
-3. **공공데이터포털**: https://data.go.kr
+1. **네이버 클라우드 플랫폼**: https://console.ncloud.com
+2. **공공데이터포털**: https://data.go.kr
 
 ## 🛠 기술 스택
 
 - Frontend: React 19 + Vite + Zustand + SASS
 - Backend: Node.js + Express
-- APIs: 네이버 지도/검색 API, 한국관광공사 TourAPI
+- APIs: 네이버 Maps API, 한국관광공사 TourAPI
 
 ## 📝 라이선스
 

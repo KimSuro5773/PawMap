@@ -10,10 +10,10 @@ import { API_ENDPOINTS, DEFAULT_PARAMS } from "../types/tour";
  * @param {Object} params - 요청 파라미터
  * @param {string} [params.contentTypeId] - 컨텐츠 타입 ID (12:관광지, 32:숙박, 39:음식점)
  * @param {string} [params.areaCode] - 지역코드
- * @param {string} [params.sigunguCode] - 시군구코드
+ * @param {string} [params.sigunguCode] - 시군구코드(areaCode 필수)
  * @param {number} [params.numOfRows=10] - 한 페이지 결과 수
  * @param {number} [params.pageNo=1] - 페이지 번호
- * @param {string} [params.arrange="A"] - 정렬 (A:제목순, C:수정일순, D:생성일순)
+ * @param {string} [params.arrange="A"] - 기본 정렬 (A:제목순, C:수정일순, D:생성일순) 대표이미지가 반드시 있는 정렬(O:제목순, Q:수정일순, R:생성일순)
  */
 export const getAreaBasedList = async (params = {}) => {
   const response = await apiClient.get(`/api/tour${API_ENDPOINTS.AREA_BASED}`, {
@@ -27,10 +27,11 @@ export const getAreaBasedList = async (params = {}) => {
  * @param {Object} params - 요청 파라미터
  * @param {number} params.mapX - 경도 (필수)
  * @param {number} params.mapY - 위도 (필수)
- * @param {number} [params.radius=1000] - 검색 반경(m)
+ * @param {number} [params.radius=1000] - 검색 반경(m) (필수)
  * @param {string} [params.contentTypeId] - 컨텐츠 타입 ID
  * @param {number} [params.numOfRows=10] - 한 페이지 결과 수
  * @param {number} [params.pageNo=1] - 페이지 번호
+ * @param {string} [params.arrange="A"] - 기본 정렬 (A:제목순, C:수정일순, D:생성일순, E:거리순) 대표이미지가 반드시 있는 정렬(O:제목순, Q:수정일순, R:생성일순, S:거리순)
  */
 export const getLocationBasedList = async (params) => {
   if (!params?.mapX || !params?.mapY) {
@@ -48,12 +49,13 @@ export const getLocationBasedList = async (params) => {
 /**
  * 키워드 검색 조회
  * @param {Object} params - 요청 파라미터
- * @param {string} params.keyword - 검색 키워드 (필수)
+ * @param {string} params.keyword - 검색 키워드 (필수) (국문=인코딩 필수)
  * @param {string} [params.contentTypeId] - 컨텐츠 타입 ID
  * @param {string} [params.areaCode] - 지역코드
- * @param {string} [params.sigunguCode] - 시군구코드
+ * @param {string} [params.sigunguCode] - 시군구코드 (areaCode 필수)
  * @param {number} [params.numOfRows=10] - 한 페이지 결과 수
  * @param {number} [params.pageNo=1] - 페이지 번호
+ * @param {string} [params.arrange="A"] - 기본 정렬 (A:제목순, C:수정일순, D:생성일순) 대표이미지가 반드시 있는 정렬(O:제목순, Q:수정일순, R:생성일순)
  */
 export const getSearchKeyword = async (params) => {
   if (!params?.keyword) {
@@ -90,7 +92,8 @@ export const getAreaCode = async (params = {}) => {
  * @param {Object} [params] - 요청 파라미터
  * @param {string} [params.contentTypeId] - 컨텐츠 타입 ID
  * @param {string} [params.cat1] - 대분류 코드
- * @param {string} [params.cat2] - 중분류 코드
+ * @param {string} [params.cat2] - 중분류 코드 (cat1 필수)
+ * @param {string} [params.cat3] - 소분류 코드 (cat1, cat2 필수)
  * @param {number} [params.numOfRows=100] - 한 페이지 결과 수
  */
 export const getCategoryCode = async (params = {}) => {
@@ -119,7 +122,16 @@ export const getDetailCommon = async (contentId, params = {}) => {
   }
   const response = await apiClient.get(
     `/api/tour${API_ENDPOINTS.DETAIL_COMMON}/${contentId}`,
-    { params }
+    {
+      defaultYN: Y,
+      firstImageYN: Y,
+      areacodeYN: Y,
+      catcodeYN: Y,
+      addrinfoYN: Y,
+      mapinfoYN: Y,
+      overviewYN: Y,
+      ...params,
+    }
   );
   return response;
 };
@@ -166,8 +178,7 @@ export const getDetailInfo = async (contentId, params) => {
  * 이미지정보 조회
  * @param {string} contentId - 컨텐츠 ID (필수)
  * @param {Object} [params] - 요청 파라미터
- * @param {string} [params.imageYN="Y"] - 원본 이미지 조회 여부
- * @param {string} [params.subImageYN="Y"] - 썸네일 이미지 조회 여부
+ * @param {string} [params.imageYN="Y"] - 원본 이미지 조회 여부 (Y : 콘텐츠 이미지 조회, N : "음식점"타입의 음식메뉴 이미지)
  * @param {number} [params.numOfRows=10] - 한 페이지 결과 수
  * @param {number} [params.pageNo=1] - 페이지 번호
  */
