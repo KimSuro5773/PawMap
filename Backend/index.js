@@ -93,114 +93,409 @@ app.get("/api/naver/reverse-geocoding", async (req, res) => {
   }
 });
 
-// 한국관광공사 TourAPI 프록시
-app.get("/api/tour/search", async (req, res) => {
+// 한국관광공사 TourAPI 공통 파라미터
+const TOUR_API_BASE_PARAMS = {
+  serviceKey: process.env.TOUR_API_KEY,
+  MobileOS: "ETC",
+  MobileApp: "PawMap",
+  _type: "json",
+};
+
+const TOUR_API_BASE_URL = "http://apis.data.go.kr/B551011/KorPetTourService";
+
+// =============================================================================
+// 🔍 기본 검색 및 목록 조회 API
+// =============================================================================
+
+// 1. 지역기반 관광정보 조회
+app.get("/api/tour/area-based", async (req, res) => {
   try {
     const {
-      contentTypeId = "39", // 음식점
+      contentTypeId,
       areaCode,
       sigunguCode,
       numOfRows = 10,
       pageNo = 1,
-      arrange = "A", // A: 제목순, B: 인기도순, C: 수정일순, D: 생성일순
+      arrange = "A", // A: 제목순, C: 수정일순, D: 생성일순
     } = req.query;
 
-    const response = await axios.get(
-      "http://apis.data.go.kr/B551011/KorService1/areaBasedList1",
-      {
-        params: {
-          serviceKey: process.env.TOUR_API_KEY,
-          numOfRows,
-          pageNo,
-          MobileOS: "ETC",
-          MobileApp: "PawMap",
-          _type: "json",
-          listYN: "Y",
-          arrange,
-          contentTypeId,
-          areaCode,
-          sigunguCode,
-        },
-      }
-    );
+    const response = await axios.get(`${TOUR_API_BASE_URL}/areaBasedList`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        numOfRows,
+        pageNo,
+        listYN: "Y",
+        arrange,
+        contentTypeId,
+        areaCode,
+        sigunguCode,
+      },
+    });
 
     res.json(response.data);
   } catch (error) {
-    console.error("Tour API Error:", error.response?.data || error.message);
+    console.error(
+      "Tour Area Based API Error:",
+      error.response?.data || error.message
+    );
     res.status(error.response?.status || 500).json({
-      error: "Failed to fetch data from Tour API",
+      error: "Failed to fetch area-based data from Tour API",
       details: error.response?.data || error.message,
     });
   }
 });
 
-// 한국관광공사 상세정보 조회
-app.get("/api/tour/detail/:contentId", async (req, res) => {
+// 2. 위치기반 관광정보 조회
+app.get("/api/tour/location-based", async (req, res) => {
   try {
-    const { contentId } = req.params;
-    const { contentTypeId = "39" } = req.query;
+    const {
+      mapX, // 경도
+      mapY, // 위도
+      radius = 1000, // 반경(m)
+      contentTypeId,
+      numOfRows = 10,
+      pageNo = 1,
+    } = req.query;
 
-    const response = await axios.get(
-      "http://apis.data.go.kr/B551011/KorService1/detailCommon1",
-      {
-        params: {
-          serviceKey: process.env.TOUR_API_KEY,
-          MobileOS: "ETC",
-          MobileApp: "PawMap",
-          _type: "json",
-          contentId,
-          contentTypeId,
-          defaultYN: "Y",
-          firstImageYN: "Y",
-          areacodeYN: "Y",
-          catcodeYN: "Y",
-          addrinfoYN: "Y",
-          mapinfoYN: "Y",
-          overviewYN: "Y",
-        },
-      }
-    );
+    if (!mapX || !mapY) {
+      return res.status(400).json({
+        error: "mapX (longitude) and mapY (latitude) parameters are required",
+      });
+    }
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/locationBasedList`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        mapX,
+        mapY,
+        radius,
+        contentTypeId,
+        numOfRows,
+        pageNo,
+        listYN: "Y",
+      },
+    });
 
     res.json(response.data);
   } catch (error) {
     console.error(
-      "Tour Detail API Error:",
+      "Tour Location Based API Error:",
       error.response?.data || error.message
     );
     res.status(error.response?.status || 500).json({
-      error: "Failed to fetch detail from Tour API",
+      error: "Failed to fetch location-based data from Tour API",
       details: error.response?.data || error.message,
     });
   }
 });
 
-// 반려동물 동반 정보 조회
-app.get("/api/tour/pet-info/:contentId", async (req, res) => {
+// 3. 키워드 검색 조회
+app.get("/api/tour/keyword", async (req, res) => {
   try {
-    const { contentId } = req.params;
+    const {
+      keyword,
+      contentTypeId,
+      areaCode,
+      sigunguCode,
+      numOfRows = 10,
+      pageNo = 1,
+    } = req.query;
 
-    const response = await axios.get(
-      "http://apis.data.go.kr/B551011/KorService1/detailWithTour1",
-      {
-        params: {
-          serviceKey: process.env.TOUR_API_KEY,
-          MobileOS: "ETC",
-          MobileApp: "PawMap",
-          _type: "json",
-          contentId,
-          contentTypeId: "39",
-        },
-      }
-    );
+    if (!keyword) {
+      return res.status(400).json({ error: "keyword parameter is required" });
+    }
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/searchKeyword`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        keyword,
+        contentTypeId,
+        areaCode,
+        sigunguCode,
+        numOfRows,
+        pageNo,
+      },
+    });
 
     res.json(response.data);
   } catch (error) {
     console.error(
-      "Tour Pet Info API Error:",
+      "Tour Keyword Search API Error:",
       error.response?.data || error.message
     );
     res.status(error.response?.status || 500).json({
-      error: "Failed to fetch pet info from Tour API",
+      error: "Failed to fetch keyword search data from Tour API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
+// =============================================================================
+// 📊 메타데이터 조회 API
+// =============================================================================
+
+// 4. 지역코드 조회
+app.get("/api/tour/area-code", async (req, res) => {
+  try {
+    const { areaCode, numOfRows = 100 } = req.query;
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/areaCode`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        areaCode, // 없으면 시/도 목록, 있으면 해당 시/도의 시/군/구 목록
+        numOfRows,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Tour Area Code API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch area code data from Tour API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
+// 5. 서비스분류코드 조회
+app.get("/api/tour/category-code", async (req, res) => {
+  try {
+    const { contentTypeId, cat1, cat2, numOfRows = 100 } = req.query;
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/categoryCode`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        contentTypeId,
+        cat1, // 대분류
+        cat2, // 중분류
+        numOfRows,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Tour Category Code API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch category code data from Tour API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
+// =============================================================================
+// 🏪 상세정보 조회 API
+// =============================================================================
+
+// 6. 공통정보 조회 (기본 정보)
+app.get("/api/tour/detail/common/:contentId", async (req, res) => {
+  try {
+    const { contentId } = req.params;
+    const { contentTypeId } = req.query;
+
+    if (!contentId) {
+      return res.status(400).json({ error: "contentId parameter is required" });
+    }
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/detailCommon`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        contentId,
+        contentTypeId,
+        defaultYN: "Y",
+        firstImageYN: "Y",
+        areacodeYN: "Y",
+        catcodeYN: "Y",
+        addrinfoYN: "Y",
+        mapinfoYN: "Y",
+        overviewYN: "Y",
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Tour Detail Common API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch common detail from Tour API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
+// 7. 소개정보 조회 (영업시간, 주차, 요금 등)
+app.get("/api/tour/detail/intro/:contentId", async (req, res) => {
+  try {
+    const { contentId } = req.params;
+    const { contentTypeId } = req.query;
+
+    if (!contentId || !contentTypeId) {
+      return res.status(400).json({
+        error: "contentId and contentTypeId parameters are required",
+      });
+    }
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/detailIntro`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        contentId,
+        contentTypeId,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Tour Detail Intro API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch intro detail from Tour API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
+// 8. 반복정보 조회 (객실정보 등)
+app.get("/api/tour/detail/info/:contentId", async (req, res) => {
+  try {
+    const { contentId } = req.params;
+    const { contentTypeId, numOfRows = 10, pageNo = 1 } = req.query;
+
+    if (!contentId || !contentTypeId) {
+      return res.status(400).json({
+        error: "contentId and contentTypeId parameters are required",
+      });
+    }
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/detailInfo`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        contentId,
+        contentTypeId,
+        numOfRows,
+        pageNo,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Tour Detail Info API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch info detail from Tour API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
+// 9. 이미지정보 조회
+app.get("/api/tour/detail/images/:contentId", async (req, res) => {
+  try {
+    const { contentId } = req.params;
+    const {
+      imageYN = "Y",
+      subImageYN = "Y",
+      numOfRows = 10,
+      pageNo = 1,
+    } = req.query;
+
+    if (!contentId) {
+      return res.status(400).json({ error: "contentId parameter is required" });
+    }
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/detailImage`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        contentId,
+        imageYN,
+        subImageYN,
+        numOfRows,
+        pageNo,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Tour Detail Images API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch images from Tour API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
+// =============================================================================
+// 🐕 반려동물 전용 API
+// =============================================================================
+
+// 10. 반려동물 동반여행 조회 (핵심 API)
+app.get("/api/tour/detail/pet/:contentId", async (req, res) => {
+  try {
+    const { contentId } = req.params;
+
+    if (!contentId) {
+      return res.status(400).json({ error: "contentId parameter is required" });
+    }
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/detailWithTour`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        contentId,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Tour Pet Detail API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch pet detail from Tour API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
+// 11. 반려동물 동반여행 동기화 목록 조회 (관리용)
+app.get("/api/tour/pet-sync-list", async (req, res) => {
+  try {
+    const {
+      numOfRows = 10,
+      pageNo = 1,
+      syncModTime, // 동기화 시간 (YYYYMMDDHHMMSS)
+    } = req.query;
+
+    const response = await axios.get(`${TOUR_API_BASE_URL}/syncList`, {
+      params: {
+        ...TOUR_API_BASE_PARAMS,
+        numOfRows,
+        pageNo,
+        syncModTime,
+      },
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Tour Pet Sync List API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch pet sync list from Tour API",
       details: error.response?.data || error.message,
     });
   }
