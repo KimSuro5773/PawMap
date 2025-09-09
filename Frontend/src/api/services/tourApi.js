@@ -29,6 +29,8 @@ export const getAreaBasedList = async (params = {}) => {
  * @param {number} params.mapY - 위도 (필수)
  * @param {number} [params.radius=1000] - 검색 반경(m) (필수)
  * @param {string} [params.contentTypeId] - 컨텐츠 타입 ID
+ * @param {string} [params.areaCode] - 지역코드
+ * @param {string} [params.sigunguCode] - 시군구 코드 (areaCode 필수)
  * @param {number} [params.numOfRows=10] - 한 페이지 결과 수
  * @param {number} [params.pageNo=1] - 페이지 번호
  * @param {string} [params.arrange="A"] - 기본 정렬 (A:제목순, C:수정일순, D:생성일순, E:거리순) 대표이미지가 반드시 있는 정렬(O:제목순, Q:수정일순, R:생성일순, S:거리순)
