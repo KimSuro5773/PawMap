@@ -7,20 +7,12 @@
   text-decoration: none;
   transition: $transition-base;
   cursor: pointer;
-
-  &:hover {
-    transform: translateY(-2px);
-    
-    .imageContainer {
-      box-shadow: $shadow-lg;
-    }
-  }
 }
 
 .imageContainer {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 165px;
+  height: 165px;
   border-radius: $radius-full;
   overflow: hidden;
   box-shadow: $shadow-md;
@@ -29,14 +21,14 @@
 
   // 태블릿
   @media (max-width: $tablet) {
-    width: 70px;
-    height: 70px;
+    width: 120px;
+    height: 120px;
   }
 
   // 모바일
   @media (max-width: $mobile) {
-    width: 60px;
-    height: 60px;
+    width: 90px;
+    height: 90px;
   }
 }
 
@@ -45,10 +37,6 @@
   height: 100%;
   object-fit: cover;
   transition: $transition-base;
-
-  .regionCard:hover & {
-    transform: scale(1.1);
-  }
 }
 
 .placeholder {
@@ -78,7 +66,7 @@
   font-weight: $font-medium;
   color: $gray-800;
   text-align: center;
-  
+
   // 태블릿
   @media (max-width: $tablet) {
     font-size: $font-xs;
