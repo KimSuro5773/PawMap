@@ -1,0 +1,47 @@
+@use "@/styles/base/variables" as *;
+
+.homeSection {
+  margin-bottom: $spacing-4xl;
+  overflow: hidden;
+  // 모바일
+  @media (max-width: $mobile) {
+    margin-bottom: $spacing-3xl;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-xl;
+
+  // 모바일
+  @media (max-width: $mobile) {
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.title {
+  font-size: $font-xl;
+  font-weight: $font-bold;
+  color: $gray-900;
+  margin: 0;
+
+  // 태블릿
+  @media (max-width: $tablet) {
+    font-size: $font-xl;
+  }
+
+  // 모바일
+  @media (max-width: $mobile) {
+    font-size: $font-lg;
+  }
+}
+
+.swiperContainer {
+  position: relative;
+}
+
+.slide {
+  height: auto;
+}

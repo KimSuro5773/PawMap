@@ -202,7 +202,7 @@ export const getDetailImage = async (contentId, params = {}) => {
 // =============================================================================
 
 /**
- * 반려동물 동반여행 조회 (핵심 API)
+ * 반려동물 동반여행 조회 (상세 페이지)
  * @param {string} contentId - 컨텐츠 ID (필수)
  */
 export const getDetailPetTour = async (contentId) => {

@@ -1,0 +1,75 @@
+@use "@/styles/base/variables" as *;
+
+.businessCard {
+  display: block;
+  text-decoration: none;
+  background: $white;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  transition: $transition-base;
+  cursor: pointer;
+  max-width: 350px;
+
+  // 데스크톱에서 크기 제한
+  @media (min-width: $desktop) {
+    max-width: 250px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: $transition-base;
+
+  .businessCard:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background: $gray-200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $gray-500;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+}
+
+.content {
+  padding: $spacing-md;
+}
+
+.title {
+  font-size: $font-base;
+  font-weight: $font-semibold;
+  color: $gray-900;
+  margin: 0 0 $spacing-xs 0;
+
+  // 텍스트 오버플로우 처리
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category {
+  font-size: $font-sm;
+  color: $gray-600;
+  font-weight: $font-normal;
+}

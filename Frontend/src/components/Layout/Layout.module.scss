@@ -1,3 +1,5 @@
+@use "@/styles/base/variables" as *;
+
 .layout {
   min-height: 100vh;
   display: flex;
@@ -6,4 +8,15 @@
 
 .main {
   flex: 1;
+  margin: $spacing-3xl 200px; // 48px 80px
+
+  // 태블릿 (865px 이하)
+  @media (max-width: $tablet) {
+    margin: $spacing-xl $spacing-2xl; // 32px 48px
+  }
+
+  // 모바일 (480px 이하)
+  @media (max-width: $mobile) {
+    margin: $spacing-lg $spacing-md; // 24px 16px
+  }
 }
