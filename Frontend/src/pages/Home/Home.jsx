@@ -52,6 +52,7 @@ const Home = () => {
       id={item.contentid}
       title={item.title}
       image={item.firstimage || item.firstimage2}
+      address={item.addr1}
       contentTypeId={item.contenttypeid}
       key={item.contentid}
     />
@@ -97,7 +98,23 @@ const Home = () => {
         title="국내 여행지"
         items={DOMESTIC_REGIONS}
         renderItem={renderRegionCard}
-        slidesPerView={6}
+        customBreakpoints={{
+          // 모바일
+          320: {
+            slidesPerView: 3,
+            spaceBetween: 12,
+          },
+          // 태블릿
+          865: {
+            slidesPerView: 4,
+            spaceBetween: 16,
+          },
+          // 데스크톱
+          1024: {
+            slidesPerView: 6,
+            spaceBetween: 24,
+          },
+        }}
       />
 
       {/* 숙소 섹션 */}

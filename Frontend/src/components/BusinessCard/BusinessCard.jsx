@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { extractCityFromAddress } from "@/utils/addressUtils";
 import styles from "./BusinessCard.module.scss";
 
 export default function BusinessCard({
@@ -6,6 +7,7 @@ export default function BusinessCard({
   title,
   image,
   category,
+  address,
   contentTypeId,
   className,
 }) {
@@ -37,7 +39,13 @@ export default function BusinessCard({
         )}
       </div>
       <div className={styles.content}>
+        {address && (
+          <span className={styles.address}>
+            {extractCityFromAddress(address)}
+          </span>
+        )}
         <h3 className={styles.title}>{title}</h3>
+
         {category && <span className={styles.category}>{category}</span>}
       </div>
     </Link>

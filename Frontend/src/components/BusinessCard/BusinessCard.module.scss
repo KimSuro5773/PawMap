@@ -4,7 +4,7 @@
   display: block;
   text-decoration: none;
   background: $white;
-  border-radius: $radius-lg;
+  border-radius: $radius-md;
   overflow: hidden;
   box-shadow: $shadow-sm;
   transition: $transition-base;
@@ -13,7 +13,7 @@
 
   // 데스크톱에서 크기 제한
   @media (min-width: $desktop) {
-    max-width: 250px;
+    max-width: 264px;
   }
 
   &:hover {
@@ -27,6 +27,7 @@
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
+  height: 192px;
 }
 
 .image {
@@ -66,6 +67,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.address {
+  font-size: $font-xs;
+  color: $gray-500;
+  font-weight: $font-normal;
+  margin-bottom: $spacing-xs;
+  display: block;
 }
 
 .category {

@@ -8,15 +8,20 @@
 
 .main {
   flex: 1;
-  margin: $spacing-3xl 200px; // 48px 80px
+  max-width: $container-max-width; // 1200px
+  margin: $spacing-3xl auto; // 48px auto (center alignment)
+  padding: 0 $container-padding; // 16px horizontal padding
+  width: 100%;
 
   // 태블릿 (865px 이하)
   @media (max-width: $tablet) {
-    margin: $spacing-xl $spacing-2xl; // 32px 48px
+    margin: $spacing-xl auto; // 32px auto
+    padding: 0 $spacing-2xl; // 48px horizontal padding
   }
 
   // 모바일 (480px 이하)
   @media (max-width: $mobile) {
-    margin: $spacing-lg $spacing-md; // 24px 16px
+    margin: $spacing-lg auto; // 24px auto
+    padding: 0 $spacing-md; // 16px horizontal padding
   }
 }

@@ -7,29 +7,32 @@ export default function HomeSection({
   children,
   items = [],
   renderItem,
-  slidesPerView = 5,
+  slidesPerView = 4,
   className,
+  customBreakpoints = null,
 }) {
-  const swiperOptions = {
-    spaceBetween: 12,
-    slidesPerView: "auto",
-    breakpoints: {
-      // 모바일
-      320: {
-        slidesPerView: 2,
-        spaceBetween: 8,
-      },
-      // 태블릿
-      865: {
-        slidesPerView: 4,
-        spaceBetween: 12,
-      },
-      // 데스크톱
-      1024: {
-        slidesPerView,
-        spaceBetween: 16,
-      },
+  const defaultBreakpoints = {
+    // 모바일
+    320: {
+      slidesPerView: 2,
+      spaceBetween: 12,
     },
+    // 태블릿
+    865: {
+      slidesPerView: 3,
+      spaceBetween: 16,
+    },
+    // 데스크톱
+    1024: {
+      slidesPerView,
+      spaceBetween: 24,
+    },
+  };
+
+  const swiperOptions = {
+    spaceBetween: 24,
+    slidesPerView: "auto",
+    breakpoints: customBreakpoints || defaultBreakpoints,
   };
 
   return (
