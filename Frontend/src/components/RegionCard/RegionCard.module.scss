@@ -20,13 +20,13 @@
   margin-bottom: $spacing-sm;
 
   // 태블릿
-  @media (max-width: $tablet) {
+  @media (max-width: $desktop) {
     width: 120px;
     height: 120px;
   }
 
   // 모바일
-  @media (max-width: $mobile) {
+  @media (max-width: $tablet) {
     width: 90px;
     height: 90px;
   }
@@ -51,12 +51,12 @@
   font-weight: $font-bold;
 
   // 태블릿
-  @media (max-width: $tablet) {
+  @media (max-width: $desktop) {
     font-size: $font-lg;
   }
 
   // 모바일
-  @media (max-width: $mobile) {
+  @media (max-width: $tablet) {
     font-size: $font-base;
   }
 }
