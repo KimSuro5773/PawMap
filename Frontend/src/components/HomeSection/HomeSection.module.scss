@@ -45,3 +45,67 @@
 .slide {
   height: auto;
 }
+
+.navigation {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.navigationBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid $gray-200;
+  border-radius: 50%;
+  background-color: $white;
+  color: $gray-600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: $primary-color;
+    border-color: $gray-300;
+    color: $white;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: $white;
+      border-color: $gray-200;
+      color: $gray-600;
+      transform: none;
+    }
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  // 태블릿
+  @media (max-width: $tablet) {
+    width: 32px;
+    height: 32px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  // 모바일
+  @media (max-width: $mobile) {
+    width: 28px;
+    height: 28px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}

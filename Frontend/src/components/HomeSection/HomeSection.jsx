@@ -1,5 +1,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import "swiper/css";
+import "swiper/css/navigation";
 import styles from "./HomeSection.module.scss";
 
 export default function HomeSection({
@@ -11,6 +14,8 @@ export default function HomeSection({
   className,
   customBreakpoints = null,
 }) {
+  // 네비게이션을 위한 고유 ID 생성
+  const navigationId = `swiper-navigation-${Math.random().toString(36).substr(2, 9)}`;
   const defaultBreakpoints = {
     // 모바일
     320: {
@@ -33,12 +38,31 @@ export default function HomeSection({
     spaceBetween: 24,
     slidesPerView: "auto",
     breakpoints: customBreakpoints || defaultBreakpoints,
+    modules: [Navigation],
+    navigation: {
+      nextEl: `.${navigationId}-next`,
+      prevEl: `.${navigationId}-prev`,
+    },
   };
 
   return (
     <section className={`${styles.homeSection} ${className || ""}`}>
       <div className={styles.header}>
         <h2 className={styles.title}>{title}</h2>
+        <div className={styles.navigation}>
+          <button
+            className={`${styles.navigationBtn} ${styles.prevBtn} ${navigationId}-prev`}
+            type="button"
+          >
+            <IoIosArrowBack />
+          </button>
+          <button
+            className={`${styles.navigationBtn} ${styles.nextBtn} ${navigationId}-next`}
+            type="button"
+          >
+            <IoIosArrowForward />
+          </button>
+        </div>
       </div>
 
       <div className={styles.swiperContainer}>
