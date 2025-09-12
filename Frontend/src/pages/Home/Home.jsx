@@ -82,6 +82,7 @@ const Home = () => {
         title="음식점 / 카페"
         items={cafesLoading ? skeletonItems : cafes}
         renderItem={cafesLoading ? renderBusinessSkeleton : renderBusinessCard}
+        viewAllUrl="/restaurants"
       />
 
       {/* 관광지 섹션 */}
@@ -91,6 +92,7 @@ const Home = () => {
         renderItem={
           attractionsLoading ? renderBusinessSkeleton : renderBusinessCard
         }
+        viewAllUrl="/attractions"
       />
 
       {/* 국내 여행지 섹션 */}
@@ -124,6 +126,7 @@ const Home = () => {
         renderItem={
           accommodationLoading ? renderBusinessSkeleton : renderBusinessCard
         }
+        viewAllUrl="/accommodation"
       />
     </div>
   );

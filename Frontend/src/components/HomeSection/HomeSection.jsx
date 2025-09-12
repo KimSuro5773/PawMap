@@ -1,6 +1,11 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import {
+  IoIosArrowBack,
+  IoIosArrowForward,
+  IoIosArrowRoundForward,
+} from "react-icons/io";
+import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import styles from "./HomeSection.module.scss";
@@ -13,9 +18,12 @@ export default function HomeSection({
   slidesPerView = 4,
   className,
   customBreakpoints = null,
+  viewAllUrl = null,
 }) {
   // 네비게이션을 위한 고유 ID 생성
-  const navigationId = `swiper-navigation-${Math.random().toString(36).substr(2, 9)}`;
+  const navigationId = `swiper-navigation-${Math.random()
+    .toString(36)
+    .substr(2, 9)}`;
   const defaultBreakpoints = {
     // 모바일
     320: {
@@ -49,19 +57,27 @@ export default function HomeSection({
     <section className={`${styles.homeSection} ${className || ""}`}>
       <div className={styles.header}>
         <h2 className={styles.title}>{title}</h2>
-        <div className={styles.navigation}>
-          <button
-            className={`${styles.navigationBtn} ${styles.prevBtn} ${navigationId}-prev`}
-            type="button"
-          >
-            <IoIosArrowBack />
-          </button>
-          <button
-            className={`${styles.navigationBtn} ${styles.nextBtn} ${navigationId}-next`}
-            type="button"
-          >
-            <IoIosArrowForward />
-          </button>
+        <div className={styles.rightArea}>
+          <div className={styles.navigation}>
+            <button
+              className={`${styles.navigationBtn} ${styles.prevBtn} ${navigationId}-prev`}
+              type="button"
+            >
+              <IoIosArrowBack />
+            </button>
+            <button
+              className={`${styles.navigationBtn} ${styles.nextBtn} ${navigationId}-next`}
+              type="button"
+            >
+              <IoIosArrowForward />
+            </button>
+          </div>
+          {viewAllUrl && (
+            <Link to={viewAllUrl} className={styles.viewAllBtn}>
+              전체보기
+              <IoIosArrowRoundForward />
+            </Link>
+          )}
         </div>
       </div>
 

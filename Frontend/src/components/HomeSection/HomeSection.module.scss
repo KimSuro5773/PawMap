@@ -21,6 +21,17 @@
   }
 }
 
+.rightArea {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+
+  // 모바일
+  @media (max-width: $mobile) {
+    gap: $spacing-md;
+  }
+}
+
 .title {
   font-size: $font-xl;
   font-weight: $font-bold;
@@ -102,6 +113,42 @@
   @media (max-width: $mobile) {
     width: 28px;
     height: 28px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+.viewAllBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  color: $gray-600;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: $primary-color;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &:hover svg {
+    transform: translateX(2px);
+  }
+
+  // 모바일
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+    gap: 2px;
 
     svg {
       width: 14px;
