@@ -7,7 +7,7 @@
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  height: 720px;
+  height: 650px;
   margin-top: -$spacing-3xl;
 
   @media (max-width: $tablet) {
@@ -29,6 +29,7 @@
 .swiperSlide {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
 .slideImage {
@@ -54,4 +55,124 @@
 .swiperBulletActive {
   background: $white !important;
   transform: scale(1.2) !important;
+}
+
+// 그라디언트 오버레이
+.gradientOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 480px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+
+  @media (max-width: $tablet) {
+    width: 360px;
+  }
+
+  @media (max-width: $mobile) {
+    width: 240px;
+  }
+}
+
+// 슬라이드 텍스트 콘텐츠
+.slideContent {
+  position: absolute;
+  left: 80px;
+  bottom: 160px;
+  z-index: 3;
+  color: $white;
+
+  @media (max-width: $tablet) {
+    left: 60px;
+    bottom: 120px;
+  }
+
+  @media (max-width: $mobile) {
+    left: 25px;
+    bottom: 50px;
+  }
+}
+
+.slideTitle {
+  font-size: $font-4xl;
+  font-weight: $font-bold;
+  color: $white;
+  margin: 0 0 40px 0;
+  line-height: 1.2;
+
+  @media (max-width: $tablet) {
+    font-size: $font-3xl;
+    margin: 0 0 25px 0;
+  }
+
+  @media (max-width: $mobile) {
+    font-size: $font-2xl;
+    margin: 0 0 15px 0;
+  }
+}
+
+.slideSubtitle {
+  font-size: $font-lg;
+  font-weight: $font-normal;
+  color: $white;
+  margin: 0 0 30px 0;
+  line-height: 1.4;
+
+  @media (max-width: $tablet) {
+    font-size: $font-base;
+  }
+
+  @media (max-width: $tablet) {
+    margin: 0 0 20px 0;
+  }
+
+  @media (max-width: $mobile) {
+    font-size: $font-sm;
+    margin: 0 0 15px 0;
+  }
+}
+
+// 보러가기 버튼
+.slideButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: $white;
+  color: $black;
+  border: none;
+  border-radius: $radius-md;
+  font-size: $font-base;
+  font-weight: $font-medium;
+  cursor: pointer;
+  transition: $transition-fast;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $primary-color;
+    color: $white;
+  }
+
+  svg {
+    font-size: $font-sm;
+    transition: $transition-base;
+  }
+
+  @media (max-width: $tablet) {
+    padding: 6px 14px;
+    font-size: $font-sm;
+  }
+
+  @media (max-width: $mobile) {
+    padding: 6px 12px;
+    font-size: $font-xs;
+    gap: 6px;
+  }
 }
