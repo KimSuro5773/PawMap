@@ -1,0 +1,22 @@
+@use "@/styles/base/variables" as *;
+
+.mainSliderContainer {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  height: 720px;
+  background-color: gray;
+  margin-top: -$spacing-3xl;
+
+  @media (max-width: $tablet) {
+    margin-top: -$spacing-xl;
+  }
+
+  // 모바일 (480px 이하)
+  @media (max-width: $mobile) {
+    margin-top: -$spacing-lg;
+  }
+}

@@ -5,6 +5,7 @@ import HomeSection from "@/components/HomeSection/HomeSection";
 import BusinessCard from "@/components/BusinessCard/BusinessCard";
 import RegionCard from "@/components/RegionCard/RegionCard";
 import SkeletonCard from "@/components/SkeletonCard/SkeletonCard";
+import MainSlider from "@/components/MainSlider/MainSlider";
 import styles from "./Home.module.scss";
 
 const Home = () => {
@@ -76,59 +77,65 @@ const Home = () => {
   );
 
   return (
-    <div className={styles.home}>
-      {/* 음식점/카페 섹션 */}
-      <HomeSection
-        title="음식점 / 카페"
-        items={cafesLoading ? skeletonItems : cafes}
-        renderItem={cafesLoading ? renderBusinessSkeleton : renderBusinessCard}
-        viewAllUrl="/restaurants"
-      />
+    <>
+      {/* 메인 슬라이더 */}
+      <MainSlider />
+      <div className={styles.home}>
+        {/* 음식점/카페 섹션 */}
+        <HomeSection
+          title="음식점 / 카페"
+          items={cafesLoading ? skeletonItems : cafes}
+          renderItem={
+            cafesLoading ? renderBusinessSkeleton : renderBusinessCard
+          }
+          viewAllUrl="/restaurants"
+        />
 
-      {/* 관광지 섹션 */}
-      <HomeSection
-        title="관광지"
-        items={attractionsLoading ? skeletonItems : attractions}
-        renderItem={
-          attractionsLoading ? renderBusinessSkeleton : renderBusinessCard
-        }
-        viewAllUrl="/attractions"
-      />
+        {/* 관광지 섹션 */}
+        <HomeSection
+          title="관광지"
+          items={attractionsLoading ? skeletonItems : attractions}
+          renderItem={
+            attractionsLoading ? renderBusinessSkeleton : renderBusinessCard
+          }
+          viewAllUrl="/attractions"
+        />
 
-      {/* 국내 여행지 섹션 */}
-      <HomeSection
-        title="국내 여행지"
-        items={DOMESTIC_REGIONS}
-        renderItem={renderRegionCard}
-        customBreakpoints={{
-          // 모바일
-          320: {
-            slidesPerView: 3,
-            spaceBetween: 12,
-          },
-          // 태블릿
-          865: {
-            slidesPerView: 4,
-            spaceBetween: 16,
-          },
-          // 데스크톱
-          1024: {
-            slidesPerView: 6,
-            spaceBetween: 24,
-          },
-        }}
-      />
+        {/* 국내 여행지 섹션 */}
+        <HomeSection
+          title="국내 여행지"
+          items={DOMESTIC_REGIONS}
+          renderItem={renderRegionCard}
+          customBreakpoints={{
+            // 모바일
+            320: {
+              slidesPerView: 3,
+              spaceBetween: 12,
+            },
+            // 태블릿
+            865: {
+              slidesPerView: 4,
+              spaceBetween: 16,
+            },
+            // 데스크톱
+            1024: {
+              slidesPerView: 6,
+              spaceBetween: 24,
+            },
+          }}
+        />
 
-      {/* 숙소 섹션 */}
-      <HomeSection
-        title="숙소"
-        items={accommodationLoading ? skeletonItems : accommodation}
-        renderItem={
-          accommodationLoading ? renderBusinessSkeleton : renderBusinessCard
-        }
-        viewAllUrl="/accommodation"
-      />
-    </div>
+        {/* 숙소 섹션 */}
+        <HomeSection
+          title="숙소"
+          items={accommodationLoading ? skeletonItems : accommodation}
+          renderItem={
+            accommodationLoading ? renderBusinessSkeleton : renderBusinessCard
+          }
+          viewAllUrl="/accommodation"
+        />
+      </div>
+    </>
   );
 };
 

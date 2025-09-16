@@ -5,12 +5,10 @@
   min-height: 100vh;
   padding: $spacing-xl 0;
 
-  // Ü¿
   @media (max-width: $tablet) {
     padding: $spacing-lg 0;
   }
 
-  // ¨|
   @media (max-width: $mobile) {
     padding: $spacing-md 0;
   }
