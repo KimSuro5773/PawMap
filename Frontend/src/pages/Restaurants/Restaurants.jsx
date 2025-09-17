@@ -1,7 +1,15 @@
 import styles from "./Restaurants.module.scss";
+import SearchBar from "@/components/SearchBar/SearchBar";
 
 const Restaurants = () => {
-  return <div>애견 음식점/카페 페이지</div>;
+  return (
+    <div className={styles.restaurants}>
+      {/* 검색바 */}
+      <SearchBar size={"small"} />
+
+      {/* 버튼 */}
+    </div>
+  );
 };
 
 export { Restaurants as Component };
