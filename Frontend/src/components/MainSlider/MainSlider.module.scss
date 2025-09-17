@@ -39,24 +39,6 @@
   object-position: center;
 }
 
-// 페이지네이션 스타일
-.swiperBullet {
-  width: 12px !important;
-  height: 12px !important;
-  background: rgba(255, 255, 255, 0.5) !important;
-  opacity: 1 !important;
-  transition: all 0.3s ease !important;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.8) !important;
-  }
-}
-
-.swiperBulletActive {
-  background: $white !important;
-  transform: scale(1.2) !important;
-}
-
 // 그라디언트 오버레이
 .gradientOverlay {
   position: absolute;
@@ -175,4 +157,16 @@
     font-size: $font-xs;
     gap: 6px;
   }
+}
+
+// Pagination 스타일
+:global(.swiper-pagination-bullet) {
+  background-color: $white;
+  opacity: 0.5;
+  transition: $transition-fast;
+}
+
+:global(.swiper-pagination-bullet-active) {
+  background-color: $primary-color !important;
+  opacity: 1;
 }

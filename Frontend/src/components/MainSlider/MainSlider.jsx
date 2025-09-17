@@ -8,7 +8,7 @@ import styles from "./MainSlider.module.scss";
 
 export default function MainSlider() {
   const navigate = useNavigate();
-  
+
   const slides = [
     {
       id: 1,
@@ -47,8 +47,7 @@ export default function MainSlider() {
         spaceBetween={0}
         pagination={{
           clickable: true,
-          bulletClass: styles.swiperBullet,
-          bulletActiveClass: styles.swiperBulletActive,
+          dynamicBullets: true,
         }}
         autoplay={{
           delay: 5000,
@@ -85,7 +84,7 @@ export default function MainSlider() {
                 ))}
               </p>
               {slide.route && (
-                <button 
+                <button
                   className={styles.slideButton}
                   onClick={() => navigate(slide.route)}
                 >
