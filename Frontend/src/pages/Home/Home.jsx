@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAreaBasedList } from "@/api/hooks/useTour";
 import { CONTENT_TYPES } from "@/api/types/tour";
 import { DOMESTIC_REGIONS } from "@/data/regions";
@@ -6,9 +7,9 @@ import BusinessCard from "@/components/BusinessCard/BusinessCard";
 import RegionCard from "@/components/RegionCard/RegionCard";
 import SkeletonCard from "@/components/SkeletonCard/SkeletonCard";
 import MainSlider from "@/components/MainSlider/MainSlider";
+import CategorySlider from "@/components/CategorySlider/CategorySlider";
+import SearchBar from "@/components/SearchBar/SearchBar";
 import styles from "./Home.module.scss";
-import SearchBar from "../../components/SearchBar/SearchBar";
-import { useState } from "react";
 
 const Home = () => {
   // API 데이터 페칭
@@ -89,13 +90,16 @@ const Home = () => {
       {/* 메인 슬라이더 */}
       <MainSlider />
       <div className={styles.home}>
-        {/* 카테고리 바 */}
         {/* 검색바 */}
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
           onSearch={handleSearch}
+          size={"medium"}
         />
+
+        {/* 카테고리 섹션 */}
+        <CategorySlider />
 
         {/* 음식점/카페 섹션 */}
         <HomeSection
