@@ -6,9 +6,8 @@
   align-items: center;
   gap: $spacing-sm;
   width: 100%;
-  margin-bottom: 30px;
   max-width: 800px;
-  margin: 0 auto 30px auto;
+  margin: $spacing-xl auto;
   &.small {
     .inputWrapper {
       height: 36px;

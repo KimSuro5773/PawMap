@@ -4,13 +4,12 @@ import SearchBar from "@/components/SearchBar/SearchBar";
 
 const Search = () => {
   const params = useParams();
-  console.log(params);
 
   return (
     <div>
-      검색 페이지: {params.keyword}
       {/* 검색바 */}
       <SearchBar size={"small"} />
+      검색 페이지: {params.keyword}
     </div>
   );
 };

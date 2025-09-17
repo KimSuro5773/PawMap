@@ -8,15 +8,12 @@
   margin-left: -50vw;
   margin-right: -50vw;
   height: 650px;
-  margin-top: -$spacing-3xl;
 
   @media (max-width: $tablet) {
-    margin-top: -$spacing-xl;
     height: 550px;
   }
 
   @media (max-width: $mobile) {
-    margin-top: -$spacing-lg;
     height: 340px;
   }
 }
