@@ -79,25 +79,13 @@ const Home = () => {
     <SkeletonCard variant="region" key={item.id} />
   );
 
-  // 검색
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearch = (query) => {
-    console.log("검색");
-  };
-
   return (
     <>
       {/* 메인 슬라이더 */}
       <MainSlider />
       <div className={styles.home}>
         {/* 검색바 */}
-        <SearchBar
-          value={searchQuery}
-          onChange={setSearchQuery}
-          onSearch={handleSearch}
-          size={"medium"}
-        />
+        <SearchBar size={"medium"} />
 
         {/* 카테고리 섹션 */}
         <CategorySlider />

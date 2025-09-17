@@ -1,6 +1,7 @@
 @use "@/styles/base/variables" as *;
 
 .searchBar {
+  position: relative;
   display: flex;
   align-items: center;
   gap: $spacing-sm;
@@ -113,11 +114,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border: none;
   background: transparent;
-  color: $gray-500;
+  color: $error-color;
   border-radius: $radius-full;
   cursor: pointer;
   transition: $transition-fast;
@@ -125,8 +126,8 @@
   margin-left: $spacing-xs;
 
   &:hover {
-    background: $gray-200;
-    color: $gray-700;
+    background: rgba($error-color, 0.1);
+    color: $error-color;
   }
 
   &:active {
@@ -166,6 +167,81 @@
   }
 }
 
+// 검색 히스토리 드롭다운
+.historyDropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+
+.historyHeader {
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  color: $gray-600;
+  border-bottom: 1px solid $gray-200;
+  background: $gray-50;
+}
+
+.historyItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-sm $spacing-md;
+  cursor: pointer;
+  transition: $transition-fast;
+  border-bottom: 1px solid $gray-100;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $gray-50;
+  }
+}
+
+.historyKeyword {
+  flex: 1;
+  color: $gray-800;
+  font-size: $font-base;
+  text-align: left;
+}
+
+.historyRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: $error-color;
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: $transition-fast;
+  flex-shrink: 0;
+  margin-left: $spacing-sm;
+
+  &:hover {
+    background: rgba($error-color, 0.1);
+    color: $error-color;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
 // 모바일 반응형
 @media (max-width: $mobile) {
   .searchBar {
@@ -184,5 +260,10 @@
       width: 100%;
       justify-content: center;
     }
+  }
+
+  .historyDropdown {
+    left: 0;
+    right: 0;
   }
 }
