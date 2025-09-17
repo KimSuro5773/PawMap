@@ -80,10 +80,11 @@ const Home = () => {
   );
 
   // 검색
+  const [searchQuery, setSearchQuery] = useState("");
+
   const handleSearch = (query) => {
     console.log("검색");
   };
-  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <>

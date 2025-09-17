@@ -70,6 +70,10 @@ const router = createBrowserRouter([
         path: "map", // 통합 지도뷰
         lazy: () => import("@/pages/Map/Map"),
       },
+      {
+        path: "search/:keyword", // 검색 결과 페이지
+        lazy: () => import("@/pages/Search/Search"),
+      },
     ],
   },
 ]);

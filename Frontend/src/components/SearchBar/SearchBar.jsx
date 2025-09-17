@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
 import styles from "./SearchBar.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = ({
   placeholder = "검색어를 입력하세요",
@@ -12,6 +13,7 @@ const SearchBar = ({
   size = "medium", // small, medium, large
 }) => {
   const [isFocused, setIsFocused] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     onChange?.(e.target.value);
@@ -19,6 +21,8 @@ const SearchBar = ({
 
   const handleSearch = () => {
     onSearch?.(value);
+
+    navigate(`search/${value}`);
   };
 
   const handleClear = () => {
