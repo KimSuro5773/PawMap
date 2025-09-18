@@ -74,6 +74,10 @@ const router = createBrowserRouter([
         path: "search/:keyword", // 검색 결과 페이지
         lazy: () => import("@/pages/Search/Search"),
       },
+      {
+        path: "regions/:regionsId", // 검색 결과 페이지
+        lazy: () => import("@/pages/Regions/Regions"),
+      },
     ],
   },
 ]);

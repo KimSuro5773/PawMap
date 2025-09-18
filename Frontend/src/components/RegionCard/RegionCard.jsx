@@ -4,7 +4,7 @@ import styles from "./RegionCard.module.scss";
 export default function RegionCard({ name, areaCode, image, className }) {
   return (
     <Link
-      to={`/search?region=${areaCode}&name=${name}`}
+      to={`/regions/${areaCode}`}
       className={`${styles.regionCard} ${className || ""}`}
     >
       <div className={styles.imageContainer}>
