@@ -7,7 +7,9 @@ const Restaurants = () => {
       {/* 검색바 */}
       <SearchBar size={"small"} />
 
-      {/* 버튼 */}
+      {/* 필터 버튼 */}
+
+      {/* 데이터 정보들 */}
     </div>
   );
 };

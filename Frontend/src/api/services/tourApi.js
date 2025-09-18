@@ -51,7 +51,7 @@ export const getLocationBasedList = async (params) => {
 /**
  * 키워드 검색 조회
  * @param {Object} params - 요청 파라미터
- * @param {string} params.keyword - 검색 키워드 (필수) (국문=인코딩 필수)
+ * @param {string} params.keyword - 검색 키워드 (필수)
  * @param {string} [params.contentTypeId] - 컨텐츠 타입 ID
  * @param {string} [params.areaCode] - 지역코드
  * @param {string} [params.sigunguCode] - 시군구코드 (areaCode 필수)
@@ -125,13 +125,13 @@ export const getDetailCommon = async (contentId, params = {}) => {
   const response = await apiClient.get(
     `/api/tour${API_ENDPOINTS.DETAIL_COMMON}/${contentId}`,
     {
-      defaultYN: Y,
-      firstImageYN: Y,
-      areacodeYN: Y,
-      catcodeYN: Y,
-      addrinfoYN: Y,
-      mapinfoYN: Y,
-      overviewYN: Y,
+      defaultYN: "Y",
+      firstImageYN: "Y",
+      areacodeYN: "Y",
+      catcodeYN: "Y",
+      addrinfoYN: "Y",
+      mapinfoYN: "Y",
+      overviewYN: "Y",
       ...params,
     }
   );

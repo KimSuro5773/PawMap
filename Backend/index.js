@@ -450,7 +450,7 @@ app.get("/api/tour/detail/pet/:contentId", async (req, res) => {
       return res.status(400).json({ error: "contentId parameter is required" });
     }
 
-    const response = await axios.get(`${TOUR_API_BASE_URL}/detailWithTour`, {
+    const response = await axios.get(`${TOUR_API_BASE_URL}/detailPetTour`, {
       params: {
         ...TOUR_API_BASE_PARAMS,
         contentId,
