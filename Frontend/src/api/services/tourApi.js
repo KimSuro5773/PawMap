@@ -157,8 +157,8 @@ export const getDetailIntro = async (contentId, params) => {
 
 /**
  * 반복정보 조회 (객실정보 등)
- * @param {string} contentId - 컨텐츠 ID (필수)
  * @param {Object} params - 요청 파라미터
+ * @param {string} contentId - 컨텐츠 ID (필수)
  * @param {string} params.contentTypeId - 컨텐츠 타입 ID (필수)
  * @param {number} [params.numOfRows=10] - 한 페이지 결과 수
  * @param {number} [params.pageNo=1] - 페이지 번호

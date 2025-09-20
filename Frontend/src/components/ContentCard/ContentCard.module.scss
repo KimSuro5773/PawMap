@@ -1,0 +1,122 @@
+@use "@/styles/base/variables" as *;
+
+.contentCard {
+  display: block;
+  text-decoration: none;
+  background: $white;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  transition: $transition-base;
+  cursor: pointer;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.imageSection {
+  position: relative;
+  width: 100%;
+  height: 192px;
+  overflow: hidden;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: $transition-base;
+
+  .contentCard:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.noImage {
+  width: 100%;
+  height: 100%;
+  background: $gray-200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $gray-500;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+}
+
+.categoryTag {
+  position: absolute;
+  top: $spacing-sm;
+  left: $spacing-sm;
+  background: $primary-color;
+  color: $white;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  font-size: $font-xs;
+  font-weight: $font-medium;
+  box-shadow: $shadow-sm;
+  z-index: 1;
+}
+
+.infoSection {
+  padding: $spacing-md;
+}
+
+.title {
+  font-size: $font-base;
+  font-weight: $font-semibold;
+  color: $gray-900;
+  margin: 0 0 $spacing-sm 0;
+
+  // 텍스트 오버플로우 처리
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menuInfo {
+  margin-bottom: $spacing-sm;
+}
+
+.menuText {
+  font-size: $font-sm;
+  color: $gray-600;
+  font-weight: $font-normal;
+  display: block;
+
+  // 긴 메뉴명 처리
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.addressInfo {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-xs;
+}
+
+.locationIcon {
+  font-size: $font-sm;
+  line-height: 1.2;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.addressText {
+  font-size: $font-xs;
+  color: $gray-500;
+  font-weight: $font-normal;
+  line-height: 1.4;
+
+  // 긴 주소 처리
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}

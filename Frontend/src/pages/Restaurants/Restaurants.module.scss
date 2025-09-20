@@ -1,1 +1,124 @@
-// Restaurants 페이지 스타일
+@use "@/styles/base/variables" as *;
+
+.restaurants {
+  width: 100%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+
+  // 태블릿
+  @media (max-width: $tablet) {
+    padding: $spacing-lg;
+  }
+
+  // 모바일
+  @media (max-width: $mobile) {
+    padding: $spacing-md;
+  }
+}
+
+.resultInfo {
+  margin: $spacing-lg 0;
+  font-size: $font-base;
+  font-weight: $font-medium;
+  color: $gray-800;
+
+  // 태블릿
+  @media (max-width: $tablet) {
+    font-size: $font-sm;
+    margin: $spacing-md 0;
+  }
+
+  // 모바일
+  @media (max-width: $mobile) {
+    font-size: $font-sm;
+    margin: $spacing-sm 0;
+  }
+}
+
+.cardGrid {
+  display: grid;
+  gap: $spacing-xl;
+  margin-top: $spacing-xl;
+
+  // 데스크톱: 3열
+  grid-template-columns: repeat(3, 1fr);
+
+  // 태블릿: 2열
+  @media (max-width: $tablet) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-lg;
+    margin-top: $spacing-lg;
+  }
+
+  // 모바일: 1열
+  @media (max-width: $mobile) {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+    margin-top: $spacing-md;
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: $font-base;
+  font-weight: $font-medium;
+  color: $gray-600;
+  background: $gray-50;
+  border-radius: $radius-md;
+  margin-top: $spacing-xl;
+
+  // 모바일
+  @media (max-width: $mobile) {
+    height: 150px;
+    font-size: $font-sm;
+    margin-top: $spacing-lg;
+  }
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: $font-base;
+  font-weight: $font-medium;
+  color: $error-color;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: $radius-md;
+  margin-top: $spacing-xl;
+
+  // 모바일
+  @media (max-width: $mobile) {
+    height: 150px;
+    font-size: $font-sm;
+    margin-top: $spacing-lg;
+  }
+}
+
+.emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  color: $gray-600;
+  font-size: $font-base;
+  font-weight: $font-medium;
+  background: $gray-50;
+  border-radius: $radius-md;
+  margin-top: $spacing-xl;
+
+  p {
+    margin: 0;
+  }
+
+  // 모바일
+  @media (max-width: $mobile) {
+    height: 200px;
+    font-size: $font-sm;
+    margin-top: $spacing-lg;
+  }
+}
