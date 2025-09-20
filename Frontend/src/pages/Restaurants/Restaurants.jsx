@@ -2,9 +2,16 @@ import { useAreaBasedList } from "../../api/hooks/useTour";
 import styles from "./Restaurants.module.scss";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import ContentCard from "@/components/ContentCard/ContentCard";
-import { Link } from "react-router-dom";
+import Pagination from "@/components/Pagination/Pagination";
+import { useState } from "react";
 
 const Restaurants = () => {
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const onPageChange = (page) => {
+    setPageNumber(page);
+  };
+
   const {
     data: restaurantsData,
     isLoading,
@@ -13,6 +20,7 @@ const Restaurants = () => {
     contentTypeId: 39,
     numOfRows: 15,
     arrange: "O",
+    pageNo: pageNumber,
   });
 
   const restaurantsList = restaurantsData?.response?.body?.items?.item || [];
@@ -47,12 +55,11 @@ const Restaurants = () => {
       {/* 카드 그리드 */}
       <div className={styles.cardGrid}>
         {restaurantsList.map((restaurant) => (
-          <Link to={`/restaurants/${restaurant.contentid}`}>
-            <ContentCard
-              key={restaurant.contentid}
-              content={restaurant}
-            />
-          </Link>
+          <ContentCard
+            key={restaurant.contentid}
+            content={restaurant}
+            contentId={restaurant.contentid}
+          />
         ))}
       </div>
 
@@ -62,6 +69,12 @@ const Restaurants = () => {
           <p>검색 결과가 없습니다.</p>
         </div>
       )}
+
+      <Pagination
+        totalCount={restaurantsData?.response?.body?.totalCount}
+        currentPage={pageNumber}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 };

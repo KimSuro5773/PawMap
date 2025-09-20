@@ -1,0 +1,92 @@
+@use "@/styles/base/variables" as *;
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  margin: $spacing-xl 0;
+
+  // 모바일에서는 간격 줄이기
+  @media (max-width: $mobile) {
+    gap: $spacing-xs / 2;
+    margin: $spacing-lg 0;
+  }
+}
+
+.pageButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  border: 1px solid $gray-300;
+  background: $white;
+  color: $gray-700;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: $transition-base;
+  user-select: none;
+
+  // 호버 효과
+  &:hover:not(:disabled) {
+    background: $gray-50;
+    border-color: $gray-400;
+    color: $gray-900;
+  }
+
+  // 포커스 효과
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
+
+  // 비활성화 상태
+  &:disabled {
+    background: $gray-100;
+    color: $gray-400;
+    border-color: $gray-200;
+    cursor: not-allowed;
+  }
+
+  // 모바일에서 크기 조정
+  @media (max-width: $mobile) {
+    min-width: 36px;
+    height: 36px;
+    font-size: $font-xs;
+  }
+}
+
+.navButton {
+  // 네비게이션 버튼 (화살표)은 아이콘 크기 조정
+  svg {
+    font-size: $font-lg;
+
+    @media (max-width: $mobile) {
+      font-size: $font-base;
+    }
+  }
+}
+
+.numberButton {
+  // 숫자 버튼은 정사각형으로
+  width: 40px;
+
+  @media (max-width: $mobile) {
+    width: 36px;
+  }
+}
+
+.active {
+  background: $primary-color;
+  color: $white;
+  border-color: $primary-color;
+
+  &:hover:not(:disabled) {
+    background: darken($primary-color, 5%);
+    border-color: darken($primary-color, 5%);
+    color: $white;
+  }
+}

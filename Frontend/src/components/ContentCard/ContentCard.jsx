@@ -1,8 +1,9 @@
-import { useDetailIntro } from "../../api/hooks/useTour";
-import { getCategoryText } from "../../utils/categoryMapping";
+import { Link } from "react-router-dom";
+import { useDetailIntro } from "@/api/hooks/useTour";
+import { getCategoryText } from "@/utils/categoryMapping";
 import styles from "./ContentCard.module.scss";
 
-const ContentCard = ({ content }) => {
+const ContentCard = ({ content, contentId }) => {
   const { data: detailIntro, isLoading: isDetailLoading } = useDetailIntro(
     content.contentid,
     { contentTypeId: 39 },
@@ -14,7 +15,7 @@ const ContentCard = ({ content }) => {
   const categoryText = getCategoryText(content.cat3);
 
   return (
-    <div className={styles.contentCard}>
+    <Link to={`/restaurants/${contentId}`} className={styles.contentCard}>
       {/* 이미지 섹션 */}
       <div className={styles.imageSection}>
         {content.firstimage ? (
@@ -53,7 +54,7 @@ const ContentCard = ({ content }) => {
           <span className={styles.addressText}>{content.addr1}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
