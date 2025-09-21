@@ -1,9 +1,10 @@
-import { useAreaBasedList } from "../../api/hooks/useTour";
+import { useState } from "react";
+import { useAreaBasedList } from "@/api/hooks/useTour";
 import styles from "./Restaurants.module.scss";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import ContentCard from "@/components/ContentCard/ContentCard";
 import Pagination from "@/components/Pagination/Pagination";
-import { useState } from "react";
+import FilterButton from "@/components/FilterButton/FilterButton";
 
 const Restaurants = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -45,12 +46,11 @@ const Restaurants = () => {
 
   return (
     <div className={styles.restaurants}>
-      {/* 검색바 */}
-      <SearchBar size={"small"} />
-
-      {/* 필터 버튼 */}
-
-      {/* 결과 정보 */}
+      {/* 검색바, 필터버튼 */}
+      <div className={styles.controlsWrap}>
+        <FilterButton />
+        <SearchBar size={"small"} />
+      </div>
 
       {/* 카드 그리드 */}
       <div className={styles.cardGrid}>
@@ -59,6 +59,8 @@ const Restaurants = () => {
             key={restaurant.contentid}
             content={restaurant}
             contentId={restaurant.contentid}
+            url={"restaurants"}
+            contentTypeId={39}
           />
         ))}
       </div>

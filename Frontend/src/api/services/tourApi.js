@@ -11,6 +11,9 @@ import { API_ENDPOINTS, DEFAULT_PARAMS } from "../types/tour";
  * @param {string} [params.contentTypeId] - 컨텐츠 타입 ID (12:관광지, 32:숙박, 39:음식점)
  * @param {string} [params.areaCode] - 지역코드
  * @param {string} [params.sigunguCode] - 시군구코드(areaCode 필수)
+ * @param {string} [params.cat1] - 대분류 코드
+ * @param {string} [params.cat2] - 중분류 코드 (cat1 필수)
+ * @param {string} [params.cat3] - 소분류 코드 (cat1, cat2 필수)
  * @param {number} [params.numOfRows=10] - 한 페이지 결과 수
  * @param {number} [params.pageNo=1] - 페이지 번호
  * @param {string} [params.arrange="A"] - 기본 정렬 (A:제목순, C:수정일순, D:생성일순) 대표이미지가 반드시 있는 정렬(O:제목순, Q:수정일순, R:생성일순)

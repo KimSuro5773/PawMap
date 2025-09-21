@@ -148,55 +148,6 @@ export const API_ENDPOINTS = {
   PET_SYNC_LIST: "/pet-sync-list",
 };
 
-// TanStack Query 키 상수
-export const QUERY_KEYS = {
-  // 기본 검색
-  AREA_BASED: (params) => ["tour", "area-based", params],
-  LOCATION_BASED: (params) => ["tour", "location-based", params],
-  KEYWORD_SEARCH: (params) => ["tour", "keyword", params],
-
-  // 메타데이터
-  AREA_CODE: (areaCode) => ["tour", "area-code", areaCode],
-  CATEGORY_CODE: (params) => ["tour", "category-code", params],
-
-  // 상세정보
-  DETAIL_COMMON: (contentId, contentTypeId) => [
-    "tour",
-    "detail",
-    "common",
-    contentId,
-    contentTypeId,
-  ],
-  DETAIL_INTRO: (contentId, contentTypeId) => [
-    "tour",
-    "detail",
-    "intro",
-    contentId,
-    contentTypeId,
-  ],
-  DETAIL_INFO: (contentId, contentTypeId) => [
-    "tour",
-    "detail",
-    "info",
-    contentId,
-    contentTypeId,
-  ],
-  DETAIL_IMAGES: (contentId) => ["tour", "detail", "images", contentId],
-
-  // 반려동물 전용
-  DETAIL_PET: (contentId) => ["tour", "detail", "pet", contentId],
-  PET_SYNC_LIST: (params) => ["tour", "pet-sync-list", params],
-
-  // 조합 쿼리
-  COMPLETE_INFO: (contentId, contentTypeId) => [
-    "tour",
-    "complete",
-    contentId,
-    contentTypeId,
-  ],
-  AREA_WITH_PET: (params) => ["tour", "area-with-pet", params],
-};
-
 // 기본 요청 파라미터
 export const DEFAULT_PARAMS = {
   numOfRows: 10,
