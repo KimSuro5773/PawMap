@@ -24,16 +24,16 @@ export const CONTENT_TYPE_NAMES = {
 
 // 정렬 옵션 상수
 export const SORT_OPTIONS = {
-  TITLE: "A", // 제목순
-  MODIFY_DATE: "C", // 수정일순
-  CREATE_DATE: "D", // 생성일순
+  TITLE: "O", // 제목순
+  MODIFY_DATE: "Q", // 수정일순
+  CREATE_DATE: "R", // 생성일순
 };
 
 // 정렬 옵션 이름 매핑
 export const SORT_OPTION_NAMES = {
-  A: "제목순",
-  C: "수정일순",
-  D: "생성일순",
+  O: "제목순",
+  Q: "수정일순",
+  R: "생성일순",
 };
 
 // 지역 코드 상수 (주요 지역)

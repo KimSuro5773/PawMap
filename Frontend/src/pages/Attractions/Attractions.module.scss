@@ -19,12 +19,23 @@
 .controlsWrap {
   display: flex;
   gap: $spacing-md;
-  margin-bottom: $spacing-lg;
+  margin-bottom: $spacing-md;
 
   // 모바일
   @media (max-width: $mobile) {
     flex-direction: column;
     gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.filterWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacing-lg;
+
+  // 모바일
+  @media (max-width: $mobile) {
     margin-bottom: $spacing-md;
   }
 }

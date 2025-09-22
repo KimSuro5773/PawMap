@@ -1,0 +1,378 @@
+@use "@/styles/base/variables" as *;
+
+// =============================================================================
+// 🎯 필터 바 스타일
+// =============================================================================
+
+.filterBar {
+  padding: $spacing-md;
+  background: $white;
+  border-bottom: 1px solid $gray-200;
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+
+  @media (max-width: $tablet) {
+    padding: $spacing-sm $spacing-md;
+  }
+}
+
+// 필터 버튼 그룹
+.filterButtons {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+  flex-wrap: wrap;
+
+  @media (max-width: $mobile) {
+    gap: $spacing-xs;
+  }
+}
+
+// 기본 필터 버튼
+.filterButton {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $gray-300;
+  border-radius: $radius-full;
+  background: $white;
+  color: $gray-700;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  font-family: $font-primary;
+  cursor: pointer;
+  transition: $transition-fast;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+    box-shadow: $shadow-sm;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &:hover {
+      border-color: $gray-300;
+      color: $gray-700;
+      box-shadow: none;
+    }
+  }
+
+  &.active {
+    background: $primary-color;
+    border-color: $primary-color;
+    color: $white;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+      border-color: darken($primary-color, 10%);
+      color: $white;
+    }
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-xs;
+  }
+}
+
+// 필터 아이콘
+.filterIcon {
+  font-size: $font-base;
+
+  @media (max-width: $mobile) {
+    font-size: $font-sm;
+  }
+}
+
+// 활성화 표시점
+.activeIndicator {
+  width: 6px;
+  height: 6px;
+  border-radius: $radius-full;
+  background: $white;
+  margin-left: $spacing-xs;
+}
+
+// 정렬 드롭다운
+.sortDropdown {
+  position: relative;
+}
+
+.sortSelect {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $gray-300;
+  border-radius: $radius-full;
+  background: $white;
+  color: $gray-700;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  font-family: $font-primary;
+  cursor: pointer;
+  min-width: 100px;
+  transition: $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-xs;
+    min-width: 90px;
+  }
+}
+
+// 초기화 버튼
+.clearButton {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $error-color;
+  border-radius: $radius-full;
+  background: $white;
+  color: $error-color;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  font-family: $font-primary;
+  cursor: pointer;
+  transition: $transition-fast;
+
+  &:hover {
+    background: $error-color;
+    color: $white;
+    box-shadow: $shadow-sm;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-xs;
+  }
+}
+
+// =============================================================================
+// 🏠 지역 선택 모달
+// =============================================================================
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($black, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-modal-backdrop;
+  padding: $spacing-lg;
+}
+
+.regionModal {
+  background: $white;
+  border-radius: $radius-lg;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: $shadow-xl;
+
+  @media (max-width: $tablet) {
+    max-width: 95vw;
+    max-height: 90vh;
+    border-radius: $radius-md;
+  }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $gray-200;
+
+  h3 {
+    margin: 0;
+    font-size: $font-lg;
+    font-weight: $font-semibold;
+    font-family: $font-primary;
+    color: $gray-800;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-md;
+
+    h3 {
+      font-size: $font-base;
+    }
+  }
+}
+
+.closeButton {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: $gray-100;
+  border-radius: $radius-full;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: $font-lg;
+  color: $gray-600;
+  transition: $transition-fast;
+
+  &:hover {
+    background: $gray-200;
+    color: $gray-800;
+  }
+}
+
+.modalContent {
+  padding: $spacing-lg;
+  max-height: 60vh;
+  overflow-y: auto;
+
+  @media (max-width: $mobile) {
+    padding: $spacing-md;
+  }
+}
+
+// 지역 그리드 (시도 목록)
+.regionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: $spacing-md;
+
+  @media (max-width: $mobile) {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: $spacing-sm;
+  }
+}
+
+.regionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  border: 1px solid $gray-300;
+  border-radius: $radius-md;
+  background: $white;
+  cursor: pointer;
+  transition: $transition-fast;
+
+  &:hover {
+    border-color: $primary-color;
+    background: rgba($primary-color, 0.05);
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-sm $spacing-md;
+  }
+}
+
+.regionName {
+  font-weight: $font-medium;
+  font-family: $font-primary;
+  color: $gray-800;
+  font-size: $font-sm;
+}
+
+.regionArrow {
+  color: $primary-color;
+  font-weight: $font-bold;
+}
+
+// 시군구 컨테이너
+.sigunguContainer {
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $gray-200;
+
+    span {
+      font-weight: $font-semibold;
+      font-family: $font-primary;
+      color: $gray-800;
+    }
+  }
+
+  .backButton {
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid $gray-300;
+    border-radius: $radius-sm;
+    background: $white;
+    color: $gray-600;
+    font-size: $font-xs;
+    font-family: $font-primary;
+    cursor: pointer;
+    transition: $transition-fast;
+
+    &:hover {
+      border-color: $primary-color;
+      color: $primary-color;
+    }
+  }
+}
+
+// 시군구 그리드
+.sigunguGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: $spacing-sm;
+
+  @media (max-width: $mobile) {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: $spacing-xs;
+  }
+}
+
+.sigunguItem {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $gray-300;
+  border-radius: $radius-sm;
+  background: $white;
+  cursor: pointer;
+  transition: $transition-fast;
+  text-align: center;
+
+  &:hover {
+    border-color: $primary-color;
+    background: rgba($primary-color, 0.05);
+    color: $primary-color;
+  }
+
+  &:first-child {
+    border-color: $primary-color;
+    background: rgba($primary-color, 0.05);
+    color: $primary-color;
+    font-weight: $font-semibold;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xs $spacing-sm;
+  }
+}
+
+.sigunguName {
+  font-size: $font-xs;
+  font-weight: $font-medium;
+  font-family: $font-primary;
+
+  @media (max-width: $mobile) {
+    font-size: 11px;
+  }
+}

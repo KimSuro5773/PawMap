@@ -116,7 +116,7 @@ app.get("/api/tour/area-based", async (req, res) => {
       sigunguCode,
       numOfRows = 10,
       pageNo = 1,
-      arrange = "A", // A: 제목순, C: 수정일순, D: 생성일순
+      arrange = "O", // O: 제목순, Q: 수정일순, R: 생성일순
     } = req.query;
 
     const response = await axios.get(`${TOUR_API_BASE_URL}/areaBasedList`, {
