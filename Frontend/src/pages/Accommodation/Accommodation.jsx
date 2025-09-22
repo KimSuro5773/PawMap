@@ -1,7 +1,7 @@
-import styles from "./Accommodation.module.scss";
+import CategoryListPage from "@/components/CategoryListPage/CategoryListPage";
 
 const Accommodation = () => {
-  return <div>Accommodation 페이지</div>;
+  return <CategoryListPage pageName="accommodation" />;
 };
 
 export { Accommodation as Component };

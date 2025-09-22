@@ -51,50 +51,55 @@ const useFilterStore = create(
       // 🔧 지역 필터 액션
       // =============================================================================
 
-      setAreaFilter: (areaCode, sigunguCode = null) => set((state) => ({
-        selectedAreaCode: areaCode,
-        selectedSigunguCode: sigunguCode,
-        // 지역 필터 선택 시 위치 필터는 비활성화
-        locationFilter: {
-          ...state.locationFilter,
-          enabled: false,
-        },
-      })),
+      setAreaFilter: (areaCode, sigunguCode = null) =>
+        set((state) => ({
+          selectedAreaCode: areaCode,
+          selectedSigunguCode: sigunguCode,
+          // 지역 필터 선택 시 위치 필터는 비활성화
+          locationFilter: {
+            ...state.locationFilter,
+            enabled: false,
+          },
+        })),
 
-      clearAreaFilter: () => set({
-        selectedAreaCode: null,
-        selectedSigunguCode: null,
-      }),
+      clearAreaFilter: () =>
+        set({
+          selectedAreaCode: null,
+          selectedSigunguCode: null,
+        }),
 
       // =============================================================================
       // 📍 위치 필터 액션
       // =============================================================================
 
-      setLocationFilter: (coordinates, radius = 3000) => set((state) => ({
-        locationFilter: {
-          enabled: true,
-          coordinates,
-          radius,
-        },
-        // 위치 필터 선택 시 지역 필터는 비활성화
-        selectedAreaCode: null,
-        selectedSigunguCode: null,
-      })),
+      setLocationFilter: (coordinates, radius = 3000) =>
+        set((state) => ({
+          locationFilter: {
+            enabled: true,
+            coordinates,
+            radius,
+          },
+          // 위치 필터 선택 시 지역 필터는 비활성화
+          selectedAreaCode: null,
+          selectedSigunguCode: null,
+        })),
 
-      updateLocationRadius: (radius) => set((state) => ({
-        locationFilter: {
-          ...state.locationFilter,
-          radius,
-        },
-      })),
+      updateLocationRadius: (radius) =>
+        set((state) => ({
+          locationFilter: {
+            ...state.locationFilter,
+            radius,
+          },
+        })),
 
-      clearLocationFilter: () => set((state) => ({
-        locationFilter: {
-          ...state.locationFilter,
-          enabled: false,
-          coordinates: null,
-        },
-      })),
+      clearLocationFilter: () =>
+        set((state) => ({
+          locationFilter: {
+            ...state.locationFilter,
+            enabled: false,
+            coordinates: null,
+          },
+        })),
 
       // =============================================================================
       // 🔄 정렬 필터 액션
@@ -106,74 +111,81 @@ const useFilterStore = create(
       // 📄 페이지별 필터 액션
       // =============================================================================
 
-      setPageFilter: (pageName, filterData) => set((state) => ({
-        pageFilters: {
-          ...state.pageFilters,
-          [pageName]: {
-            ...state.pageFilters[pageName],
-            ...filterData,
-          },
-        },
-      })),
-
-      addActiveFilter: (pageName, filterKey) => set((state) => {
-        const currentFilters = state.pageFilters[pageName]?.activeFilters || [];
-        if (!currentFilters.includes(filterKey)) {
-          return {
-            pageFilters: {
-              ...state.pageFilters,
-              [pageName]: {
-                ...state.pageFilters[pageName],
-                activeFilters: [...currentFilters, filterKey],
-              },
+      setPageFilter: (pageName, filterData) =>
+        set((state) => ({
+          pageFilters: {
+            ...state.pageFilters,
+            [pageName]: {
+              ...state.pageFilters[pageName],
+              ...filterData,
             },
-          };
-        }
-        return state;
-      }),
-
-      removeActiveFilter: (pageName, filterKey) => set((state) => ({
-        pageFilters: {
-          ...state.pageFilters,
-          [pageName]: {
-            ...state.pageFilters[pageName],
-            activeFilters: (state.pageFilters[pageName]?.activeFilters || [])
-              .filter(filter => filter !== filterKey),
           },
-        },
-      })),
+        })),
+
+      addActiveFilter: (pageName, filterKey) =>
+        set((state) => {
+          const currentFilters =
+            state.pageFilters[pageName]?.activeFilters || [];
+          if (!currentFilters.includes(filterKey)) {
+            return {
+              pageFilters: {
+                ...state.pageFilters,
+                [pageName]: {
+                  ...state.pageFilters[pageName],
+                  activeFilters: [...currentFilters, filterKey],
+                },
+              },
+            };
+          }
+          return state;
+        }),
+
+      removeActiveFilter: (pageName, filterKey) =>
+        set((state) => ({
+          pageFilters: {
+            ...state.pageFilters,
+            [pageName]: {
+              ...state.pageFilters[pageName],
+              activeFilters: (
+                state.pageFilters[pageName]?.activeFilters || []
+              ).filter((filter) => filter !== filterKey),
+            },
+          },
+        })),
 
       // =============================================================================
       // 🧹 필터 초기화 액션
       // =============================================================================
 
-      clearAllFilters: () => set((state) => ({
-        selectedAreaCode: null,
-        selectedSigunguCode: null,
-        locationFilter: {
-          enabled: false,
-          coordinates: null,
-          radius: 3000,
-        },
-        sortOption: SORT_OPTIONS.TITLE,
-        pageFilters: Object.keys(state.pageFilters).reduce((acc, key) => {
-          acc[key] = {
-            ...state.pageFilters[key],
-            activeFilters: [],
-          };
-          return acc;
-        }, {}),
-      })),
-
-      clearPageFilters: (pageName) => set((state) => ({
-        pageFilters: {
-          ...state.pageFilters,
-          [pageName]: {
-            ...state.pageFilters[pageName],
-            activeFilters: [],
+      clearAllFilters: () =>
+        set((state) => ({
+          selectedAreaCode: null,
+          selectedSigunguCode: null,
+          locationFilter: {
+            enabled: false,
+            coordinates: null,
+            radius: 3000,
           },
-        },
-      })),
+          sortOption: SORT_OPTIONS.TITLE,
+          pageFilters: Object.keys(state.pageFilters).reduce((acc, key) => {
+            acc[key] = {
+              ...state.pageFilters[key],
+              activeFilters: [],
+            };
+            return acc;
+          }, {}),
+        })),
+
+      clearPageFilters: (pageName) =>
+        set((state) => ({
+          pageFilters: {
+            ...state.pageFilters,
+            [pageName]: {
+              ...state.pageFilters[pageName],
+              activeFilters: [],
+            },
+          },
+        })),
 
       // =============================================================================
       // 📊 필터 상태 조회 헬퍼
@@ -240,7 +252,10 @@ const useFilterStore = create(
       // 특정 필터가 활성화되어 있는지 확인
       isFilterActive: (pageName, filterKey) => {
         const state = get();
-        return state.pageFilters[pageName]?.activeFilters?.includes(filterKey) || false;
+        return (
+          state.pageFilters[pageName]?.activeFilters?.includes(filterKey) ||
+          false
+        );
       },
     }),
     {

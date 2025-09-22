@@ -1,7 +1,7 @@
-import styles from "./Activities.module.scss";
+import CategoryListPage from "@/components/CategoryListPage/CategoryListPage";
 
 const Activities = () => {
-  return <div>레포츠/체험 페이지</div>;
+  return <CategoryListPage pageName="activities" />;
 };
 
 export { Activities as Component };

@@ -43,14 +43,6 @@ const router = createBrowserRouter([
         lazy: () => import("@/pages/Activities/ActivitiesDetail"),
       },
       {
-        path: "shopping", // 쇼핑 목록 (ContentTypeId: 38)
-        lazy: () => import("@/pages/Shopping/Shopping"),
-      },
-      {
-        path: "shopping/:id", // 쇼핑 상세정보
-        lazy: () => import("@/pages/Shopping/ShoppingDetail"),
-      },
-      {
         path: "map", // 통합 지도뷰
         lazy: () => import("@/pages/Map/Map"),
       },
