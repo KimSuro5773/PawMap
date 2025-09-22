@@ -1,0 +1,15 @@
+@use "@/styles/base/variables" as *;
+
+.categoryTag {
+  position: absolute;
+  top: $spacing-sm;
+  left: $spacing-sm;
+  background: $primary-color;
+  color: $white;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  font-size: $font-xs;
+  font-weight: $font-medium;
+  box-shadow: $shadow-sm;
+  z-index: 1;
+}

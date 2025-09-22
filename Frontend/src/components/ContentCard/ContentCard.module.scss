@@ -47,19 +47,6 @@
   font-weight: $font-medium;
 }
 
-.categoryTag {
-  position: absolute;
-  top: $spacing-sm;
-  left: $spacing-sm;
-  background: $primary-color;
-  color: $white;
-  padding: $spacing-xs $spacing-sm;
-  border-radius: $radius-sm;
-  font-size: $font-xs;
-  font-weight: $font-medium;
-  box-shadow: $shadow-sm;
-  z-index: 1;
-}
 
 .infoSection {
   padding: $spacing-md;
@@ -72,22 +59,6 @@
   margin: 0 0 $spacing-sm 0;
 
   // 텍스트 오버플로우 처리
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.menuInfo {
-  margin-bottom: $spacing-sm;
-}
-
-.menuText {
-  font-size: $font-sm;
-  color: $gray-600;
-  font-weight: $font-normal;
-  display: block;
-
-  // 긴 메뉴명 처리
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
