@@ -43,22 +43,6 @@ const router = createBrowserRouter([
         lazy: () => import("@/pages/Activities/ActivitiesDetail"),
       },
       {
-        path: "culture", // 문화시설 목록 (ContentTypeId: 14)
-        lazy: () => import("@/pages/Culture/Culture"),
-      },
-      {
-        path: "culture/:id", // 문화시설 상세정보
-        lazy: () => import("@/pages/Culture/CultureDetail"),
-      },
-      {
-        path: "events", // 행사/공연/축제 목록 (ContentTypeId: 15)
-        lazy: () => import("@/pages/Events/Events"),
-      },
-      {
-        path: "events/:id", // 행사/공연/축제 상세정보
-        lazy: () => import("@/pages/Events/EventDetail"),
-      },
-      {
         path: "shopping", // 쇼핑 목록 (ContentTypeId: 38)
         lazy: () => import("@/pages/Shopping/Shopping"),
       },

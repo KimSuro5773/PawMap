@@ -16,8 +16,6 @@ export default function Header() {
     { path: "/accommodation", text: "숙소" },
     { path: "/attractions", text: "관광지" },
     { path: "/activities", text: "레포츠/체험" },
-    { path: "/culture", text: "문화시설" },
-    { path: "/events", text: "행사/축제" },
     { path: "/shopping", text: "쇼핑" },
     { path: "/map", text: "내주변" },
   ];
