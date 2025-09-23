@@ -243,3 +243,10 @@
   white-space: pre-line;
   line-height: 1.6;
 }
+
+// Primary 아이콘 스타일 (대표메뉴용)
+.primaryIcon {
+  .infoIcon {
+    color: $primary-color;
+  }
+}

@@ -72,14 +72,6 @@ export default function RestaurantInfo({ contentId, contentTypeId }) {
 
   return (
     <div className={styles.restaurantInfo}>
-      {/* 연락처 정보 */}
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>연락처 정보</h3>
-        <div className={styles.infoGrid}>
-          {renderInfoItem(<MdPhone />, "전화번호", restaurant.infocenterfood)}
-        </div>
-      </div>
-
       {/* 메뉴 정보 */}
       {(restaurant.firstmenu || restaurant.treatmenu) && (
         <div className={styles.section}>
@@ -88,7 +80,8 @@ export default function RestaurantInfo({ contentId, contentTypeId }) {
             {renderInfoItem(
               <MdRestaurantMenu />,
               "대표메뉴",
-              restaurant.firstmenu
+              restaurant.firstmenu,
+              styles.primaryIcon
             )}
             {restaurant.treatmenu && (
               <div className={styles.infoItem}>
@@ -134,6 +127,7 @@ export default function RestaurantInfo({ contentId, contentTypeId }) {
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>시설 정보</h3>
         <div className={styles.infoGrid}>
+          {renderInfoItem(<MdPhone />, "전화번호", restaurant.infocenterfood)}
           {renderInfoItem(<MdEventSeat />, "좌석수", restaurant.seat)}
           {restaurant.kidsfacility !== "0" &&
             renderInfoItem(
