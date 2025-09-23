@@ -78,6 +78,31 @@ export const AREA_CODE_NAMES = {
   39: "제주",
 };
 
+// 서비스 분류코드 상수(cat1)
+export const CATEGORY_CODES = {
+  "음식점/카페": "A05",
+  숙소: "B02",
+  레포츠: "A03",
+  자연: "A01", // 관광지 페이지에서 자연, 인문 둘 다 쓰임
+  "인문(문화/예술/역사)": "A02",
+};
+
+export const CATEGORY_CODES_NAMES = {
+  A05: "음식점/카페",
+  B02: "숙소",
+  A03: "레포츠",
+  A01: "자연", // 관광지 페이지에서 자연, 인문 둘 다 쓰임
+  A02: "인문(문화/예술/역사)",
+};
+
+// 페이지별 사용 가능한 cat1 코드 매핑
+export const PAGE_CATEGORY_MAPPING = {
+  restaurants: ["A05"], // 음식점/카페
+  accommodation: ["B02"], // 숙소
+  activities: ["A03"], // 레포츠
+  attractions: ["A01", "A02"], // 관광지 (자연, 인문)
+};
+
 // API 응답 결과 코드
 export const RESULT_CODES = {
   SUCCESS: "0000", // 정상 응답
@@ -150,6 +175,6 @@ export const API_ENDPOINTS = {
 
 // 기본 요청 파라미터
 export const DEFAULT_PARAMS = {
-  numOfRows: 10,
+  numOfRows: 15,
   pageNo: 1,
 };

@@ -27,6 +27,13 @@ const useFilterStore = create(
       // 정렬 필터
       sortOption: SORT_OPTIONS.TITLE, // 기본: 제목순 (O, Q, R)
 
+      // 카테고리 필터
+      categoryFilter: {
+        cat1: null, // 대분류 (필수)
+        cat2: null, // 중분류 (선택)
+        cat3: null, // 소분류 (선택)
+      },
+
       // 페이지별 필터 상태 (각 페이지별로 독립적으로 관리)
       pageFilters: {
         attractions: {
@@ -108,6 +115,28 @@ const useFilterStore = create(
       setSortOption: (sortOption) => set({ sortOption }),
 
       // =============================================================================
+      // 🏷️ 카테고리 필터 액션
+      // =============================================================================
+
+      setCategoryFilter: (cat1, cat2 = null, cat3 = null) =>
+        set({
+          categoryFilter: {
+            cat1,
+            cat2,
+            cat3,
+          },
+        }),
+
+      clearCategoryFilter: () =>
+        set({
+          categoryFilter: {
+            cat1: null,
+            cat2: null,
+            cat3: null,
+          },
+        }),
+
+      // =============================================================================
       // 📄 페이지별 필터 액션
       // =============================================================================
 
@@ -167,6 +196,11 @@ const useFilterStore = create(
             radius: 3000,
           },
           sortOption: SORT_OPTIONS.TITLE,
+          categoryFilter: {
+            cat1: null,
+            cat2: null,
+            cat3: null,
+          },
           pageFilters: Object.keys(state.pageFilters).reduce((acc, key) => {
             acc[key] = {
               ...state.pageFilters[key],
@@ -219,6 +253,17 @@ const useFilterStore = create(
         // 정렬
         params.arrange = state.sortOption;
 
+        // 카테고리 필터
+        if (state.categoryFilter.cat1) {
+          params.cat1 = state.categoryFilter.cat1;
+          if (state.categoryFilter.cat2) {
+            params.cat2 = state.categoryFilter.cat2;
+            if (state.categoryFilter.cat3) {
+              params.cat3 = state.categoryFilter.cat3;
+            }
+          }
+        }
+
         return params;
       },
 
@@ -235,6 +280,9 @@ const useFilterStore = create(
 
         // 정렬 필터 (기본값이 아닌 경우)
         if (state.sortOption !== SORT_OPTIONS.TITLE) count++;
+
+        // 카테고리 필터
+        if (state.categoryFilter.cat1) count++;
 
         // 페이지별 필터
         if (state.pageFilters[pageName]?.activeFilters?.length > 0) {
@@ -271,6 +319,7 @@ const useFilterStore = create(
           coordinates: null, // 좌표는 저장하지 않음
           enabled: false, // 위치 필터는 세션별로 초기화
         },
+        categoryFilter: state.categoryFilter,
       }),
     }
   )

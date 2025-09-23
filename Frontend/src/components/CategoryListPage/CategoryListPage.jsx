@@ -20,6 +20,7 @@ const CategoryListPage = ({ pageName, urlPath = pageName }) => {
     selectedSigunguCode,
     locationFilter,
     sortOption,
+    categoryFilter,
     getApiParams,
     pageFilters,
   } = useFilterStore();
@@ -40,6 +41,9 @@ const CategoryListPage = ({ pageName, urlPath = pageName }) => {
     selectedSigunguCode,
     locationFilter.enabled,
     sortOption,
+    categoryFilter.cat1,
+    categoryFilter.cat2,
+    categoryFilter.cat3,
   ]);
 
   // API 파라미터 구성

@@ -114,6 +114,9 @@ app.get("/api/tour/area-based", async (req, res) => {
       contentTypeId,
       areaCode,
       sigunguCode,
+      cat1,
+      cat2,
+      cat3,
       numOfRows = 10,
       pageNo = 1,
       arrange = "O", // O: 제목순, Q: 수정일순, R: 생성일순
@@ -129,6 +132,9 @@ app.get("/api/tour/area-based", async (req, res) => {
         contentTypeId,
         areaCode,
         sigunguCode,
+        cat1,
+        cat2,
+        cat3,
       },
     });
 
@@ -153,6 +159,9 @@ app.get("/api/tour/location-based", async (req, res) => {
       mapY, // 위도
       radius = 1000, // 반경(m)
       contentTypeId,
+      cat1,
+      cat2,
+      cat3,
       numOfRows = 10,
       pageNo = 1,
     } = req.query;
@@ -170,6 +179,9 @@ app.get("/api/tour/location-based", async (req, res) => {
         mapY,
         radius,
         contentTypeId,
+        cat1,
+        cat2,
+        cat3,
         numOfRows,
         pageNo,
         listYN: "Y",
@@ -197,6 +209,9 @@ app.get("/api/tour/keyword", async (req, res) => {
       contentTypeId,
       areaCode,
       sigunguCode,
+      cat1,
+      cat2,
+      cat3,
       numOfRows = 10,
       pageNo = 1,
     } = req.query;
@@ -212,6 +227,9 @@ app.get("/api/tour/keyword", async (req, res) => {
         contentTypeId,
         areaCode,
         sigunguCode,
+        cat1,
+        cat2,
+        cat3,
         numOfRows,
         pageNo,
       },
