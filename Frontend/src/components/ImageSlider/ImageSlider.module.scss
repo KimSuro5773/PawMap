@@ -1,0 +1,282 @@
+@use "@/styles/base/variables" as *;
+@use "sass:math";
+
+.imageSlider {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  background: $gray-100;
+
+  @media (max-width: $tablet) {
+    height: 300px;
+    border-radius: $radius-md;
+  }
+
+  @media (max-width: $mobile) {
+    height: 250px;
+    border-radius: $radius-sm;
+  }
+}
+
+// Swiper 컨테이너
+.swiper {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+
+  // Swiper 페이지네이션 커스터마이징
+  :global(.swiper-pagination) {
+    bottom: $spacing-md;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    text-align: center;
+  }
+
+  :global(.swiper-pagination-bullet) {
+    width: 8px;
+    height: 8px;
+    background: rgba($white, 0.5);
+    opacity: 1;
+    transition: $transition-base;
+    margin: 0 math.div($spacing-xs, 2);
+
+    &:hover {
+      background: rgba($white, 0.8);
+    }
+  }
+
+  :global(.swiper-pagination-bullet-active) {
+    background: $white;
+    transform: scale(1.2);
+  }
+
+  // Dynamic bullets 스타일
+  :global(.swiper-pagination-bullet-dynamic) {
+    transition: $transition-base;
+  }
+
+  :global(.swiper-pagination-bullet-dynamic-main) {
+    transform: scale(1.2);
+  }
+}
+
+.swiperSlide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 이미지 스타일
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform $transition-slow;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+// 네비게이션 버튼
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: $z-dropdown;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: $radius-full;
+  background: rgba($white, 0.9);
+  color: $gray-700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: $transition-base;
+  box-shadow: $shadow-md;
+
+  svg {
+    font-size: $font-lg;
+  }
+
+  &:hover:not(:disabled) {
+    background: $white;
+    color: $primary-color;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba($gray-400, 0.6);
+  }
+
+  @media (max-width: $tablet) {
+    width: 40px;
+    height: 40px;
+
+    svg {
+      font-size: $font-base;
+    }
+  }
+
+  @media (max-width: $mobile) {
+    width: 36px;
+    height: 36px;
+
+    svg {
+      font-size: $font-sm;
+    }
+  }
+}
+
+.prevButton {
+  left: $spacing-md;
+
+  svg {
+    margin-left: -2px; // 아이콘 정중앙 정렬
+  }
+
+  @media (max-width: $mobile) {
+    left: $spacing-sm;
+  }
+}
+
+.nextButton {
+  right: $spacing-md;
+
+  svg {
+    margin-left: 2px; // 아이콘 정중앙 정렬
+  }
+
+  @media (max-width: $mobile) {
+    right: $spacing-sm;
+  }
+}
+
+// 이미지 카운터
+.imageCounter {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  background: rgba($black, 0.6);
+  color: $white;
+  padding: math.div($spacing-xs, 2) $spacing-sm;
+  border-radius: $radius-md;
+  font-size: $font-xs;
+  font-weight: $font-medium;
+  backdrop-filter: blur(4px);
+
+  @media (max-width: $mobile) {
+    top: $spacing-sm;
+    right: $spacing-sm;
+    font-size: 10px;
+    padding: 2px $spacing-xs;
+  }
+}
+
+// 단일 이미지 모드
+.singleImage {
+  .image {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// 로딩 상태
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $gray-50;
+}
+
+.loadingSpinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  color: $gray-600;
+
+  p {
+    font-size: $font-sm;
+    font-weight: $font-medium;
+  }
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid $gray-200;
+  border-top: 3px solid $primary-color;
+  border-radius: $radius-full;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// 이미지 없음 상태
+.noImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $gray-50;
+}
+
+.noImageContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  color: $gray-500;
+
+  p {
+    font-size: $font-sm;
+    font-weight: $font-medium;
+  }
+}
+
+.noImageIcon {
+  font-size: 48px;
+  color: $gray-400;
+
+  @media (max-width: $mobile) {
+    font-size: 36px;
+  }
+}
+
+// 접근성을 위한 포커스 스타일
+.navButton:focus-visible {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+}
+
+// 이미지 로드 에러 처리
+.image[alt*="error"] {
+  background: $gray-200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    content: "이미지를 불러올 수 없습니다";
+    color: $gray-500;
+    font-size: $font-sm;
+  }
+}

@@ -420,12 +420,7 @@ app.get("/api/tour/detail/info/:contentId", async (req, res) => {
 app.get("/api/tour/detail/images/:contentId", async (req, res) => {
   try {
     const { contentId } = req.params;
-    const {
-      imageYN = "Y",
-      subImageYN = "Y",
-      numOfRows = 10,
-      pageNo = 1,
-    } = req.query;
+    const { imageYN = "Y", numOfRows = 10, pageNo = 1 } = req.query;
 
     if (!contentId) {
       return res.status(400).json({ error: "contentId parameter is required" });
@@ -436,7 +431,6 @@ app.get("/api/tour/detail/images/:contentId", async (req, res) => {
         ...TOUR_API_BASE_PARAMS,
         contentId,
         imageYN,
-        subImageYN,
         numOfRows,
         pageNo,
       },
