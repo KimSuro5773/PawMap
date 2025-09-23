@@ -189,28 +189,32 @@ const FilterBar = ({ pageName = "attractions" }) => {
           {getRegionFilterText()}
         </button>
 
-        {/* 내 위치 필터 */}
-        <button
-          className={`${styles.filterButton} ${
-            locationFilter.enabled ? styles.active : ""
-          }`}
-          onClick={handleLocationFilter}
-          disabled={locationLoading}
-        >
-          <MdMyLocation className={styles.filterIcon} />
-          {locationLoading ? "위치 찾는 중..." : getLocationFilterText()}
-        </button>
+        {/* 내 위치 필터 - search 페이지에서는 숨김 */}
+        {pageName !== "search" && (
+          <button
+            className={`${styles.filterButton} ${
+              locationFilter.enabled ? styles.active : ""
+            }`}
+            onClick={handleLocationFilter}
+            disabled={locationLoading}
+          >
+            <MdMyLocation className={styles.filterIcon} />
+            {locationLoading ? "위치 찾는 중..." : getLocationFilterText()}
+          </button>
+        )}
 
-        {/* 카테고리 필터 */}
-        <button
-          className={`${styles.filterButton} ${
-            categoryFilter.cat1 ? styles.active : ""
-          }`}
-          onClick={() => setShowCategoryModal(true)}
-        >
-          <MdCategory className={styles.filterIcon} />
-          {getCategoryFilterText()}
-        </button>
+        {/* 카테고리 필터 - search 페이지에서는 숨김 */}
+        {pageName !== "search" && (
+          <button
+            className={`${styles.filterButton} ${
+              categoryFilter.cat1 ? styles.active : ""
+            }`}
+            onClick={() => setShowCategoryModal(true)}
+          >
+            <MdCategory className={styles.filterIcon} />
+            {getCategoryFilterText()}
+          </button>
+        )}
 
         {/* 정렬 필터 */}
         <div className={styles.sortDropdown}>
@@ -335,8 +339,8 @@ const FilterBar = ({ pageName = "attractions" }) => {
         </div>
       )}
 
-      {/* 카테고리 선택 모달 */}
-      {showCategoryModal && (
+      {/* 카테고리 선택 모달 - search 페이지에서는 숨김 */}
+      {pageName !== "search" && showCategoryModal && (
         <div
           className={styles.modalOverlay}
           onClick={() => setShowCategoryModal(false)}

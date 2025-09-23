@@ -10,7 +10,7 @@
   border-bottom: 1px solid $gray-200;
   position: sticky;
   top: 0;
-  z-index: $z-sticky;
+  z-index: 900;
 
   @media (max-width: $tablet) {
     padding: $spacing-sm $spacing-md;

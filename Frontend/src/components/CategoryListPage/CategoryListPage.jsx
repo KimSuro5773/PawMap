@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAreaBasedList, useLocationBasedList } from "@/api/hooks/useTour";
+import { useAreaBasedList, useLocationBasedList, useSearchKeyword } from "@/api/hooks/useTour";
 import useFilterStore from "@/stores/filterStore";
 import styles from "./CategoryListPage.module.scss";
 import SearchBar from "@/components/SearchBar/SearchBar";
@@ -11,7 +11,7 @@ import FilterBar from "@/components/FilterBar/FilterBar";
 // 🏷️ 공통 카테고리 목록 페이지 컴포넌트
 // =============================================================================
 
-const CategoryListPage = ({ pageName, urlPath = pageName }) => {
+const CategoryListPage = ({ pageName, urlPath = pageName, keyword = null }) => {
   const [pageNumber, setPageNumber] = useState(1);
 
   // 필터 상태 가져오기
@@ -44,6 +44,7 @@ const CategoryListPage = ({ pageName, urlPath = pageName }) => {
     categoryFilter.cat1,
     categoryFilter.cat2,
     categoryFilter.cat3,
+    keyword, // keyword 변경시에도 페이지 리셋
   ]);
 
   // API 파라미터 구성
@@ -52,12 +53,23 @@ const CategoryListPage = ({ pageName, urlPath = pageName }) => {
     ...baseParams,
     numOfRows: 15,
     pageNo: pageNumber,
+    ...(keyword && { keyword }), // keyword가 있으면 추가
   };
 
-  // 위치 기반 검색과 지역 기반 검색 분기
+  // 검색 모드 분기: keyword 검색 > 위치 기반 검색 > 지역 기반 검색
+  const useKeywordAPI = Boolean(keyword);
   const useLocationAPI = Boolean(
-    locationFilter.enabled && locationFilter.coordinates
+    !useKeywordAPI && locationFilter.enabled && locationFilter.coordinates
   );
+
+  // 키워드 검색
+  const {
+    data: keywordData,
+    isLoading: keywordLoading,
+    error: keywordError,
+  } = useSearchKeyword(apiParams, {
+    enabled: useKeywordAPI,
+  });
 
   // 지역 기반 검색
   const {
@@ -65,7 +77,7 @@ const CategoryListPage = ({ pageName, urlPath = pageName }) => {
     isLoading: areaLoading,
     error: areaError,
   } = useAreaBasedList(apiParams, {
-    enabled: !useLocationAPI,
+    enabled: !useKeywordAPI && !useLocationAPI,
   });
 
   // 위치 기반 검색
@@ -74,13 +86,25 @@ const CategoryListPage = ({ pageName, urlPath = pageName }) => {
     isLoading: locationLoading,
     error: locationError,
   } = useLocationBasedList(apiParams, {
-    enabled: useLocationAPI,
+    enabled: !useKeywordAPI && useLocationAPI,
   });
 
   // 현재 사용 중인 데이터 선택
-  const data = useLocationAPI ? locationData : areaData;
-  const isLoading = useLocationAPI ? locationLoading : areaLoading;
-  const error = useLocationAPI ? locationError : areaError;
+  const data = useKeywordAPI
+    ? keywordData
+    : useLocationAPI
+    ? locationData
+    : areaData;
+  const isLoading = useKeywordAPI
+    ? keywordLoading
+    : useLocationAPI
+    ? locationLoading
+    : areaLoading;
+  const error = useKeywordAPI
+    ? keywordError
+    : useLocationAPI
+    ? locationError
+    : areaError;
 
   const itemsList = data?.response?.body?.items?.item || [];
 
