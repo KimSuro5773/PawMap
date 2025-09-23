@@ -52,6 +52,10 @@ const useFilterStore = create(
           contentTypeId: "28",
           activeFilters: [],
         },
+        regions: {
+          // contentTypeId 없음 - 모든 타입 조회
+          activeFilters: [],
+        },
       },
 
       // =============================================================================

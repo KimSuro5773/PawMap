@@ -11,7 +11,7 @@ import FilterBar from "@/components/FilterBar/FilterBar";
 // 🏷️ 공통 카테고리 목록 페이지 컴포넌트
 // =============================================================================
 
-const CategoryListPage = ({ pageName, urlPath = pageName, keyword = null }) => {
+const CategoryListPage = ({ pageName, urlPath = pageName, keyword = null, areaCode = null }) => {
   const [pageNumber, setPageNumber] = useState(1);
 
   // 필터 상태 가져오기
@@ -45,6 +45,7 @@ const CategoryListPage = ({ pageName, urlPath = pageName, keyword = null }) => {
     categoryFilter.cat2,
     categoryFilter.cat3,
     keyword, // keyword 변경시에도 페이지 리셋
+    areaCode, // areaCode 변경시에도 페이지 리셋
   ]);
 
   // API 파라미터 구성
@@ -54,6 +55,7 @@ const CategoryListPage = ({ pageName, urlPath = pageName, keyword = null }) => {
     numOfRows: 15,
     pageNo: pageNumber,
     ...(keyword && { keyword }), // keyword가 있으면 추가
+    ...(areaCode && { areaCode }), // areaCode가 있으면 우선 사용 (regions 모드)
   };
 
   // 검색 모드 분기: keyword 검색 > 위치 기반 검색 > 지역 기반 검색
