@@ -1,0 +1,375 @@
+@use "@/styles/base/variables" as *;
+@use "sass:math";
+
+.accommodationRooms {
+  padding: $spacing-xl;
+  background: $white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+  margin-bottom: $spacing-xl;
+
+  @media (max-width: $tablet) {
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    margin-bottom: $spacing-lg;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-md;
+    border-radius: $radius-sm;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.title {
+  font-size: $font-xl;
+  font-weight: $font-semibold;
+  color: $gray-900;
+  margin-bottom: $spacing-lg;
+
+  @media (max-width: $tablet) {
+    font-size: $font-lg;
+    margin-bottom: $spacing-md;
+  }
+
+  @media (max-width: $mobile) {
+    font-size: $font-base;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.roomsGrid {
+  display: grid;
+  gap: $spacing-lg;
+
+  @media (max-width: $mobile) {
+    gap: $spacing-md;
+  }
+}
+
+.roomCard {
+  display: flex;
+  gap: $spacing-lg;
+  padding: $spacing-lg;
+  background: $gray-50;
+  border-radius: $radius-lg;
+  transition: all 0.3s;
+
+  &:hover {
+    background: $gray-100;
+    transform: translateY(-2px);
+    box-shadow: $shadow-sm;
+  }
+
+  @media (max-width: $tablet) {
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    border-radius: $radius-md;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-sm;
+    gap: $spacing-sm;
+    border-radius: $radius-sm;
+  }
+}
+
+.roomImageContainer {
+  position: relative;
+  flex-shrink: 0;
+  width: 240px;
+  height: 180px;
+  border-radius: $radius-md;
+  overflow: hidden;
+
+  @media (max-width: $tablet) {
+    width: 100%;
+    height: 200px;
+  }
+
+  @media (max-width: $mobile) {
+    height: 160px;
+    border-radius: $radius-sm;
+  }
+}
+
+.roomImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageCount {
+  position: absolute;
+  bottom: $spacing-sm;
+  right: $spacing-sm;
+  padding: math.div($spacing-xs, 2) $spacing-sm;
+  background: rgba(0, 0, 0, 0.7);
+  color: $white;
+  border-radius: $radius-sm;
+  font-size: $font-xs;
+  font-weight: $font-medium;
+
+  @media (max-width: $mobile) {
+    font-size: 10px;
+    padding: 2px $spacing-xs;
+  }
+}
+
+.roomContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  @media (max-width: $mobile) {
+    gap: $spacing-sm;
+  }
+}
+
+.roomTitle {
+  font-size: $font-lg;
+  font-weight: $font-semibold;
+  color: $gray-900;
+
+  @media (max-width: $tablet) {
+    font-size: $font-base;
+  }
+
+  @media (max-width: $mobile) {
+    font-size: $font-sm;
+  }
+}
+
+.roomIntro {
+  font-size: $font-sm;
+  color: $gray-600;
+  line-height: 1.5;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+  }
+}
+
+.roomInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-sm;
+  color: $gray-700;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+  }
+}
+
+.infoIcon {
+  font-size: $font-lg;
+  color: $primary-color;
+
+  @media (max-width: $mobile) {
+    font-size: $font-base;
+  }
+}
+
+.priceSection {
+  padding: $spacing-md;
+  background: $white;
+  border-radius: $radius-md;
+  border: 1px solid $gray-200;
+
+  @media (max-width: $mobile) {
+    padding: $spacing-sm;
+    border-radius: $radius-sm;
+  }
+}
+
+.priceHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-sm;
+}
+
+.priceIcon {
+  font-size: $font-lg;
+  color: $primary-color;
+
+  @media (max-width: $mobile) {
+    font-size: $font-base;
+  }
+}
+
+.priceLabel {
+  font-size: $font-sm;
+  font-weight: $font-semibold;
+  color: $gray-700;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+  }
+}
+
+.priceGrid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  @media (max-width: $mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: math.div($spacing-xs, 2);
+  }
+}
+
+.seasonLabel {
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  color: $gray-600;
+  min-width: 50px;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+    min-width: auto;
+  }
+}
+
+.prices {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+
+  @media (max-width: $mobile) {
+    gap: $spacing-sm;
+  }
+}
+
+.price {
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  color: $gray-900;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+  }
+}
+
+.noPriceText {
+  font-size: $font-sm;
+  color: $gray-600;
+  font-style: italic;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+  }
+}
+
+.facilitiesSection {
+  padding-top: $spacing-md;
+  border-top: 1px solid $gray-200;
+}
+
+.facilitiesLabel {
+  display: block;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  color: $gray-700;
+  margin-bottom: $spacing-sm;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+  }
+}
+
+.facilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.facility {
+  display: flex;
+  align-items: center;
+  gap: math.div($spacing-xs, 2);
+  padding: math.div($spacing-xs, 2) $spacing-sm;
+  background: $white;
+  border: 1px solid $gray-200;
+  border-radius: $radius-sm;
+  font-size: $font-xs;
+  color: $gray-700;
+
+  svg {
+    font-size: $font-sm;
+    color: $primary-color;
+  }
+
+  @media (max-width: $mobile) {
+    font-size: 10px;
+    padding: 2px $spacing-xs;
+
+    svg {
+      font-size: $font-xs;
+    }
+  }
+}
+
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl;
+  text-align: center;
+  color: $gray-600;
+
+  p {
+    margin-top: $spacing-md;
+    font-size: $font-base;
+    font-weight: $font-medium;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xl;
+
+    p {
+      font-size: $font-sm;
+    }
+  }
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid $gray-200;
+  border-top: 3px solid $primary-color;
+  border-radius: $radius-full;
+  animation: spin 1s linear infinite;
+
+  @media (max-width: $mobile) {
+    width: 32px;
+    height: 32px;
+    border-width: 2px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

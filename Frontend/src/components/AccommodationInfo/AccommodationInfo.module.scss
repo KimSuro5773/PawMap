@@ -1,0 +1,336 @@
+@use "@/styles/base/variables" as *;
+@use "sass:math";
+
+.accommodationInfo {
+  padding: $spacing-xl;
+  background: $white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+  margin-bottom: $spacing-xl;
+
+  @media (max-width: $tablet) {
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    margin-bottom: $spacing-lg;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-md;
+    border-radius: $radius-sm;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.section {
+  margin-bottom: $spacing-xl;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: $mobile) {
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.sectionTitle {
+  font-size: $font-lg;
+  font-weight: $font-semibold;
+  color: $gray-900;
+  margin-bottom: $spacing-md;
+
+  @media (max-width: $tablet) {
+    font-size: $font-base;
+    margin-bottom: $spacing-sm;
+  }
+
+  @media (max-width: $mobile) {
+    font-size: $font-sm;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.typeBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.typeBadge {
+  display: inline-block;
+  padding: $spacing-xs $spacing-md;
+  background: $primary-color;
+  color: $white;
+  border-radius: $radius-full;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+    padding: math.div($spacing-xs, 2) $spacing-sm;
+  }
+}
+
+.infoGrid {
+  display: grid;
+  gap: $spacing-md;
+
+  @media (min-width: $tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $mobile) {
+    gap: $spacing-sm;
+  }
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding: $spacing-md 0;
+
+  @media (max-width: $mobile) {
+    padding: $spacing-sm 0;
+    gap: $spacing-sm;
+  }
+}
+
+.infoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: $black;
+  flex-shrink: 0;
+
+  svg {
+    font-size: $font-xl;
+  }
+
+  @media (max-width: $mobile) {
+    width: 20px;
+    height: 20px;
+
+    svg {
+      font-size: $font-lg;
+    }
+  }
+}
+
+.infoContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.infoLabel {
+  display: block;
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  color: $gray-600;
+  margin-bottom: math.div($spacing-xs, 2);
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+  }
+}
+
+.infoValue {
+  display: block;
+  font-size: $font-base;
+  font-weight: $font-medium;
+  color: $gray-900;
+  line-height: 1.4;
+  word-break: break-word;
+
+  @media (max-width: $mobile) {
+    font-size: $font-sm;
+  }
+}
+
+.facilitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: $spacing-md;
+
+  @media (max-width: $mobile) {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: $spacing-sm;
+  }
+}
+
+.facilityItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-md;
+  background: $gray-50;
+  border-radius: $radius-md;
+  transition: background 0.2s;
+
+  &:hover {
+    background: $gray-100;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-sm;
+    gap: math.div($spacing-xs, 2);
+  }
+}
+
+.facilityIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: $primary-color;
+
+  svg {
+    font-size: $font-2xl;
+  }
+
+  @media (max-width: $mobile) {
+    width: 24px;
+    height: 24px;
+
+    svg {
+      font-size: $font-xl;
+    }
+  }
+}
+
+.facilityLabel {
+  font-size: $font-sm;
+  font-weight: $font-medium;
+  color: $gray-700;
+  text-align: center;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+  }
+}
+
+.refundPolicy {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: $gray-50;
+  border-radius: $radius-md;
+  border-left: 4px solid $primary-color;
+
+  @media (max-width: $mobile) {
+    padding: $spacing-md;
+    gap: $spacing-sm;
+  }
+}
+
+.refundIcon {
+  flex-shrink: 0;
+  font-size: $font-2xl;
+  color: $primary-color;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xl;
+  }
+}
+
+.refundText {
+  flex: 1;
+  font-size: $font-sm;
+  color: $gray-700;
+  line-height: 1.6;
+
+  @media (max-width: $mobile) {
+    font-size: $font-xs;
+  }
+}
+
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl;
+  text-align: center;
+  color: $gray-600;
+
+  p {
+    margin-top: $spacing-md;
+    font-size: $font-base;
+    font-weight: $font-medium;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xl;
+
+    p {
+      font-size: $font-sm;
+    }
+  }
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid $gray-200;
+  border-top: 3px solid $primary-color;
+  border-radius: $radius-full;
+  animation: spin 1s linear infinite;
+
+  @media (max-width: $mobile) {
+    width: 32px;
+    height: 32px;
+    border-width: 2px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl;
+  text-align: center;
+  color: $gray-500;
+
+  p {
+    margin-top: $spacing-sm;
+    font-size: $font-base;
+    font-weight: $font-medium;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-xl;
+
+    p {
+      font-size: $font-sm;
+    }
+  }
+}
+
+.errorIcon {
+  font-size: 48px;
+  color: $gray-400;
+
+  @media (max-width: $mobile) {
+    font-size: 36px;
+  }
+}
+
+.primaryIcon {
+  .infoIcon {
+    color: $primary-color;
+  }
+}

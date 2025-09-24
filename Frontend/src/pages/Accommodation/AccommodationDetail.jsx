@@ -1,13 +1,23 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
+import ImageSlider from "@/components/ImageSlider/ImageSlider";
+import PetCompanionInfo from "@/components/PetCompanionInfo";
+import PlaceDetail from "@/components/PlaceDetail";
+import AccommodationInfo from "@/components/AccommodationInfo/AccommodationInfo";
+import AccommodationRooms from "@/components/AccommodationRooms/AccommodationRooms";
 
 const AccommodationDetail = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const contentTypeId = searchParams.get("contentTypeId");
 
   return (
-    <div>
-      <h1>숙소 상세정보</h1>
-      <p>숙소 ID: {id}</p>
-    </div>
+    <>
+      <ImageSlider contentId={id} />
+      <AccommodationInfo contentId={id} contentTypeId={contentTypeId} />
+      <AccommodationRooms contentId={id} contentTypeId={contentTypeId} />
+      <PetCompanionInfo contentId={id} />
+      <PlaceDetail contentId={id} />
+    </>
   );
 };
 
