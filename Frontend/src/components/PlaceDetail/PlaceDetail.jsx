@@ -1,13 +1,7 @@
-import {
-  MdLocationOn,
-  MdPhone,
-  MdHome,
-  MdMap,
-  MdInfo,
-  MdNavigation,
-} from "react-icons/md";
+import { MdLocationOn, MdPhone, MdHome, MdMap, MdInfo } from "react-icons/md";
 import { useDetailCommon } from "@/api/hooks/useTour";
 import { useStaticMap } from "@/api/hooks/useMap";
+import { formatOverviewText } from "@/utils/formatText";
 import styles from "./PlaceDetail.module.scss";
 
 const extractHomepageUrl = (homepage) => {
@@ -42,7 +36,7 @@ export default function PlaceDetail({ contentId }) {
     place.mapx && place.mapy
       ? {
           center: { lng: parseFloat(place.mapx), lat: parseFloat(place.mapy) },
-          level: 13,
+          level: 16,
           width: 800,
           height: 450,
           markers: [
@@ -86,22 +80,6 @@ export default function PlaceDetail({ contentId }) {
   const fullAddress = `${place.addr1 || ""}${
     place.addr2 ? " " + place.addr2 : ""
   }`.trim();
-
-  const openNaverMap = () => {
-    if (place.mapx && place.mapy) {
-      const url = `https://map.naver.com/v5/?c=${place.mapx},${place.mapy},15,0,0,0,dh`;
-      window.open(url, "_blank");
-    }
-  };
-
-  const openKakaoMap = () => {
-    if (place.mapx && place.mapy && place.title) {
-      const url = `https://map.kakao.com/link/map/${encodeURIComponent(
-        place.title
-      )},${place.mapy},${place.mapx}`;
-      window.open(url, "_blank");
-    }
-  };
 
   const renderInfoItem = (icon, label, value, className = "") => {
     if (!value || value === "0" || value === "") return null;
@@ -151,7 +129,9 @@ export default function PlaceDetail({ contentId }) {
             <MdInfo className={styles.sectionIcon} />
             소개
           </h3>
-          <p className={styles.overviewText}>{place.overview}</p>
+          <p className={styles.overviewText}>
+            {formatOverviewText(place.overview)}
+          </p>
         </div>
       )}
 
@@ -188,17 +168,6 @@ export default function PlaceDetail({ contentId }) {
               <span>{fullAddress}</span>
             </div>
           )}
-
-          <div className={styles.mapActions}>
-            <button onClick={openNaverMap} className={styles.mapButton}>
-              <MdNavigation />
-              <span>네이버 지도</span>
-            </button>
-            <button onClick={openKakaoMap} className={styles.mapButton}>
-              <MdNavigation />
-              <span>카카오맵</span>
-            </button>
-          </div>
         </div>
       )}
     </div>

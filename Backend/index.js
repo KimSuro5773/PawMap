@@ -98,7 +98,7 @@ app.get("/api/naver/static-map", async (req, res) => {
   try {
     const {
       center,
-      level = 13,
+      level = 16,
       w = 600,
       h = 400,
       markers,

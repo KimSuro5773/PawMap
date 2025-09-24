@@ -154,7 +154,7 @@
   transition: background-color 0.2s;
 
   &:hover {
-    background: darken($primary-color, 10%);
+    background: color-mix(in srgb, $primary-color 90%, black);
   }
 
   @media (max-width: $mobile) {
@@ -271,51 +271,6 @@
 
   @media (max-width: $mobile) {
     font-size: $font-lg;
-  }
-}
-
-.mapActions {
-  display: flex;
-  gap: $spacing-md;
-  justify-content: center;
-
-  @media (max-width: $mobile) {
-    gap: $spacing-sm;
-    flex-direction: column;
-  }
-}
-
-.mapButton {
-  display: flex;
-  align-items: center;
-  gap: $spacing-xs;
-  padding: $spacing-sm $spacing-lg;
-  background: $white;
-  border: 2px solid $primary-color;
-  color: $primary-color;
-  border-radius: $radius-md;
-  font-size: $font-base;
-  font-weight: $font-semibold;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  svg {
-    font-size: $font-lg;
-  }
-
-  &:hover {
-    background: $primary-color;
-    color: $white;
-  }
-
-  @media (max-width: $mobile) {
-    padding: $spacing-sm $spacing-md;
-    font-size: $font-sm;
-    justify-content: center;
-
-    svg {
-      font-size: $font-base;
-    }
   }
 }
 
