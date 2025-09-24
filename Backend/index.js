@@ -112,7 +112,7 @@ app.get("/api/naver/static-map", async (req, res) => {
     }
 
     const response = await axios.get(
-      "https://naveropenapi.apigw.ntruss.com/map-static/v2/raster",
+      "https://maps.apigw.ntruss.com/map-static/v2/raster",
       {
         params: {
           center,

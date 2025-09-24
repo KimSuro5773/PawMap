@@ -6,15 +6,19 @@ const buildMarkersParam = (markers) => {
   const groupedMarkers = {};
 
   markers.forEach((marker) => {
-    const key = `${marker.type || 'd'}:${marker.color || 'red'}`;
+    const type = marker.type || 'd';
+    const color = marker.color || 'red';
+    const size = marker.size || 'mid';
+    const key = `type:${type}|size:${size}|color:${color}`;
+
     if (!groupedMarkers[key]) {
       groupedMarkers[key] = [];
     }
-    groupedMarkers[key].push(`${marker.lng},${marker.lat}`);
+    groupedMarkers[key].push(`${marker.lng} ${marker.lat}`);
   });
 
   return Object.entries(groupedMarkers)
-    .map(([typeColor, coords]) => `${typeColor}|${coords.join('|')}`)
+    .map(([prefix, coords]) => `${prefix}|pos:${coords.join(',')}`)
     .join('&markers=');
 };
 
