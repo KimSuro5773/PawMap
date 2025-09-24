@@ -15,11 +15,17 @@ export const CONTENT_TYPES = {
 // Content Type 이름 매핑
 export const CONTENT_TYPE_NAMES = {
   12: "관광지",
-  14: "문화시설",
-  15: "축제/공연/행사",
-  28: "레포츠",
+  28: "레포츠/체험",
   32: "숙박",
-  39: "음식점",
+  39: "음식점/카페",
+};
+
+// contentTypeId url 매핑
+export const CONTENT_TYPE_URL = {
+  12: "attractions",
+  28: "activities",
+  32: "accommodation",
+  39: "restaurants",
 };
 
 // 정렬 옵션 상수

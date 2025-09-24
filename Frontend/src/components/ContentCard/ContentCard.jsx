@@ -15,7 +15,10 @@ const ContentCard = ({ content, contentId, url, contentTypeId }) => {
   const introData = Array.isArray(items?.item) ? items?.item[0] : items?.item;
 
   return (
-    <Link to={`/${url}/${contentId}?contentTypeId=${contentTypeId}`} className={styles.contentCard}>
+    <Link
+      to={`/${url}/${contentId}?contentTypeId=${contentTypeId}`}
+      className={styles.contentCard}
+    >
       {/* 이미지 섹션 */}
       <div className={styles.imageSection}>
         {content.firstimage ? (

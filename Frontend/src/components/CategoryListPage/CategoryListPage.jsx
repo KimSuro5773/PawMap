@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { useAreaBasedList, useLocationBasedList, useSearchKeyword } from "@/api/hooks/useTour";
+import {
+  useAreaBasedList,
+  useLocationBasedList,
+  useSearchKeyword,
+} from "@/api/hooks/useTour";
+import { CONTENT_TYPE_URL } from "@/api/types/tour";
 import useFilterStore from "@/stores/filterStore";
 import styles from "./CategoryListPage.module.scss";
 import SearchBar from "@/components/SearchBar/SearchBar";
@@ -11,7 +16,12 @@ import FilterBar from "@/components/FilterBar/FilterBar";
 // 🏷️ 공통 카테고리 목록 페이지 컴포넌트
 // =============================================================================
 
-const CategoryListPage = ({ pageName, urlPath = pageName, keyword = null, areaCode = null }) => {
+const CategoryListPage = ({
+  pageName,
+  urlPath = pageName,
+  keyword = null,
+  areaCode = null,
+}) => {
   const [pageNumber, setPageNumber] = useState(1);
 
   // 필터 상태 가져오기
@@ -154,15 +164,22 @@ const CategoryListPage = ({ pageName, urlPath = pageName, keyword = null, areaCo
 
       {/* 카드 그리드 */}
       <div className={styles.cardGrid}>
-        {itemsList.map((item) => (
-          <ContentCard
-            key={item.contentid}
-            content={item}
-            contentId={item.contentid}
-            url={urlPath}
-            contentTypeId={contentTypeId}
-          />
-        ))}
+        {itemsList.map((item) => {
+          const dynamicUrl =
+            pageName === "regions" || pageName === "search"
+              ? CONTENT_TYPE_URL[item.contenttypeid] || urlPath
+              : urlPath;
+
+          return (
+            <ContentCard
+              key={item.contentid}
+              content={item}
+              contentId={item.contentid}
+              url={dynamicUrl}
+              contentTypeId={contentTypeId ? contentTypeId : item.contenttypeid}
+            />
+          );
+        })}
       </div>
 
       {/* 빈 상태 */}
