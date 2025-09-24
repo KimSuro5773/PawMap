@@ -14,11 +14,11 @@ export default function BusinessCard({
   const getDetailPath = () => {
     switch (contentTypeId) {
       case "39":
-        return `/restaurants/${id}`;
+        return `/restaurants/${id}?contentTypeId=${contentTypeId}`;
       case "12":
-        return `/activities/${id}`;
+        return `/activities/${id}?contentTypeId=${contentTypeId}`;
       case "32":
-        return `/accommodation/${id}`;
+        return `/accommodation/${id}?contentTypeId=${contentTypeId}`;
       default:
         return `/`;
     }

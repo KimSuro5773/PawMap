@@ -51,16 +51,18 @@ const Home = () => {
   }));
 
   // 카드 렌더링 함수
-  const renderBusinessCard = (item) => (
-    <BusinessCard
-      id={item.contentid}
-      title={item.title}
-      image={item.firstimage || item.firstimage2}
-      address={item.addr1}
-      contentTypeId={item.contenttypeid}
-      key={item.contentid}
-    />
-  );
+  const renderBusinessCard = (item) => {
+    return (
+      <BusinessCard
+        id={item.contentid}
+        title={item.title}
+        image={item.firstimage || item.firstimage2}
+        address={item.addr1}
+        contentTypeId={item.contenttypeid}
+        key={item.contentid}
+      />
+    );
+  };
 
   const renderRegionCard = (region) => (
     <RegionCard
