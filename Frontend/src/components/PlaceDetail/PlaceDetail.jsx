@@ -97,6 +97,9 @@ export default function PlaceDetail({ contentId }) {
 
   return (
     <div className={styles.placeDetail}>
+      {place.title && (
+        <h2 className={styles.placeTitle}>{place.title}</h2>
+      )}
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>기본 정보</h3>
         <div className={styles.infoGrid}>

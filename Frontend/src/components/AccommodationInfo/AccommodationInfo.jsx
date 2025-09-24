@@ -2,7 +2,6 @@ import {
   MdPhone,
   MdAccessTime,
   MdLocalParking,
-  MdEventSeat,
   MdInfo,
   MdPeople,
   MdHouse,
@@ -136,11 +135,7 @@ export default function AccommodationInfo({ contentId, contentTypeId }) {
             accommodation.roomcount,
             styles.primaryIcon
           )}
-          {renderInfoItem(
-            <MdHouse />,
-            "객실 유형",
-            accommodation.roomtype
-          )}
+          {renderInfoItem(<MdHouse />, "객실 유형", accommodation.roomtype)}
           {renderInfoItem(
             <MdAccessTime />,
             "입실 시간",
