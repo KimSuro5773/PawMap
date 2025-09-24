@@ -6,9 +6,9 @@ const buildMarkersParam = (markers) => {
   const groupedMarkers = {};
 
   markers.forEach((marker) => {
-    const type = marker.type || 'd';
-    const color = marker.color || 'red';
-    const size = marker.size || 'mid';
+    const type = marker.type || "d";
+    const color = marker.color || "red";
+    const size = marker.size || "mid";
     const key = `type:${type}|size:${size}|color:${color}`;
 
     if (!groupedMarkers[key]) {
@@ -18,8 +18,8 @@ const buildMarkersParam = (markers) => {
   });
 
   return Object.entries(groupedMarkers)
-    .map(([prefix, coords]) => `${prefix}|pos:${coords.join(',')}`)
-    .join('&markers=');
+    .map(([prefix, coords]) => `${prefix}|pos:${coords.join(",")}`)
+    .join("&markers=");
 };
 
 export const getStaticMapUrl = (params) => {
@@ -29,11 +29,11 @@ export const getStaticMapUrl = (params) => {
     width = 600,
     height = 400,
     markers,
-    format = 'png'
+    format = "png",
   } = params;
 
   if (!center || !center.lng || !center.lat) {
-    throw new Error('center with lng and lat is required');
+    throw new Error("center with lng and lat is required");
   }
 
   const queryParams = new URLSearchParams({
@@ -41,13 +41,15 @@ export const getStaticMapUrl = (params) => {
     level,
     w: width,
     h: height,
-    format
+    format,
   });
 
   const markersParam = buildMarkersParam(markers);
   if (markersParam) {
-    queryParams.append('markers', markersParam);
+    queryParams.append("markers", markersParam);
   }
 
-  return `${apiClient.defaults.baseURL}/api/naver/static-map?${queryParams.toString()}`;
+  return `${
+    apiClient.defaults.baseURL
+  }/api/naver/static-map?${queryParams.toString()}`;
 };

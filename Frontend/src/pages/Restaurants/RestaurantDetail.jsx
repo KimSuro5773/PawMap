@@ -10,12 +10,12 @@ const RestaurantDetail = () => {
   const contentTypeId = searchParams.get("contentTypeId");
 
   return (
-    <div>
+    <>
       <ImageSlider contentId={id} />
       <RestaurantInfo contentId={id} contentTypeId={contentTypeId} />
       <PetCompanionInfo contentId={id} />
       <PlaceDetail contentId={id} />
-    </div>
+    </>
   );
 };
 
