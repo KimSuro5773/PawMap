@@ -93,6 +93,58 @@ app.get("/api/naver/reverse-geocoding", async (req, res) => {
   }
 });
 
+// 네이버 Static Map API 프록시
+app.get("/api/naver/static-map", async (req, res) => {
+  try {
+    const {
+      center,
+      level = 13,
+      w = 600,
+      h = 400,
+      markers,
+      format = "png",
+    } = req.query;
+
+    if (!center) {
+      return res.status(400).json({
+        error: "center parameter is required (format: lng,lat)",
+      });
+    }
+
+    const response = await axios.get(
+      "https://naveropenapi.apigw.ntruss.com/map-static/v2/raster",
+      {
+        params: {
+          center,
+          level,
+          w,
+          h,
+          markers,
+          format,
+        },
+        headers: {
+          "X-NCP-APIGW-API-KEY-ID": process.env.NCP_CLIENT_ID,
+          "X-NCP-APIGW-API-KEY": process.env.NCP_CLIENT_SECRET,
+        },
+        responseType: "arraybuffer",
+      }
+    );
+
+    const contentType = format === "jpg" ? "image/jpeg" : "image/png";
+    res.set("Content-Type", contentType);
+    res.send(response.data);
+  } catch (error) {
+    console.error(
+      "Naver Static Map API Error:",
+      error.response?.data || error.message
+    );
+    res.status(error.response?.status || 500).json({
+      error: "Failed to fetch static map from Naver API",
+      details: error.response?.data || error.message,
+    });
+  }
+});
+
 // 한국관광공사 TourAPI 공통 파라미터
 const TOUR_API_BASE_PARAMS = {
   serviceKey: process.env.TOUR_API_KEY,

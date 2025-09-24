@@ -1,28 +1,49 @@
-// 지도 관련 API 함수들
-import apiClient from "../axios/interceptors";
+import apiClient from "../axios";
 
-// 지오코딩 (주소 → 좌표)
-export const getCoordinates = async (address) => {
-  try {
-    const response = await apiClient.get("/api/naver/geocoding", {
-      params: { query: address },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("좌표 변환 오류:", error);
-    throw error;
-  }
+const buildMarkersParam = (markers) => {
+  if (!markers || markers.length === 0) return null;
+
+  const groupedMarkers = {};
+
+  markers.forEach((marker) => {
+    const key = `${marker.type || 'd'}:${marker.color || 'red'}`;
+    if (!groupedMarkers[key]) {
+      groupedMarkers[key] = [];
+    }
+    groupedMarkers[key].push(`${marker.lng},${marker.lat}`);
+  });
+
+  return Object.entries(groupedMarkers)
+    .map(([typeColor, coords]) => `${typeColor}|${coords.join('|')}`)
+    .join('&markers=');
 };
 
-// 역지오코딩 (좌표 → 주소)
-export const getAddress = async (lng, lat) => {
-  try {
-    const response = await apiClient.get("/api/naver/reverse-geocoding", {
-      params: { coords: `${lng},${lat}` },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("주소 변환 오류:", error);
-    throw error;
+export const getStaticMapUrl = (params) => {
+  const {
+    center,
+    level = 13,
+    width = 600,
+    height = 400,
+    markers,
+    format = 'png'
+  } = params;
+
+  if (!center || !center.lng || !center.lat) {
+    throw new Error('center with lng and lat is required');
   }
+
+  const queryParams = new URLSearchParams({
+    center: `${center.lng},${center.lat}`,
+    level,
+    w: width,
+    h: height,
+    format
+  });
+
+  const markersParam = buildMarkersParam(markers);
+  if (markersParam) {
+    queryParams.append('markers', markersParam);
+  }
+
+  return `${apiClient.defaults.baseURL}/api/naver/static-map?${queryParams.toString()}`;
 };
