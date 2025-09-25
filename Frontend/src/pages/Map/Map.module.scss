@@ -1,1 +1,79 @@
 @use "@/styles/base/variables" as *;
+
+.mapPageContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mapWrapper {
+  flex: 1;
+  position: relative;
+
+  // Header 높이만큼 빼서 지도가 화면을 꽉 채우도록 함
+  height: calc(100vh - 60px); // Header 높이에 맞게 조정 필요
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: $spacing-xl;
+
+  p {
+    margin: $spacing-sm 0;
+    color: $gray-600;
+
+    &:first-child {
+      font-weight: $font-medium;
+      color: $gray-700;
+      font-size: $font-lg;
+    }
+  }
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: $spacing-xl;
+
+  > div {
+    background: rgba($error-color, 0.1);
+    color: $error-color;
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    border: 1px solid rgba($error-color, 0.3);
+    margin: $spacing-sm 0;
+    box-shadow: $shadow-sm;
+
+    p {
+      margin: $spacing-sm 0;
+      color: darken($error-color, 10%);
+    }
+
+    button {
+      margin-top: $spacing-md;
+      padding: $spacing-sm $spacing-md;
+      background: $error-color;
+      color: $white;
+      border: none;
+      border-radius: $radius-sm;
+      cursor: pointer;
+      font-size: $font-sm;
+      font-weight: $font-medium;
+      transition: $transition-fast;
+
+      &:hover {
+        background: darken($error-color, 10%);
+      }
+    }
+  }
+}
