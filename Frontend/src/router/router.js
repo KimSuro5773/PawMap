@@ -43,10 +43,6 @@ const router = createBrowserRouter([
         lazy: () => import("@/pages/Activities/ActivitiesDetail"),
       },
       {
-        path: "map", // 통합 지도뷰
-        lazy: () => import("@/pages/Map/Map"),
-      },
-      {
         path: "search/:keyword", // 검색 결과 페이지
         lazy: () => import("@/pages/Search/Search"),
       },
@@ -55,6 +51,10 @@ const router = createBrowserRouter([
         lazy: () => import("@/pages/Regions/Regions"),
       },
     ],
+  },
+  {
+    path: "map", // 통합 지도뷰 (Layout 영향 받지 않음)
+    lazy: () => import("@/pages/Map/Map"),
   },
 ]);
 
