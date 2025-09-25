@@ -1,0 +1,8 @@
+@use "@/styles/base/variables" as *;
+
+.map {
+  width: 100%;
+  height: 500px; // 또는 원하는 높이
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
