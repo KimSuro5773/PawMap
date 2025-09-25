@@ -41,5 +41,41 @@ export default function NaverMap({
     });
   }, [center.lat, center.lng, zoom]);
 
+  // 업체 마커 렌더링
+  useEffect(() => {
+    if (!mapInstanceRef.current) return;
+
+    // 기존 업체 마커들 제거
+    markersRef.current.forEach((marker) => {
+      marker.setMap(null);
+    });
+    markersRef.current = [];
+
+    // 새로운 업체 마커들 생성
+    markers.forEach((markerData) => {
+      if (markerData.lat && markerData.lng) {
+        const marker = new naver.maps.Marker({
+          map: mapInstanceRef.current,
+          position: new naver.maps.LatLng(markerData.lat, markerData.lng),
+          title: markerData.title || "업체",
+          icon: {
+            content:
+              '<div style="background: #ff6b6b; width: 20px; height: 20px; border: 2px solid white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3)">🐶</div>',
+            anchor: new naver.maps.Point(12, 12),
+          },
+        });
+
+        // 마커 클릭 이벤트
+        if (onMarkerClick) {
+          naver.maps.Event.addListener(marker, "click", () => {
+            onMarkerClick(markerData);
+          });
+        }
+
+        markersRef.current.push(marker);
+      }
+    });
+  }, [markers, onMarkerClick]);
+
   return <div ref={mapRef} className={styles.map} style={{ height }}></div>;
 }

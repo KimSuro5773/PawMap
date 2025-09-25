@@ -67,7 +67,7 @@ const Map = () => {
       <div className={styles.mapWrapper}>
         <NaverMap
           center={mapCenter}
-          zoom={14}
+          zoom={12}
           markers={businesses}
           onMarkerClick={handleMarkerClick}
           height="100%"
