@@ -103,7 +103,7 @@
 
     p {
       margin: $spacing-sm 0;
-      color: darken($error-color, 10%);
+      color: #c73e1d; // darken($error-color, 10%)의 결과값
     }
 
     button {
@@ -119,7 +119,7 @@
       transition: $transition-fast;
 
       &:hover {
-        background: darken($error-color, 10%);
+        background: #c73e1d; // darken($error-color, 10%)의 결과값
       }
     }
   }
