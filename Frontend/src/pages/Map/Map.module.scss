@@ -15,6 +15,53 @@
   height: calc(100vh - 60px); // Header 높이에 맞게 조정 필요
 }
 
+.researchButtonContainer {
+  position: absolute;
+  top: 80px; // Header 아래
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: none; // 컨테이너는 클릭 방지
+}
+
+.researchButton {
+  background: $white;
+  color: $primary-color;
+  border: 2px solid $primary-color;
+  border-radius: $radius-full;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-base;
+  font-weight: $font-medium;
+  cursor: pointer;
+  box-shadow: $shadow-lg;
+  transition: $transition-fast;
+  pointer-events: auto; // 버튼만 클릭 가능
+  white-space: nowrap;
+
+  &:hover {
+    background: $primary-color;
+    color: $white;
+    transform: translateY(-1px);
+    box-shadow: $shadow-xl;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+
+    &:hover {
+      background: $white;
+      color: $primary-color;
+      transform: none;
+      box-shadow: $shadow-lg;
+    }
+  }
+}
+
 .loading {
   display: flex;
   flex-direction: column;

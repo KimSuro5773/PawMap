@@ -7,12 +7,15 @@ export default function NaverMap({
   zoom = 15,
   markers = [],
   onMarkerClick = null,
+  onCenterChanged = null,
   height = "500px",
 }) {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const markersRef = useRef([]);
+  const userMarkerRef = useRef(null);
 
+  // 지도 초기화 (한 번만 실행)
   useEffect(() => {
     if (!window.naver || !window.naver.maps) {
       console.error("네이버 지도 API가 로드되지 않았습니다.");
@@ -29,6 +32,17 @@ export default function NaverMap({
     const map = new naver.maps.Map(mapRef.current, mapOptions);
     mapInstanceRef.current = map;
 
+    // 지도 드래그 종료 이벤트 리스너 추가
+    if (onCenterChanged) {
+      naver.maps.Event.addListener(map, 'dragend', () => {
+        const newCenter = map.getCenter();
+        onCenterChanged({
+          lat: newCenter.lat(),
+          lng: newCenter.lng()
+        });
+      });
+    }
+
     // 사용자 위치 마커 (다른 마커와 구분되도록)
     const userMarker = new naver.maps.Marker({
       map,
@@ -40,7 +54,21 @@ export default function NaverMap({
       },
       title: "내 위치",
     });
-  }, [center.lat, center.lng, zoom]);
+    userMarkerRef.current = userMarker;
+  }, []); // 빈 의존성 배열로 한 번만 실행
+
+  // center 변경 시 지도 중심점 및 사용자 마커 업데이트
+  useEffect(() => {
+    if (mapInstanceRef.current && userMarkerRef.current) {
+      const location = new naver.maps.LatLng(center.lat, center.lng);
+
+      // 지도 중심점 업데이트 (줄 레벨 유지)
+      mapInstanceRef.current.setCenter(location);
+
+      // 사용자 위치 마커 업데이트
+      userMarkerRef.current.setPosition(location);
+    }
+  }, [center.lat, center.lng]);
 
   // 업체 마커 렌더링
   useEffect(() => {
