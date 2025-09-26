@@ -18,18 +18,19 @@ const Map = () => {
   } = useCurrentLocation();
 
   // 검색 중심점 기반 관광정보 조회 (20km 반경)
-  const { data: locationTourData, isLoading: tourDataLoading } = useLocationBasedList(
-    {
-      mapX: searchCenter?.lng,
-      mapY: searchCenter?.lat,
-      radius: 20000, // 20km
-      numOfRows: 30, // 최대 100개
-      arrange: "S", // 이미지 있는 거리순
-    },
-    {
-      enabled: !!(searchCenter?.lng && searchCenter?.lat),
-    }
-  );
+  const { data: locationTourData, isLoading: tourDataLoading } =
+    useLocationBasedList(
+      {
+        mapX: searchCenter?.lng,
+        mapY: searchCenter?.lat,
+        radius: 20000, // 20km
+        numOfRows: 30, // 최대 100개
+        arrange: "S", // 이미지 있는 거리순
+      },
+      {
+        enabled: !!(searchCenter?.lng && searchCenter?.lat),
+      }
+    );
 
   // 페이지 로드 시 위치 요청
   useEffect(() => {
@@ -55,10 +56,14 @@ const Map = () => {
 
   // 지도 중심점 변경 시 호출되는 콜백
   const handleCenterChanged = (newCenter) => {
-    console.log('지도 중심점 변경:', newCenter);
+    console.log("지도 중심점 변경:", newCenter);
     setMapCenter(newCenter);
     // 검색 중심점과 다르면 재검색 버튼 표시
-    if (searchCenter && (Math.abs(newCenter.lat - searchCenter.lat) > 0.001 || Math.abs(newCenter.lng - searchCenter.lng) > 0.001)) {
+    if (
+      searchCenter &&
+      (Math.abs(newCenter.lat - searchCenter.lat) > 0.001 ||
+        Math.abs(newCenter.lng - searchCenter.lng) > 0.001)
+    ) {
       setShowResearchButton(true);
     }
   };
@@ -101,7 +106,7 @@ const Map = () => {
             onClick={handleResearch}
             disabled={tourDataLoading}
           >
-            {tourDataLoading ? '검색 중...' : '현재 위치에서 재검색'}
+            {tourDataLoading ? "검색 중..." : "현재 위치에서 재검색"}
           </button>
         </div>
       )}

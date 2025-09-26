@@ -14,6 +14,7 @@ export default function NaverMap({
   const mapInstanceRef = useRef(null);
   const markersRef = useRef([]);
   const userMarkerRef = useRef(null);
+  const dragendListenerRef = useRef(null);
 
   // 지도 초기화 (한 번만 실행)
   useEffect(() => {
@@ -32,17 +33,6 @@ export default function NaverMap({
     const map = new naver.maps.Map(mapRef.current, mapOptions);
     mapInstanceRef.current = map;
 
-    // 지도 드래그 종료 이벤트 리스너 추가
-    if (onCenterChanged) {
-      naver.maps.Event.addListener(map, 'dragend', () => {
-        const newCenter = map.getCenter();
-        onCenterChanged({
-          lat: newCenter.lat(),
-          lng: newCenter.lng()
-        });
-      });
-    }
-
     // 사용자 위치 마커 (다른 마커와 구분되도록)
     const userMarker = new naver.maps.Marker({
       map,
@@ -56,6 +46,34 @@ export default function NaverMap({
     });
     userMarkerRef.current = userMarker;
   }, []); // 빈 의존성 배열로 한 번만 실행
+
+  // 이벤트 리스너 등록/해제 (onCenterChanged 변경 시마다 실행)
+  useEffect(() => {
+    if (!mapInstanceRef.current || !onCenterChanged) return;
+
+    // 기존 이벤트 리스너 제거
+    if (dragendListenerRef.current) {
+      naver.maps.Event.removeListener(dragendListenerRef.current);
+    }
+
+    // 새로운 이벤트 리스너 등록
+    const listener = naver.maps.Event.addListener(mapInstanceRef.current, "dragend", () => {
+      const newCenter = mapInstanceRef.current.getCenter();
+      onCenterChanged({
+        lat: newCenter.lat(),
+        lng: newCenter.lng(),
+      });
+    });
+    dragendListenerRef.current = listener;
+
+    // cleanup 함수
+    return () => {
+      if (dragendListenerRef.current) {
+        naver.maps.Event.removeListener(dragendListenerRef.current);
+        dragendListenerRef.current = null;
+      }
+    };
+  }, [onCenterChanged]); // onCenterChanged가 변경될 때마다 실행
 
   // center 변경 시 지도 중심점 및 사용자 마커 업데이트
   useEffect(() => {
