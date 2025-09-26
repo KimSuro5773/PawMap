@@ -1,0 +1,297 @@
+@use "@/styles/base/variables" as *;
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+
+  @media (max-width: $tablet) {
+    background: rgba(0, 0, 0, 0.5);
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+.detailPanel {
+  background: $white;
+  width: 400px;
+  height: 100%;
+  box-shadow: $shadow-xl;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: all $transition-base;
+  border-radius: 0 $radius-lg $radius-lg 0;
+
+  min-width: 390px;
+
+  @media (max-width: $tablet) {
+    min-width: 100%;
+  }
+
+  &.open {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  // TourPanel이 열려있을 때
+  &.tourPanelOpen {
+    margin-left: 320px;
+
+    @media (max-width: $tablet) {
+      margin-left: 280px;
+    }
+  }
+
+  // TourPanel이 닫혀있을 때
+  &.tourPanelClosed {
+    margin-left: 40px; // 토글 버튼 너비만큼만
+
+    @media (max-width: $tablet) {
+      margin-left: 40px;
+    }
+  }
+
+  @media (max-width: $tablet) {
+    width: 100%;
+    max-width: 100%;
+    height: 85vh;
+    margin-left: 0;
+    border-radius: $radius-xl $radius-xl 0 0;
+    transform: translateY(100%);
+
+    &.open {
+      transform: translateY(0);
+    }
+
+    &.tourPanelOpen,
+    &.tourPanelClosed {
+      margin-left: 0; // 태블릿에서는 margin 초기화
+    }
+  }
+
+  @media (max-width: $mobile) {
+    height: 90vh;
+    border-radius: $radius-lg $radius-lg 0 0;
+  }
+}
+
+.panelHeader {
+  padding: $spacing-lg;
+  border-bottom: 1px solid $gray-200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: $gray-50;
+  border-radius: 0 $radius-lg 0 0;
+
+  @media (max-width: $tablet) {
+    padding: $spacing-md $spacing-lg;
+    border-radius: $radius-xl $radius-xl 0 0;
+  }
+
+  @media (max-width: $mobile) {
+    padding: $spacing-md;
+    border-radius: $radius-lg $radius-lg 0 0;
+  }
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  flex: 1;
+}
+
+.businessIcon {
+  font-size: $font-2xl;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: $white;
+  border-radius: $radius-full;
+  box-shadow: $shadow-sm;
+
+  @media (max-width: $mobile) {
+    width: 40px;
+    height: 40px;
+    font-size: $font-xl;
+  }
+}
+
+.headerText {
+  flex: 1;
+  min-width: 0;
+}
+
+.businessTitle {
+  font-size: $font-xl;
+  font-weight: $font-semibold;
+  color: $gray-800;
+  margin: 0 0 2px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (max-width: $mobile) {
+    font-size: $font-lg;
+  }
+}
+
+.businessType {
+  font-size: $font-sm;
+  color: $gray-600;
+  font-weight: $font-medium;
+}
+
+.closeButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: $white;
+  color: $gray-600;
+  border-radius: $radius-full;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-xl;
+  transition: $transition-fast;
+  box-shadow: $shadow-sm;
+
+  &:hover {
+    background: $gray-100;
+    color: $gray-800;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @media (max-width: $mobile) {
+    width: 36px;
+    height: 36px;
+    font-size: $font-lg;
+  }
+}
+
+.panelContent {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.contentScroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+
+  // 스크롤바 스타일링
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $gray-100;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $gray-400;
+    border-radius: $radius-full;
+
+    &:hover {
+      background: $gray-500;
+    }
+  }
+
+  // Firefox 스크롤바
+  scrollbar-width: thin;
+  scrollbar-color: $gray-400 $gray-100;
+
+  // 부드러운 스크롤
+  scroll-behavior: smooth;
+}
+
+// 로딩 상태들
+.imagePlaceholder,
+.infoPlaceholder,
+.petInfoPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl;
+  text-align: center;
+  color: $gray-600;
+  min-height: 200px;
+
+  p {
+    margin: $spacing-md 0 0;
+    font-size: $font-base;
+  }
+}
+
+.imagePlaceholder {
+  min-height: 250px;
+  background: $gray-50;
+}
+
+.infoPlaceholder {
+  min-height: 300px;
+}
+
+.petInfoPlaceholder {
+  min-height: 150px;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid $gray-200;
+  border-top: 3px solid $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// 애니메이션 효과
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

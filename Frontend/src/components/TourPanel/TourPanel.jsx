@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaArrowCircleLeft, FaArrowCircleRight, FaArrowCircleUp, FaArrowCircleDown } from "react-icons/fa";
 import TourCard from "./TourCard";
+import BusinessDetailPanel from "@/components/BusinessDetailPanel/BusinessDetailPanel";
 import styles from "./TourPanel.module.scss";
 
 export default function TourPanel({
@@ -9,11 +10,30 @@ export default function TourPanel({
   onCardClick = null
 }) {
   const [isOpen, setIsOpen] = useState(true);
+  const [selectedBusiness, setSelectedBusiness] = useState(null);
+  const [isDetailPanelOpen, setIsDetailPanelOpen] = useState(false);
 
   const totalCount = businesses.length;
 
   const togglePanel = () => {
     setIsOpen(!isOpen);
+  };
+
+  // 카드 클릭 시 상세 패널 열기
+  const handleCardClick = (business) => {
+    setSelectedBusiness(business);
+    setIsDetailPanelOpen(true);
+
+    // 기존 onCardClick 콜백도 호출 (지도 이동 등)
+    if (onCardClick) {
+      onCardClick(business);
+    }
+  };
+
+  // 상세 패널 닫기
+  const handleDetailPanelClose = () => {
+    setIsDetailPanelOpen(false);
+    setSelectedBusiness(null);
   };
 
   return (
@@ -67,13 +87,21 @@ export default function TourPanel({
                 <TourCard
                   key={`${business.contentid}-${index}`}
                   business={business}
-                  onClick={onCardClick}
+                  onClick={handleCardClick}
                 />
               ))}
             </div>
           )}
         </div>
       )}
+
+      {/* 상세 정보 패널 */}
+      <BusinessDetailPanel
+        business={selectedBusiness}
+        isOpen={isDetailPanelOpen}
+        onClose={handleDetailPanelClose}
+        tourPanelOpen={isOpen}
+      />
     </div>
   );
 }
