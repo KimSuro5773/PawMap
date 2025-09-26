@@ -14,14 +14,7 @@ export const MARKER_TYPE_STYLE = {
   28: { color: "#4CB4E0", icon: MdSportsSoccer, subTitle: "레포츠" },
   32: { color: "#BD92DB", icon: IoMdBed, subTitle: "숙박" },
   39: { color: "#E58A7C", icon: FaCoffee, subTitle: "음식점/카페" },
-
-  // 추가 카테고리 (확장 가능)
   38: { color: "#FFB347", icon: FaShoppingCart, subTitle: "쇼핑" },
-
-  // 기타 가능한 업종 분류
-  25: { color: "#DDA0DD", icon: FaLandmark, subTitle: "여행코스" },
-  76: { color: "#98FB98", icon: MdSportsSoccer, subTitle: "스포츠시설" },
-  80: { color: "#F0E68C", icon: GiDramaMasks, subTitle: "체험관광" },
 };
 
 // CustomMarker 로직을 HTML 문자열로 변환하는 함수

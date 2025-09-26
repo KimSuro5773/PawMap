@@ -7,15 +7,15 @@
  */
 export const getInfoComponentType = (contentTypeId) => {
   const typeMap = {
-    12: 'AttractionInfo',    // 관광지
-    14: 'AttractionInfo',    // 문화시설 (관광지와 유사)
-    15: 'AttractionInfo',    // 축제/행사 (관광지와 유사)
-    28: 'ActivityInfo',      // 레포츠
-    32: 'AccommodationInfo', // 숙박
-    39: 'RestaurantInfo',    // 음식점/카페
+    12: "AttractionInfo", // 관광지
+    14: "AttractionInfo", // 문화시설 (관광지와 유사)
+    15: "AttractionInfo", // 축제/행사 (관광지와 유사)
+    28: "ActivityInfo", // 레포츠
+    32: "AccommodationInfo", // 숙박
+    39: "RestaurantInfo", // 음식점/카페
   };
 
-  return typeMap[parseInt(contentTypeId)] || 'AttractionInfo';
+  return typeMap[parseInt(contentTypeId)] || "AttractionInfo";
 };
 
 /**
@@ -51,14 +51,16 @@ export const mapCommonBusinessInfo = (data, contentTypeId) => {
           treatMenu: data.treatmenu,
           packing: data.packing,
           seat: data.seat,
-        }
+        },
       };
 
     case 32: // 숙박
       return {
         ...commonInfo,
         phone: data.infocenterlodging,
-        openingHours: `체크인: ${data.checkintime || '정보없음'} / 체크아웃: ${data.checkouttime || '정보없음'}`,
+        openingHours: `체크인: ${data.checkintime || "정보없음"} / 체크아웃: ${
+          data.checkouttime || "정보없음"
+        }`,
         parking: data.parkinglodging,
         fee: data.reservationfood, // 예약 정보
         specialInfo: {
@@ -66,7 +68,7 @@ export const mapCommonBusinessInfo = (data, contentTypeId) => {
           roomType: data.roomtype,
           cooking: data.chkcooking,
           pickup: data.pickup,
-        }
+        },
       };
 
     case 12: // 관광지
@@ -83,7 +85,7 @@ export const mapCommonBusinessInfo = (data, contentTypeId) => {
           season: data.useseason,
           experience: data.expguide,
           ageRange: data.expagerange,
-        }
+        },
       };
 
     case 28: // 레포츠
@@ -98,7 +100,7 @@ export const mapCommonBusinessInfo = (data, contentTypeId) => {
           ageRange: data.expagerangeleports,
           program: data.program,
           scale: data.scaleleports,
-        }
+        },
       };
 
     default:
@@ -114,30 +116,42 @@ export const getInfoComponent = async (contentTypeId) => {
 
   try {
     switch (componentType) {
-      case 'RestaurantInfo':
-        const RestaurantInfo = await import('@/components/RestaurantInfo/RestaurantInfo');
+      case "RestaurantInfo":
+        const RestaurantInfo = await import(
+          "@/components/RestaurantInfo/RestaurantInfo"
+        );
         return RestaurantInfo.default;
 
-      case 'AccommodationInfo':
-        const AccommodationInfo = await import('@/components/AccommodationInfo/AccommodationInfo');
+      case "AccommodationInfo":
+        const AccommodationInfo = await import(
+          "@/components/AccommodationInfo/AccommodationInfo"
+        );
         return AccommodationInfo.default;
 
-      case 'AttractionInfo':
-        const AttractionInfo = await import('@/components/AttractionInfo/AttractionInfo');
+      case "AttractionInfo":
+        const AttractionInfo = await import(
+          "@/components/AttractionInfo/AttractionInfo"
+        );
         return AttractionInfo.default;
 
-      case 'ActivityInfo':
-        const ActivityInfo = await import('@/components/ActivityInfo/ActivityInfo');
+      case "ActivityInfo":
+        const ActivityInfo = await import(
+          "@/components/ActivityInfo/ActivityInfo"
+        );
         return ActivityInfo.default;
 
       default:
-        const DefaultInfo = await import('@/components/AttractionInfo/AttractionInfo');
+        const DefaultInfo = await import(
+          "@/components/AttractionInfo/AttractionInfo"
+        );
         return DefaultInfo.default;
     }
   } catch (error) {
-    console.error('컴포넌트 로딩 실패:', error);
+    console.error("컴포넌트 로딩 실패:", error);
     // fallback으로 기본 컴포넌트 반환
-    const DefaultInfo = await import('@/components/AttractionInfo/AttractionInfo');
+    const DefaultInfo = await import(
+      "@/components/AttractionInfo/AttractionInfo"
+    );
     return DefaultInfo.default;
   }
 };
@@ -149,13 +163,13 @@ export const getBusinessDisplayInfo = (contentTypeId) => {
   const numericId = parseInt(contentTypeId);
 
   const displayMap = {
-    12: { title: '관광지 정보', icon: '🏞️' },
-    14: { title: '문화시설 정보', icon: '🏛️' },
-    15: { title: '축제/행사 정보', icon: '🎪' },
-    28: { title: '레포츠 정보', icon: '⚽' },
-    32: { title: '숙박 정보', icon: '🏨' },
-    39: { title: '음식점 정보', icon: '☕' },
+    12: { title: "관광지 정보", icon: "🏞️" },
+    14: { title: "문화시설 정보", icon: "🏛️" },
+    15: { title: "축제/행사 정보", icon: "🎪" },
+    28: { title: "레포츠 정보", icon: "⚽" },
+    32: { title: "숙박 정보", icon: "🏨" },
+    39: { title: "음식점 정보", icon: "☕" },
   };
 
-  return displayMap[numericId] || { title: '상세 정보', icon: '📍' };
+  return displayMap[numericId] || { title: "상세 정보", icon: "📍" };
 };

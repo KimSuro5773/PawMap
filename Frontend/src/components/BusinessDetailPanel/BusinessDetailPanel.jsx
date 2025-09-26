@@ -83,7 +83,6 @@ export default function BusinessDetailPanel({
         {/* 패널 헤더 */}
         <div className={styles.panelHeader}>
           <div className={styles.headerContent}>
-            <span className={styles.businessIcon}>{displayInfo.icon}</span>
             <div className={styles.headerText}>
               <h2 className={styles.businessTitle}>{business.title}</h2>
               <span className={styles.businessType}>{displayInfo.title}</span>
