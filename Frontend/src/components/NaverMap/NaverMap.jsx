@@ -57,13 +57,17 @@ export default function NaverMap({
     }
 
     // 새로운 이벤트 리스너 등록
-    const listener = naver.maps.Event.addListener(mapInstanceRef.current, "dragend", () => {
-      const newCenter = mapInstanceRef.current.getCenter();
-      onCenterChanged({
-        lat: newCenter.lat(),
-        lng: newCenter.lng(),
-      });
-    });
+    const listener = naver.maps.Event.addListener(
+      mapInstanceRef.current,
+      "dragend",
+      () => {
+        const newCenter = mapInstanceRef.current.getCenter();
+        onCenterChanged({
+          lat: newCenter.lat(),
+          lng: newCenter.lng(),
+        });
+      }
+    );
     dragendListenerRef.current = listener;
 
     // cleanup 함수

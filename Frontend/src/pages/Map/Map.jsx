@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import styles from "./Map.module.scss";
 import Header from "@/components/Header/Header";
 import NaverMap from "@/components/NaverMap/NaverMap";
+import TourPanel from "@/components/TourPanel/TourPanel";
 import { useCurrentLocation } from "@/api/hooks/useLocation";
 import { useLocationBasedList } from "@/api/hooks/useTour";
 
 const Map = () => {
   const [mapCenter, setMapCenter] = useState({ lat: 33.4821, lng: 126.435 }); // 기본 위치 (제주도)
   const [searchCenter, setSearchCenter] = useState(null); // 검색 기준 위치
-  const [businesses, setBusinesses] = useState([]);
+  const [businesses, setBusinesses] = useState([]); // 원본 비즈니스 데이터
+  const [markers, setMarkers] = useState([]); // 마커 데이터
   const [showResearchButton, setShowResearchButton] = useState(false);
   const {
     location,
@@ -54,6 +56,17 @@ const Map = () => {
     // TODO: 상세 정보 모달
   };
 
+  // 패널 카드 클릭 시 해당 위치로 지도 이동
+  const handleCardClick = (business) => {
+    const lat = parseFloat(business.mapy);
+    const lng = parseFloat(business.mapx);
+
+    if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
+      setMapCenter({ lat, lng });
+      console.log("카드 클릭으로 지도 이동:", business.title);
+    }
+  };
+
   // 지도 중심점 변경 시 호출되는 콜백
   const handleCenterChanged = (newCenter) => {
     console.log("지도 중심점 변경:", newCenter);
@@ -79,20 +92,29 @@ const Map = () => {
       const items = locationTourData.response.body.items.item;
       const businessList = Array.isArray(items) ? items : [items];
 
-      const markers = businessList
+      // 원본 비즈니스 데이터 저장 (패널용)
+      setBusinesses(businessList);
+
+      // 마커 데이터 생성 (지도용)
+      const validMarkers = businessList
         .map((business) => ({
           lat: parseFloat(business.mapy),
           lng: parseFloat(business.mapx),
           title: business.title,
           contentId: business.contentid,
           contentTypeId: business.contenttypeid,
+          originalData: business, // 원본 데이터 참조
         }))
         .filter(
           (marker) =>
             marker.lat && marker.lng && !isNaN(marker.lat) && !isNaN(marker.lng)
         );
 
-      setBusinesses(markers);
+      setMarkers(validMarkers);
+    } else {
+      // 데이터가 없을 때 빈 배열로 리셋
+      setBusinesses([]);
+      setMarkers([]);
     }
   }, [locationTourData]);
 
@@ -111,10 +133,15 @@ const Map = () => {
         </div>
       )}
       <div className={styles.mapWrapper}>
+        <TourPanel
+          businesses={businesses}
+          isLoading={tourDataLoading}
+          onCardClick={handleCardClick}
+        />
         <NaverMap
           center={mapCenter}
           zoom={12}
-          markers={businesses}
+          markers={markers}
           onMarkerClick={handleMarkerClick}
           onCenterChanged={handleCenterChanged}
           height="100%"
