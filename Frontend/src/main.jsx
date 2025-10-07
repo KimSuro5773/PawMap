@@ -17,9 +17,25 @@ const queryClient = new QueryClient({
   },
 });
 
-createRoot(document.getElementById("root")).render(
-  <QueryClientProvider client={queryClient}>
-    <App />
-    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-  </QueryClientProvider>
-);
+// MSW 초기화 (개발 모드에서만)
+async function enableMocking() {
+  if (import.meta.env.VITE_ENABLE_MOCK !== "true") {
+    return;
+  }
+
+  const { worker } = await import("./mocks/browser");
+
+  // Service Worker 시작
+  return worker.start({
+    onUnhandledRequest: "bypass", // 처리되지 않은 요청은 그대로 통과
+  });
+}
+
+enableMocking().then(() => {
+  createRoot(document.getElementById("root")).render(
+    <QueryClientProvider client={queryClient}>
+      <App />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+    </QueryClientProvider>
+  );
+});
